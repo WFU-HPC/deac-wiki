@@ -27,15 +27,40 @@ The ELPA library can be downloaded directly from the
 
 ### Compilation
 
-```
-./configure CC=mpicc FC=mpifort CFLAGS="-O2" FCFLAGS="-O2" SCALAPACK_LDFLAGS="${MKL_SCALAPACK_SEQUENTIAL}" SCALAPACK_FCFLAGS="${MKL_SCALAPACK_SEQUENTIAL} -I${MKLROOT}/include/intel64/lp64"
+Natalie sent me this:
+```sh
+./configure \
+--prefix="/home/sunlight/work2/cp2k/libs/libelpa/201911001" \
+--libdir="/home/sunlight/work2/cp2k/libs/libelpa/201911001/lib" \
+--enable-openmp=no \
+--enable-shared=no \
+--enable-static=yes \
+--enable-avx=yes \
+--enable-avx2=yes \
+--enable-avx512=yes \
+--enable-option-checking=fatal \
+FC=/opt/intel2020up1/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin/mpiifort \
+CC=/opt/intel2020up1/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin/mpiicc \
+CXX=/opt/intel2020up1/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin/mpiicpc \
+FCFLAGS="-O3 -xAVX2" CFLAGS="-O3 -xAVX2" \
+SCALAPACK_LDFLAGS="-L/opt/intel2020up1/mkl/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread " \
+SCALAPACK_FCFLAGS="-I/opt/intel2020up1/mkl/include/intel64/lp64"
+
+./configure --enable-openmp=no --enable-shared=no --enable-static=yes --enable-avx=yes --enable-avx2=yes --enable-avx512=yes --enable-option-checking=fatal FC=mpiifort CC=mpiicc CXX=mpiicpc FCFLAGS="-O3 -xAVX2" CFLAGS="-O3 -xAVX2" SCALAPACK_LDFLAGS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread" SCALAPACK_FCFLAGS="-I${MKLROOT}/include/intel64/lp64"
 ```
 
-```
-./configure CC=mpicc FC=mpifort SCALAPACK_LDFLAGS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_openmpi_lp64 -lpthread -lm -ldl" SCALAPACK_FCFLAGS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_openmpi_lp64 -lpthread -lm -ldl -I${MKLROOT}/include/intel64/lp64"
+
+```sh
+./configure CC=mpicc FC=mpifort CXX=mpicxx CFLAGS="-O2" FCFLAGS="-O2" SCALAPACK_LDFLAGS="${MKL_SCALAPACK_SEQUENTIAL}" SCALAPACK_FCFLAGS="${MKL_SCALAPACK_SEQUENTIAL} -I${MKLROOT}/include/intel64/lp64"
 ```
 
+```sh
+# same as above
+./configure CC=mpicc FC=mpifort CXX=mpicxx SCALAPACK_LDFLAGS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_openmpi_lp64 -lpthread -lm -ldl" SCALAPACK_FCFLAGS="-I${MKLROOT}/include/intel64/lp64"
 ```
+
+```sh
+# bad
 ./configure CC=mpicc FC=mpifort SCALAPACK_LDFLAGS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -Wl,-rpath,${MKLROOT}/lib/intel64" SCALAPACK_FCFLAGS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -I${MKLROOT}/include/intel64/lp64"
 ```
 

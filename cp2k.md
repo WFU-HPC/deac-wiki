@@ -3,6 +3,9 @@
 
 ## To-Do
 
+* Look into
+  [toolchain](https://github.com/cp2k/cp2k/tree/master/tools/toolchain) for
+  insight on how to compile
 * Potential libraries:
     x libxc
     * elpa (WORK IN PROGRESS)
@@ -65,6 +68,17 @@ These tests can be be very time consuming (30+ minutes). Clean your build:
 ```sh
 make ARCH=Linux-x86-64-intel-dynamic+libxc VERSION=popt clean # regular clean
 make ARCH=Linux-x86-64-intel-dynamic+libxc VERSION=popt realclean # complete restart
+```
+
+
+### Memory testing
+
+
+The `psrecord` Python utility comes in handy for monitoring overall memory
+usage,
+
+```
+psrecord "mpirun -np 8 cp2k.popt input.inp" --include-children --log log.dat
 ```
 
 
