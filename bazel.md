@@ -27,9 +27,7 @@ output is placed into output/bazel. This is a self-contained Bazel binary, witho
 an embedded JDK. You can copy it anywhere or use it in-place.
 
 ```
-
 Download src zip file to /deac/opt/src/rhel7
-
 ```
 mkdir -p /deac/opt/src/rhel7/bazel-0.27.1
 cd /deac/opt/src/rhel7/bazel-0.27.1
