@@ -18,7 +18,9 @@ large codebases across multiple repositories, and large numbers of users.
 
 bash, zip, unzip, gcc, gcc-c++, java-1.8.0-openjdk, python 3.7.0
 
+```
 module load rhel7/gpu/python/3.7.0
+```
 
 ### Installation
 
