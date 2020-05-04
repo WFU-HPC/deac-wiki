@@ -38,6 +38,7 @@ cd tensorflow-1.14.0
 ```
 
 Edit the WORKSPACE file and add the following code starting at line 5.
+
 See: https://github.com/tensorflow/tensorflow/issues/28824
 ```
 http_archive(
@@ -48,6 +49,7 @@ http_archive(
 )
 ```
 Comment out the statement ```"--bin2c-path=%s" % bin2c.dirname,``` from line 177 in the file third_party/nccl/build_defs.bzl.tpl
+
 See: https://github.com/tensorflow/tensorflow/issues/34429
 ```
 vim third_party/nccl/build_defs.bzl.tpl
