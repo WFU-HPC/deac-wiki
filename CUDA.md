@@ -2,6 +2,8 @@
 
 https://nvidia.com/en-us/
 
+https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
+
 ## Introduction
 
 CUDA is a parallel computing platform and programming model developed by NVIDIA 
