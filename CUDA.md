@@ -58,6 +58,8 @@ nvidia-smi
 ```
 
 Install cuDNN RPMs
+
+https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html
 ```
 cd /deac/opt/src/rhel7/NVIDIA/drivers
 rpm -i libcudnn7-7.6.5.33-1.cuda10.2.x86_64.rpm libcudnn7-devel-7.6.5.33-1.cuda10.2.x86_64.rpm libcudnn7-doc-7.6.5.33-1.cuda10.2.x86_64.rpm
