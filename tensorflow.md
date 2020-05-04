@@ -37,6 +37,23 @@ tar xvf tensorflow-1.14.0.tar.gz
 cd tensorflow-1.14.0
 ```
 
+Edit the WORKSPACE file and add the following code starting at line 5.
+See: https://github.com/tensorflow/tensorflow/issues/28824
+```
+http_archive(
+    name = "io_bazel_rules_docker",
+    sha256 = "aed1c249d4ec8f703edddf35cbe9dfaca0b5f5ea6e4cd9e83e99f3b0d1136c3d",
+    strip_prefix = "rules_docker-0.7.0",
+    urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.7.0.tar.gz"],
+)
+```
+Comment out the statement ```"--bin2c-path=%s" % bin2c.dirname,``` from line 177 in
+the file third_party/nccl/build_defs.bzl.tpl
+```
+vim third_party/nccl/build_defs.bzl.tpl
+```
+
+
 Run ./configure and select the appropriate options for building with CUDA, and using /usr/bin/gcc
 
 ```
