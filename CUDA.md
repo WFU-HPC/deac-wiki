@@ -19,7 +19,6 @@ CUDA Version: 10.2
 bash, gcc, gcc-c++
 
 ### Installation
-c
 All NVIDIA related software is installed via rpm. There are five RPMs that need to
 be installed for CUDA based programming. These RPMs install the CUDA repo, device
 drivers for the P100 and V100 Telsa GPU models, and the cuDNN deep learning module 
