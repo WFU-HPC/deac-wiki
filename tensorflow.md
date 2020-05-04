@@ -47,8 +47,8 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_docker/archive/v0.7.0.tar.gz"],
 )
 ```
-Comment out the statement ```"--bin2c-path=%s" % bin2c.dirname,``` from line 177 in
-the file third_party/nccl/build_defs.bzl.tpl
+Comment out the statement ```"--bin2c-path=%s" % bin2c.dirname,``` from line 177 in the file third_party/nccl/build_defs.bzl.tpl
+See: https://github.com/tensorflow/tensorflow/issues/34429
 ```
 vim third_party/nccl/build_defs.bzl.tpl
 ```
