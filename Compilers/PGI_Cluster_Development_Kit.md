@@ -1,0 +1,38 @@
+**Portland Group, Inc. (PGI) Cluster Development Kit 12.1**\[1\] is
+available on the cluster.
+
+To use the PGI compiler suite, load one of these
+[modules](Quick_Start_Guide:Environment_Modules "wikilink") depending on
+your MPI
+requirements:
+
+`   $ module load `*`modulename`*
+`   where `*`modulename`*` is one of: compilers/pgi-12.1, compilers/pgi-12.1-mpi, compilers/pgi-12.1-mpi2, compilers/pgi-12.1-mvapich`
+
+## Commands
+
+These are some of the more commonly used commands in the PGI suite --
+most have a "-help" option that prints out usage information:
+
+  - pgcc - C compiler
+  - pgc++ - C++ compiler
+  - pgfortran - Fortran compiler
+  - pgdbg - debugger (will also debug MPI programs)
+
+## Further Information
+
+  - [PGI Documentation](http://www.pgroup.com/resources/docs.htm)
+
+## References
+
+<references/>
+
+[Category:Compiling](Category:Compiling "wikilink")
+
+1.  [PGI Cluster Development
+    Kit](http://www.pgroup.com/products/pgicdk.htm) (Retrieved
+    2012-03-29.)---
+title: Compiler:PGI Cluster Development Kit
+permalink: /Compiler:PGI_Cluster_Development_Kit/
+---
+

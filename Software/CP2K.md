@@ -17,14 +17,14 @@
 
 CP2K is a quantum chemistry and solid state physics software package that can
 perform atomistic simulations of solid state, liquid, molecular, periodic,
-material, crystal, and biological systems. CP2K provides a general framework for
-different modeling methods such as DFT using the mixed Gaussian and plane waves
-approaches GPW and GAPW. Supported theory levels include DFTB, LDA, GGA, MP2,
-RPA, semi-empirical methods (AM1, PM3, PM6, RM1, MNDO, ...), and classical force
-fields (AMBER, CHARMM, ...). CP2K can do simulations of molecular dynamics,
-metadynamics, Monte Carlo, Ehrenfest dynamics, vibrational analysis, core level
-spectroscopy, energy minimization, and transition state optimization using NEB
-or dimer method.
+material, crystal, and biological systems. CP2K provides a general framework
+for different modeling methods such as DFT using the mixed Gaussian and plane
+waves approaches GPW and GAPW. Supported theory levels include DFTB, LDA, GGA,
+MP2, RPA, semi-empirical methods (AM1, PM3, PM6, RM1, MNDO, ...), and classical
+force fields (AMBER, CHARMM, ...). CP2K can do simulations of molecular
+dynamics, metadynamics, Monte Carlo, Ehrenfest dynamics, vibrational analysis,
+core level spectroscopy, energy minimization, and transition state optimization
+using NEB or dimer method.
 
 
 ## Installation
@@ -45,11 +45,11 @@ entirely unnecessary in a well-configured HPC environment.
 ### Compiling
 
 The correct way to compile the software is by creating or modifying a 'arch'
-file with the appropriate paths and executables. We have included a few examples
-of these that are optimized for compiling on the DEAC cluster. The 'arch' file
-needs to be placed in `$CP2k/arch` directory. The naming scheme for these files
-is `ARCH.VERSION`, which are then referenced when invoking the `make` command.
-For instance,
+file with the appropriate paths and executables. We have included a few
+examples of these that are optimized for compiling on the DEAC cluster. The
+'arch' file needs to be placed in `$CP2k/arch` directory. The naming scheme for
+these files is `ARCH.VERSION`, which are then referenced when invoking the
+`make` command. For instance,
 
 ```sh
 make -j 8 ARCH=Linux-x86-64-intel-dynamic+libxc VERSION=popt

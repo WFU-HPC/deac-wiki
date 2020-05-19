@@ -6,9 +6,10 @@ https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
 
 ## Introduction
 
-CUDA is a parallel computing platform and programming model developed by NVIDIA 
-for general computing on graphical processing units (GPUs). With CUDA, developers 
-are able to dramatically speed up computing applications by harnessing the power of GPUs.
+CUDA is a parallel computing platform and programming model developed by NVIDIA
+for general computing on graphical processing units (GPUs). With CUDA,
+developers are able to dramatically speed up computing applications by
+harnessing the power of GPUs.
 
 ## Installed Versions
 
@@ -21,9 +22,10 @@ CUDA Version: 10.2
 bash, gcc, gcc-c++
 
 ### Installation
-All NVIDIA related software is installed via rpm. There are five RPMs that need to
-be installed for CUDA based programming. These RPMs install the CUDA repo, device
-drivers for the P100 and V100 Telsa GPU models, and the cuDNN deep learning module.
+All NVIDIA related software is installed via rpm. There are five RPMs that need
+to be installed for CUDA based programming. These RPMs install the CUDA repo,
+device drivers for the P100 and V100 Telsa GPU models, and the cuDNN deep
+learning module.
 
 Downloaded .rpm files are stored in /deac/opt/src/rhel7/NVIDIA/drivers
 
@@ -33,8 +35,8 @@ cd /deac/opt/src/rhel7/NVIDIA/drivers
 rpm -i cuda-repo-rhel7-10-2-local-10.2.89-440.33.01-1.0-1.x86_64.rpm
 ```
 
-Install RPM containing the most up to date nvidia driver 440.64 versus 
-version 440.33 in the above RPM
+Install RPM containing the most up to date nvidia driver 440.64 versus version
+440.33 in the above RPM
 ```
 rpm -i nvidia-driver-local-repo-rhel7-440.64.00-1.0-1.x86_64.rpm
 ```
@@ -71,9 +73,10 @@ rpm -i libcudnn7-7.6.5.33-1.cuda10.2.x86_64.rpm libcudnn7-devel-7.6.5.33-1.cuda1
 
 #### Configure nvidia-persistenced
 
-The daemon nvidia-persistenced is used to the ensure the NVIDIA drivers are loaded across
-multiple reboots. In the event that the NVIDIA driver fails to load you will need to uninstall
-and remove and recomplete the above installation steps.
+The daemon nvidia-persistenced is used to the ensure the NVIDIA drivers are
+loaded across multiple reboots. In the event that the NVIDIA driver fails to
+load you will need to uninstall and remove and recomplete the above
+installation steps.
 
 init.d script /etc/init.d/
 ```
