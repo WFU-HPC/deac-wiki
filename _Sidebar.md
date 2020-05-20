@@ -5,7 +5,7 @@
 * [CUDA](CUDA.md)
 * Applications
     * [CP2K](cp2k.md)
-    * [TensorFlow](tensorFlow.md)
+    * [TensorFlow](tensorFlow)
     * [NAMD](namd.md)
 * Libraries
     * [Libxc](libxc.md)
