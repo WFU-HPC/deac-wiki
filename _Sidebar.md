@@ -2,7 +2,7 @@
 
 * [Intel Parallel Studio XE](intel_compilers.md)
 * [Open MPI](openmpi.md)
-* [CUDA](CUDA.md)
+* [CUDA](CUDA)
 * Applications
     * [CP2K](cp2k.md)
     * [TensorFlow](tensorFlow)
