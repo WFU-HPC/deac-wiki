@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Windows Newline &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="windows-newline">
+<h1>Windows Newline<a class="headerlink" href="#windows-newline" title="Permalink to this headline">¶</a></h1>
+<p>If you write any scripts under Windows and transfer them to a UNIX/Linux
+machine, every line will contain an extra character (^M). This character
+appears as a result of different End-Of-Line (EOL) conventions[1].
+Unfortunately, it does more than just appear annoyingly at the end of
+every line. The symbols are interpreted when run by the scripts
+interpreter (i.e. <a class="reference external" href="Software:Perl">PERL</a> or
+<a class="reference external" href="Quick_Start_Guide:Bash">bash</a> or
+<a class="reference external" href="Quick_Start_Guide:Tcsh">tsch</a>). Executable shell scripts
+written under Windows, transferred to the cluster, and run without
+change will almost certainly fail with a “Command not found” error
+message.</p>
+<p>To remove these “control” characters, there is a command line utility
+called <code class="docutils literal notranslate"><span class="pre">dos2unix</span></code> which will strip the characters from the file. See the
+man page for usage details.</p>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<references/></div>
+</div>
+<div class="section" id="memory-consumption">
+<h1>Memory Consumption<a class="headerlink" href="#memory-consumption" title="Permalink to this headline">¶</a></h1>
+<p>Memory consumption can be a primary reason for job cancellation… read
+the following to assist with troubleshooting…</p>
+<div class="section" id="refresher">
+<h2>Refresher<a class="headerlink" href="#refresher" title="Permalink to this headline">¶</a></h2>
+<p><strong>Physical memory</strong> is RAM. Operating systems, however, have the concept
+of <strong>virtual memory</strong>: virtual memory includes some disk space
+specifically set aside for use as program memory (as opposed to file
+storage). This disk space is known as <strong>swap</strong>.</p>
+<p>This is useful because it allows programs to temporarily grow in memory
+usage without crashing the computer: any excess usage can be transferred
+to disk. However, this imposes a huge performance penalty. Disk access
+times may be a factor of a million or more slower than RAM.[2]</p>
+</div>
+<div class="section" id="check-job-statistics">
+<h2>Check Job Statistics<a class="headerlink" href="#check-job-statistics" title="Permalink to this headline">¶</a></h2>
+<p>When you submit a job, you make a request for <strong>mem</strong> – based on the
+total memory used on a PER NODE basis… this differs from previous
+behavior utilized in Torque. Once the job is running, the resource
+manager <a class="reference external" href="SLURM">SLURM</a> tracks the actual resources used. If
+you run “<strong>scontrol show job JOBID</strong>” on a running job, you will see
+something like
+this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">JobId=6449</span> <span class="pre">JobName=Low_Size_HPL_C11</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">UserId=vallesd(10013)</span> <span class="pre">GroupId=vallesd(10013)</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Priority=437</span> <span class="pre">Nice=0</span> <span class="pre">Account=admingrp</span> <span class="pre">QOS=normal</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">JobState=RUNNING</span> <span class="pre">Reason=None</span> <span class="pre">Dependency=(null)</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Requeue=1</span> <span class="pre">Restarts=0</span> <span class="pre">BatchFlag=1</span> <span class="pre">Reboot=0</span> <span class="pre">ExitCode=0:0</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">RunTime=3-19:30:33</span> <span class="pre">TimeLimit=4-00:00:00</span> <span class="pre">TimeMin=N/A</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">SubmitTime=2015-09-11T16:08:00</span> <span class="pre">EligibleTime=2015-09-11T16:08:00</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">StartTime=2015-09-11T16:08:01</span> <span class="pre">EndTime=2015-09-15T16:08:01</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">PreemptTime=None</span> <span class="pre">SuspendTime=None</span> <span class="pre">SecsPreSuspend=0</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Partition=large</span> <span class="pre">AllocNode:Sid=headnode:31102</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">ReqNodeList=(null)</span> <span class="pre">ExcNodeList=(null)</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">NodeList=a1a-u2-c10-b[1-4,6-8],a1a-u2-c11-b1</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">BatchHost=a1a-u2-c10-b1</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">NumNodes=8</span> <span class="pre">NumCPUs=256</span> <span class="pre">CPUs/Task=1</span> <span class="pre">ReqB:S:C:T=0:0:*:*</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Socks/Node=*</span> <span class="pre">NtasksPerN:B:S:C=32:0:*:*</span> <span class="pre">CoreSpec=*</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">MinCPUsNode=32</span> <span class="pre">MinMemoryNode=125G</span> <span class="pre">MinTmpDiskNode=0</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Features=haswell</span> <span class="pre">Gres=(null)</span> <span class="pre">Reservation=(null)</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Shared=OK</span> <span class="pre">Contiguous=0</span> <span class="pre">Licenses=(null)</span> <span class="pre">Network=(null)</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Command=/home/vallesd/hpl-2.1/bin/chassis11/test_low_problem_sizes_carlson.SLURM</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">WorkDir=/home/vallesd</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">StdErr=/home/vallesd/lowsizes_chassis11-6449.e</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">StdIn=/dev/null</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">StdOut=/home/vallesd/lowsizes_chassis11-6449.o</span></code></p>
+<p>This is essentially the output of all metadata SLURM tracks about your
+job, including resources used and requested, directives, output
+information and tracking information. Note, this output can only be seen
+DURING job execution. The information is also inserted into your job
+output file when the task prolog runs.</p>
+<p>During and after job execution, you can also see resources utilized with
+the <a class="reference external" href="SLURM_commands#sacct">sacct</a> command. To see
+specifically Nodes, CPUs, and Memory requested, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode</span> <span class="pre">~]$</span> </code><strong><code class="docutils literal notranslate"><span class="pre">sacct``</span> <span class="pre">``--jobs=6449``</span> <span class="pre">``--format``</span> <span class="pre">``JobID,JobName,NCPUS,NNodes,ReqCPUs,ReqMem</span></code></strong>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">JobID</span>&#160;&#160;&#160; <span class="pre">JobName</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">NCPUS</span>&#160;&#160; <span class="pre">NNodes</span>&#160; <span class="pre">ReqCPUS</span>&#160;&#160;&#160;&#160; <span class="pre">ReqMem</span></code>
+<code class="docutils literal notranslate"><span class="pre">------------</span> <span class="pre">----------</span> <span class="pre">----------</span> <span class="pre">--------</span> <span class="pre">--------</span> <span class="pre">----------</span></code>
+<code class="docutils literal notranslate"><span class="pre">6449</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Low_Size_+</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">256</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">8</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">256</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">125Gn</span></code>
+<code class="docutils literal notranslate"><span class="pre">6449.0</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">orted</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">7</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">7</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">7</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">125Gn</span></code></p>
+<p>When a job completes you can see consumed resources (CPUs, Nodes, Memory
+and Time) specifically by running:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode</span> <span class="pre">~]$</span> </code><strong><code class="docutils literal notranslate"><span class="pre">sacctr``</span> <span class="pre">``--jobs=JOBID``</span> <span class="pre">``--format``</span> <span class="pre">``JobId,JobName,NCPUS,NNodes,MaxRSS,Elapsed</span></code></strong>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">JobID</span>&#160;&#160;&#160; <span class="pre">JobName</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">NCPUS</span>&#160;&#160; <span class="pre">NNodes</span>&#160;&#160;&#160;&#160; <span class="pre">MaxRSS</span>&#160;&#160;&#160; <span class="pre">Elapsed</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">NodeList</span></code>
+<code class="docutils literal notranslate"><span class="pre">------------</span> <span class="pre">----------</span> <span class="pre">----------</span> <span class="pre">--------</span> <span class="pre">----------</span> <span class="pre">----------</span> <span class="pre">--------------------------------------------------</span> </code>
+<code class="docutils literal notranslate"><span class="pre">6449</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Low_Size_+</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">256</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">8</span> <span class="pre">121896960K</span> <span class="pre">3-22:30:00</span> <span class="pre">a1a-u2-c10-b[1-4,6-8],a1a-u2-c11-b1</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate"><span class="pre">6449.0</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">orted</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">7</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">7</span> <span class="pre">121896960K</span> <span class="pre">3-22:30:00</span> <span class="pre">a1a-u2-c10-b[2-4,6-8],a1a-u2-c11-b1</span>&#160;&#160;&#160;&#160; </code></p>
+<p>Jobs where MaxRSS exceeds the requested amount of memory will be
+cancelled by SLURM.</p>
+<p>If it is the first time you are running a particular class of job, it
+would be good if you ran one, requesting lots of memory, and then
+examine it via the <a class="reference external" href="SLURM_commands#sacct">sacct</a> command to
+see the actual amount your job will need. Be sure to allow about 1GB per
+node for system usage.</p>
+<p>Remember that memory allocation must be requested on a <strong>per NODE</strong>
+basis, overall memory utilization is not requested (SLURM calculates
+that for us)!</p>
+<p>The other complication is that the cluster is a multi user system. Any
+one node may have more than one job running on it, owned by more than
+one user. When job requests come in, if SLURM finds a node that has
+enough free resources (cpus and memory) to handle the amount requested
+by a job, that job will be scheduled on that node.</p>
+<p>Now, if that job’s memory usage grows beyond its request, it will now be
+given a “CANCELLED” status and the job will die. There is also a
+possibility that the node could crash and end all the other jobs that
+may have been allocated to that node.</p>
+</div>
+<div class="section" id="request-memory-correctly">
+<h2>Request Memory Correctly<a class="headerlink" href="#request-memory-correctly" title="Permalink to this headline">¶</a></h2>
+<p>As it is undesirable for jobs to swap to disk, request memory generously
+but accurately. Obviously, the closer your request to what is actually
+needed, the better - but we don’t want to risk your job dying, or the
+compute node potentially crashing. In SLURM, memory requested is on a
+PER NODE basis, so</p>
+<p>It is very important to understand how much memory your job will
+actually use. Requesting the minimum required may get more of your jobs
+running sooner. Here is an example:</p>
+<ul class="simple">
+<li><p>Job actually needs 14 GB memory</p></li>
+<li><p>Job requests 16 GB memory</p></li>
+<li><p>Therefore, the job cannot run on nodes with 16 GB of RAM because of
+the 16 GB, only 15 GB are available for user processes. 1 GB is
+reserved for the system. This eliminates 84 of the 16 GB nodes that
+are available in the cluster (as of 2015-09-15).</p></li>
+</ul>
+<p>On the other hand, if the code you run does not control its memory usage
+well, i.e. it can grow to an unknown amount during a run, then it is
+better to request for more memory to avoid the job being cancelled if it
+overruns its memory request.</p>
+<p>Again, it is very important to understand the resource requirements for
+your jobs. Make several trial runs in order to understand what your job
+needs so you may request only as much as is necessary (plus a small
+safety margin).</p>
+</div>
+</div>
+<div class="section" id="job-submission-troubleshooting">
+<h1>Job Submission Troubleshooting<a class="headerlink" href="#job-submission-troubleshooting" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="node-fail">
+<h2>NODE_FAIL<a class="headerlink" href="#node-fail" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Problem Symptom: (from job email)</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">Job</span> <span class="n">exited</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mf">1.</span>
+</pre></div>
+</div>
+<!-- end list --><ul class="simple">
+<li><p>Problem Symptom: No output files</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">created</span>
+</pre></div>
+</div>
+</div></blockquote>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">14</span><span class="n">T16</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mf">51.996</span><span class="p">]</span> <span class="p">[</span><span class="mi">6454</span><span class="p">]</span> <span class="n">Could</span> <span class="ow">not</span> <span class="nb">open</span> <span class="n">stdout</span> <span class="n">file</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">username</span><span class="o">/</span><span class="n">babel</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">SAMHD1</span><span class="o">/</span><span class="n">salsbufr_test</span><span class="o">-</span><span class="mf">6454.</span><span class="n">o</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+<span class="p">[</span><span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">14</span><span class="n">T16</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mf">51.996</span><span class="p">]</span> <span class="p">[</span><span class="mi">6454</span><span class="p">]</span> <span class="n">IO</span> <span class="n">setup</span> <span class="n">failed</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Problem resolution</p></li>
+</ul>
+<p>:* Most likely this is an admin issue with the node</p>
+<p>::* Often the primary culprit is research group filesystems are not
+mounted and proper output files are not created.</p>
+<p>::* If output files are attempting to write to these filesystems,
+prolog scripts die without logging information</p>
+<p>::* The job will often sit in a “Running” state without doing
+anything until the NODE_FAIL message is sent</p>
+<p>:* Reply to the email and send it to deac-help&#64;wfu.edu and the HPC
+team will investigate.</p>
+</div>
+<div class="section" id="partitiontimelimit">
+<h2>(PartitionTimeLimit)<a class="headerlink" href="#partitiontimelimit" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Problem Symptom: (from <em>squeue -u username</em> output)</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span> $ squeue -u username
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+              1234     small     test username PD       0:00      1 (PartitionTimeLimit)
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Problem Symptom: Job does not run</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Problem resolution</p></li>
+</ul>
+<p>:* You are requesting resources that exceed the defined limits of the
+specified partition</p>
+<p>::* Check partition limits by running <em>scontrol show partition small</em>
+(for this case)</p>
+<p>::* Check requested job resources by running <em>scontrol show job 1234</em></p>
+<p>:*Change partition requested by canceling your job and editing the
+batch script, OR by running</p>
+<p>::*<strong>scontrol update JobID=1234 Partition=medium</strong> to change
+partition requested</p>
+<p>:*Change requested resources by canceling your job and editing batch
+script, OR by running</p>
+<p>::*Change Timelimit: <strong>scontrol update JobID=1234
+TimeLimit=&lt;24:00:00</strong> (for this case)</p>
+<p>::*Change Requested Nodes (and CPU# if possible): <strong>scontrol update
+JobID=1234 [NumCPUs=(total needed)]</strong> (for this case)</p>
+<p>:::*Remember, it is possible to request up to 32 CPUs per node, but
+be sure constraints don’t prevent that as a possible option if
+changing</p>
+</div>
+</div>
+<div class="section" id="job-stuck-in-queue-or-stalled">
+<h1>Job Stuck in Queue or Stalled<a class="headerlink" href="#job-stuck-in-queue-or-stalled" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="potential-reasons">
+<h1>Potential Reasons<a class="headerlink" href="#potential-reasons" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Resource request has conflicting resource specifications that result
+in no viable nodes on which to run the job</p></li>
+<li><p>Resource request is so specific only a few nodes exist to fulfill
+the request</p></li>
+<li><p>Resource request needs resources that are not available yet</p></li>
+</ul>
+<div class="section" id="resource-specification-collisions">
+<h2>Resource Specification Collisions<a class="headerlink" href="#resource-specification-collisions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>“I need all the memory on a</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">node</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">############################## SLURM directives ##########################</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=20</span>
+<span class="c1">#SBATCH --mem=128gb</span>
+<span class="c1">#SBATCH --constraint=tengig</span>
+<span class="c1">##########################################################################</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>We have nodes with 128GB of RAM. This should work. Right? Wrong!</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Explanation of Resource Allocation</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>The SLURM workload manager knows that your job requires 128GB of
+RAM.</p></li>
+<li><p>SLURM will only schedule your job on a node that has 128GB of
+<em><strong>available</strong></em> RAM.</p></li>
+<li><p>Operating systems, system services, and the cluster filesystems
+consume memory too. A good rule of thumb is 1GB.</p></li>
+<li><p>So, a 128GB blade really only has 127GB of RAM for use by jobs.
+So, the above job will not run on our cluster of 128GB nodes.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Corrected Resource
+Request</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">############################## SLURM directives ##########################</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=20</span>
+<span class="c1">#SBATCH --mem=127gb</span>
+<span class="c1">#SBATCH --constraint=tengig</span>
+<span class="c1">##########################################################################</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>“I only want to run on ‘16 core tengig</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodes</span><span class="s1">&#39;&quot;:</span>
+</pre></div>
+</div>
+</div></blockquote>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">############################## SLURM directives ##########################</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=20</span>
+<span class="c1">#SBATCH --mem=128gb</span>
+<span class="c1">#SBATCH --constraint=tengig&amp;sandy</span>
+<span class="c1">##########################################################################</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Explanation of Resource Allocation</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Here, the constraint syntax is correct assuming any one particular
+node with SANDY processors is eligible for use.</p></li>
+<li><p>Unfortunately, none of the sandy blades do not have the <strong>20</strong>
+CPUS.</p></li>
+<li><p>As a result, the sandy constraint and 20 CPU requirement are
+mutually exclusive and result in a “null” set of nodes to run on.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Corrected Resource
+Request</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">############################## SLURM directives ##########################</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=20</span>
+<span class="c1">#SBATCH --mem=128gb</span>
+<span class="c1">#SBATCH --constraint=tengig&amp;ivy</span>
+<span class="c1">##########################################################################</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>As a best practice, <em><strong>if</strong></em> you really want only nodes with 20
+processors, you want to reduce all other optional resource
+requests to avoid the possibility of mutually exclusive resource
+requests. IE (exclude the ivy, and tengig constraint).</p></li>
+<li><p>Note: it’s not considered a best practice to restrict your jobs to
+only ONE, SPECIFIC type (in this case, ivy) unless there is a
+REALLY good reason.</p></li>
+</ul>
+<p>:* Clarification: It’s okay for your job to be restricted to ONE
+GROUP (especially for parallel jobs). However, you should include as
+many candidate clans as possible using the “constraint=X|Y|Z” OR
+capability of SLURM’s constraint directive so that your job has better
+chances of running on the cluster.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="potential-job-termination-issues">
+<h1>Potential Job Termination Issues<a class="headerlink" href="#potential-job-termination-issues" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="resource-utilization-violation">
+<h2>Resource Utilization Violation<a class="headerlink" href="#resource-utilization-violation" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><p>Problem Symptom (from job email)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Job</span> <span class="n">cancelled</span> <span class="n">by</span> <span class="n">the</span> <span class="n">system</span> <span class="n">administrator</span><span class="o">.</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Resource Required (from job email)</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Requested</span> <span class="n">time</span> <span class="n">limit</span><span class="p">:</span>   <span class="mi">23</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>
+<span class="n">Requested</span> <span class="n">memory</span><span class="p">:</span>     <span class="mi">48000</span><span class="n">M</span> <span class="p">(</span><span class="n">per</span> <span class="n">Node</span><span class="p">)</span>
+<span class="n">Total</span> <span class="n">CPU</span> <span class="n">time</span> <span class="p">:</span>          <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">30</span>
+<span class="n">Total</span> <span class="n">Allocated</span> <span class="n">CPUs</span><span class="p">:</span>  <span class="mi">1</span>
+<span class="n">Total</span> <span class="n">Allocated</span> <span class="n">Nodes</span><span class="p">:</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Resource Usage (from job email)</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">JOB</span> <span class="n">ID</span><span class="p">:</span>      <span class="mf">6398.</span><span class="n">batch</span>
+<span class="c1"># CPUS:     1</span>
+<span class="c1"># NODES:  1</span>
+<span class="n">MEM</span><span class="o">/</span><span class="n">task</span><span class="p">:</span> <span class="mi">50385312</span><span class="n">K</span>
+<span class="n">JOB</span> <span class="n">Name</span><span class="p">:</span> <span class="n">batch</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Analysis of request
+Job requested 1 processors (nodes=1, CPUS=1)
+Job requested 48GB of memory (mem=48gb)
+Job consumed 48.05GB overall (MEM: 50385312K)</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Problem resolution
+Increase the requested memory value
+Resolve the memory request mismatch.
+As soon as memory is exceed, the job will be cancelled by the
+scheduler.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>Memory Resource Consumption fails before reaching request
+If a job fails due to a malloc error before the requested memory
+limit has been reached, it could be due to ulimits
+Include <strong>‘ulimit -v hard</strong>’ below your directives, and above the
+script portion of your job to see if that fixes the issue.</p></li>
+</ul>
+</div>
+<div class="section" id="job-deleted">
+<h2>Job Deleted<a class="headerlink" href="#job-deleted" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><p>Problem Symptom (from job email)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Job</span> <span class="n">cancelled</span> <span class="n">by</span> <span class="n">the</span> <span class="n">system</span> <span class="n">administrator</span><span class="o">.</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Probable Causes
+The job was simply deleted by a user. No resolution needed.
+The job was deleted because of a system software bug.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Problem Solution
+If you did not delete the job, contact deac-help&#64;wfu.edu to
+report the
+problem.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="email-from-slurm">
+<h1>Email from SLURM<a class="headerlink" href="#email-from-slurm" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Job</span> <span class="o">&lt;</span><span class="n">test_48gb</span><span class="o">.</span><span class="n">slurm</span><span class="o">&gt;</span> <span class="n">was</span> <span class="n">executed</span> <span class="n">on</span> <span class="n">node</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">a1a</span><span class="o">-</span><span class="n">u2</span><span class="o">-</span><span class="n">c10</span><span class="o">-</span><span class="n">b1</span><span class="o">&gt;</span><span class="p">,</span> <span class="ow">in</span> <span class="n">partition</span> <span class="o">&lt;</span><span class="n">small</span><span class="o">&gt;</span><span class="p">,</span> <span class="k">as</span> <span class="n">user</span> <span class="o">&lt;</span><span class="n">username</span><span class="o">&gt;</span> <span class="kn">from</span> <span class="nn">group</span> <span class="o">&lt;</span><span class="n">researchgrp</span><span class="o">&gt;.</span>
+<span class="n">The</span> <span class="n">initial</span> <span class="n">working</span> <span class="n">directory</span> <span class="n">of</span> <span class="n">this</span> <span class="n">job</span> <span class="n">was</span> <span class="o">/</span><span class="n">deac</span><span class="o">/</span><span class="n">researchGrp</span><span class="o">/</span><span class="n">username</span><span class="o">/</span><span class="n">output</span><span class="o">.</span>
+
+<span class="n">Job</span> <span class="n">cancelled</span> <span class="n">by</span> <span class="n">the</span> <span class="n">system</span> <span class="n">administrator</span><span class="o">.</span>
+
+<span class="n">Job</span> <span class="n">Times</span><span class="p">:</span>
+<span class="o">=======</span>
+    <span class="n">Submitted</span><span class="p">:</span>  <span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">17</span>
+    <span class="n">Started</span><span class="p">:</span>      <span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">17</span>
+    <span class="n">Ended</span><span class="p">:</span>       <span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">47</span>
+    <span class="n">Elapsed</span><span class="p">:</span>    <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">30</span>
+
+<span class="n">Job</span> <span class="n">Resource</span> <span class="n">Usage</span> <span class="n">Summary</span><span class="p">:</span>
+<span class="o">======================</span>
+
+    <span class="n">JOB</span> <span class="n">ID</span><span class="p">:</span>      <span class="mi">6398</span>
+    <span class="c1"># CPUS:     1</span>
+    <span class="c1"># NODES:  1</span>
+    <span class="n">MEM</span><span class="o">/</span><span class="n">task</span><span class="p">:</span> <span class="n">n</span><span class="o">/</span><span class="n">a</span>
+    <span class="n">JOB</span> <span class="n">Name</span><span class="p">:</span> <span class="n">test_48gb</span><span class="o">.</span><span class="n">slurm</span>
+
+    <span class="n">JOB</span> <span class="n">ID</span><span class="p">:</span>      <span class="mf">6398.</span><span class="n">batch</span>
+    <span class="c1"># CPUS:     1</span>
+    <span class="c1"># NODES:  1</span>
+    <span class="n">MEM</span><span class="o">/</span><span class="n">task</span><span class="p">:</span> <span class="mi">50385312</span><span class="n">K</span>
+    <span class="n">JOB</span> <span class="n">Name</span><span class="p">:</span> <span class="n">batch</span>
+
+
+<span class="n">Requested</span> <span class="n">Resources</span> <span class="ow">and</span> <span class="n">Totals</span><span class="p">:</span>
+<span class="o">=======================</span>
+    <span class="n">Requested</span> <span class="n">time</span> <span class="n">limit</span><span class="p">:</span>   <span class="mi">23</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>
+    <span class="n">Requested</span> <span class="n">memory</span><span class="p">:</span>     <span class="mi">48000</span><span class="n">M</span> <span class="p">(</span><span class="n">per</span> <span class="n">Node</span><span class="p">)</span>
+    <span class="n">Total</span> <span class="n">CPU</span> <span class="n">time</span> <span class="p">:</span>          <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">30</span>
+    <span class="n">Total</span> <span class="n">Allocated</span> <span class="n">CPUs</span><span class="p">:</span>  <span class="mi">1</span>
+    <span class="n">Total</span> <span class="n">Allocated</span> <span class="n">Nodes</span><span class="p">:</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="job-error-output-file-from-slurm-on-filesystem">
+<h1>Job Error Output File from SLURM (on filesystem)<a class="headerlink" href="#job-error-output-file-from-slurm-on-filesystem" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">slurmstepd</span><span class="p">:</span> <span class="n">Job</span> <span class="mi">6398</span> <span class="n">exceeded</span> <span class="n">memory</span> <span class="n">limit</span> <span class="p">(</span><span class="mi">50385312</span> <span class="o">&gt;</span> <span class="mi">49152000</span><span class="p">),</span> <span class="n">being</span> <span class="n">killed</span>
+<span class="n">slurmstepd</span><span class="p">:</span> <span class="n">Exceeded</span> <span class="n">job</span> <span class="n">memory</span> <span class="n">limit</span>
+<span class="n">slurmstepd</span><span class="p">:</span> <span class="o">***</span> <span class="n">JOB</span> <span class="mi">6398</span> <span class="n">CANCELLED</span> <span class="n">AT</span> <span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span><span class="n">T16</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">47</span> <span class="o">***</span> <span class="n">on</span> <span class="n">a1a</span><span class="o">-</span><span class="n">u2</span><span class="o">-</span><span class="n">c10</span><span class="o">-</span><span class="n">b1</span>
+<span class="n">slurmstepd</span><span class="p">:</span> <span class="n">task_p_post_term</span><span class="p">:</span> <span class="n">rmdir</span><span class="p">(</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">cpuset</span><span class="o">/</span><span class="n">slurm6398</span><span class="o">/</span><span class="n">slurm6398</span><span class="o">.</span><span class="mi">4294967294_0</span><span class="p">)</span> <span class="n">failed</span> <span class="n">Device</span> <span class="ow">or</span> <span class="n">resource</span> <span class="n">busy</span>
+</pre></div>
+</div>
+</div></blockquote>
+<references/><p><a class="reference external" href="Category:SLURM">Category:SLURM</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://en.wikipedia.org/wiki/Newline">Newline article at Wikipedia</a></p></li>
+<li><p><a class="reference external" href="http://discuss.joelonsoftware.com/default.asp?joel.3.731942.7">Disk vs. Memory speed discussion at Joel on Software
+forums</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/slurm/Troubleshooting.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

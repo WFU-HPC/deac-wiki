@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Terminology and Conventions &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="terminology-and-conventions">
+<h1>Terminology and Conventions<a class="headerlink" href="#terminology-and-conventions" title="Permalink to this headline">¶</a></h1>
+<p>While most users think in terms of jobs submitted, limitations of job
+submissions primarily relate to the amount of computing resources
+consumed; specifically the number of nodes/processors and amount of
+memory in the DEAC cluster. It is the availability of those resources on
+a reasonable time table that this User Agreement is primarily concerned
+with.</p>
+<p>Fairshare is a term that essentially apportions a target average cluster
+utilization for the various user groups of the cluster. However,
+fairshare is only a consideration that is enforced when the cluster is
+<em><strong>overutilized</strong></em>. Under normal circumstances, there is far more work
+to be done than cluster resources available, resulting in a many jobs in
+the queue waiting to run. Fairsharing is a configuration parameter that
+helps determine which of those queued jobs to run next when a cluster
+resource becomes available. In an <em>underutilized</em> cluster environment,
+jobs run as the resources are available (which, in most cases, is
+immediately).</p>
+<p><strong>Use it if you need it!</strong> The cluster exists to be used; however,
+there are two situations where common courtesy may be required:</p>
+<ul class="simple">
+<li><p>If no one else is using it and you need it, you should be using it!
+However, in order to ensure a productive environment for all users,
+please follow the restrictions below as they mostly apply to our
+typical, non-overutilized cluster environment.</p></li>
+<li><p>If everyone else is using it, submit your jobs anyway! The cluster
+software will make sure you get your <a class="reference external" href="Cluster:Fair_Share_Policy">Fairshare
+value</a>.</p></li>
+</ul>
+</div>
+<div class="section" id="job-submission">
+<h1>Job Submission<a class="headerlink" href="#job-submission" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Jobs should be submitted to the appropriate partition based upon
+their length or resource consumption. Repeat requests to extend
+TimeLimit will not be honored beyond the first instance for a batch
+of jobs.</p>
+<ul>
+<li><p>No exceptions.</p></li>
+</ul>
+</li>
+<li><p>No group should exceed their group’s fair share usage by more than
+25% for longer that 24 hours at a time.</p>
+<ul>
+<li><p>Exception: During periods of extremely low cluster utilization
+(e.g. 10-25%), a single user may exceed this limit but the jobs
+over this 25% threshold should not exceed 96 hours of running.
+In addition, jobs <em><strong>MUST</strong></em> be submitted in a staggered fashion
+so that a quarter of the jobs exceeding the threshold complete
+every 24 hours.</p></li>
+<li><p>Example: Your fairshare is 8. A single person can run on 10
+nodes without restriction under this item. However, to run on 14
+nodes for more than 24 hours, the user must stagger submission
+of those jobs on all 14 nodes so that 1 node is freed by job
+completion every 24 hours.</p></li>
+</ul>
+</li>
+<li><p>No single user should consume 75% of the available computational
+resources of the cluster for any period of time.</p>
+<ul>
+<li><p>No Exceptions.</p></li>
+</ul>
+</li>
+<li><p>Excessive usage of the cluster (primarily large numbers of jobs, in
+this instance) requires staggered submission of jobs so that the
+scheduling routines can work in jobs from other user within a
+reasonable amount of time.</p>
+<ul>
+<li><p>Exception: Users do not have to stagger submission if the number
+of jobs submitted is less than the total number of processors on
+the cluster and jobs are currently queued.</p></li>
+</ul>
+</li>
+<li><p>Jobs should not read/write research data to the /home filesystem.</p>
+<ul>
+<li><p>No Exceptions. Users should use local /scratch space, or
+research directories.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="head-node-usage">
+<h1>Head Node Usage<a class="headerlink" href="#head-node-usage" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Users are not allowed to run production jobs on the cluster head
+nodes.</p>
+<ul>
+<li><p>Exception: certain visualization and interactive programs can be
+run on the head nodes but not to exceed one instance of this
+program class per head node.</p></li>
+</ul>
+</li>
+<li><p>Users are allowed to run test jobs on the cluster head nodes IF:</p></li>
+</ul>
+<p>:#They consume less than 5 processors total, AND</p>
+<p>:#They consume less than 50GB of memory, AND</p>
+<p>:#They run for less than two hours.</p>
+<p>::*Exception: If test jobs need to run beyond these limits limit to
+ensure functionality, then the HPC team should be contacted. A singular
+instance may be allowed to run on one head node if the processes
+“<a class="reference external" href="http://linux.die.net/man/1/nice">priority is lowered</a> on the head node
+to reduce impact to cluster users.</p>
+</div>
+<div class="section" id="global-exceptions">
+<h1>Global Exceptions<a class="headerlink" href="#global-exceptions" title="Permalink to this headline">¶</a></h1>
+<p>While these limits and restrictions may appear like hard and fast rules
+(simply because they are written down), these limits are flexible
+<em><strong>PROVIDED</strong></em> that advanced warning and collaboration with the HPC team
+and fellow users is employed. We are a friendly bunch and are willing
+(and have in the past) to work with each other to ensure everyone has
+access to the cluster (and as much as they need) for their research
+efforts.</p>
+<p>Significant and urgent need for significant percentages of cluster
+resources can be granted pending approval of the cluster community.
+Simply petition the osiris-users list and make sure someone else doesn’t
+have similar urgent needs. You can submit some of your jobs while
+waiting for everyone to chime in <em><strong>BUT</strong></em> you have to make sure
+everyone speaks up before proceeding with all of your jobs.</p>
+<p><a class="reference external" href="Category:Policy">Category:Policy</a> <a class="reference external" href="Category:New_User_Information">Category:New User
+Information</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/cluster/User_Agreement.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

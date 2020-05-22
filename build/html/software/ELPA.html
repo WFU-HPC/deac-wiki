@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ELPA (WORK IN PROGRESS) &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="elpa-work-in-progress">
+<h1>ELPA (WORK IN PROGRESS)<a class="headerlink" href="#elpa-work-in-progress" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The computation of selected or all eigenvalues and eigenvectors of a symmetric
+(Hermitian) matrix has high relevance for various scientific disciplines. For
+the calculation of a significant part of the eigensystem typically direct
+eigensolvers are used. For large problems, the eigensystem calculations with
+existing solvers can become the computational bottleneck. As a consequence, the
+ELPA project was initiated with the aim to develop and implement an efficient
+eigenvalue solver for petaflop applications.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The ELPA library can be downloaded directly from the
+<a class="reference external" href="https://elpa.mpcdf.mpg.de/">website</a>.</p>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Intel compilers (<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel/2020</span></code>)</p></li>
+<li><p>Open MPI compiled with Intel compilers (<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">mpi/openmpi/4.0.3-intel</span></code>)</p></li>
+<li><p>Intel MKL (<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">libs/intel/mkl/2020</span></code>)</p></li>
+</ul>
+</div>
+<div class="section" id="compilation">
+<h3>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h3>
+<p>Natalie sent me this:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>./configure <span class="se">\</span>
+--prefix<span class="o">=</span><span class="s2">&quot;/home/sunlight/work2/cp2k/libs/libelpa/201911001&quot;</span> <span class="se">\</span>
+--libdir<span class="o">=</span><span class="s2">&quot;/home/sunlight/work2/cp2k/libs/libelpa/201911001/lib&quot;</span> <span class="se">\</span>
+--enable-openmp<span class="o">=</span>no <span class="se">\</span>
+--enable-shared<span class="o">=</span>no <span class="se">\</span>
+--enable-static<span class="o">=</span>yes <span class="se">\</span>
+--enable-avx<span class="o">=</span>yes <span class="se">\</span>
+--enable-avx2<span class="o">=</span>yes <span class="se">\</span>
+--enable-avx512<span class="o">=</span>yes <span class="se">\</span>
+--enable-option-checking<span class="o">=</span>fatal <span class="se">\</span>
+<span class="nv">FC</span><span class="o">=</span>/opt/intel2020up1/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin/mpiifort <span class="se">\</span>
+<span class="nv">CC</span><span class="o">=</span>/opt/intel2020up1/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin/mpiicc <span class="se">\</span>
+<span class="nv">CXX</span><span class="o">=</span>/opt/intel2020up1/compilers_and_libraries_2020.1.217/linux/mpi/intel64/bin/mpiicpc <span class="se">\</span>
+<span class="nv">FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-O3 -xAVX2&quot;</span> <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-O3 -xAVX2&quot;</span> <span class="se">\</span>
+<span class="nv">SCALAPACK_LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L/opt/intel2020up1/mkl/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread &quot;</span> <span class="se">\</span>
+<span class="nv">SCALAPACK_FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-I/opt/intel2020up1/mkl/include/intel64/lp64&quot;</span>
+
+./configure --enable-openmp<span class="o">=</span>no --enable-shared<span class="o">=</span>no --enable-static<span class="o">=</span>yes --enable-avx<span class="o">=</span>yes --enable-avx2<span class="o">=</span>yes --enable-avx512<span class="o">=</span>yes --enable-option-checking<span class="o">=</span>fatal <span class="nv">FC</span><span class="o">=</span>mpiifort <span class="nv">CC</span><span class="o">=</span>mpiicc <span class="nv">CXX</span><span class="o">=</span>mpiicpc <span class="nv">FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-O3 -xAVX2&quot;</span> <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-O3 -xAVX2&quot;</span> <span class="nv">SCALAPACK_LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread&quot;</span> <span class="nv">SCALAPACK_FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-I</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/include/intel64/lp64&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>./configure <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifort <span class="nv">CXX</span><span class="o">=</span>mpicxx <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-O2&quot;</span> <span class="nv">FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-O2&quot;</span> <span class="nv">SCALAPACK_LDFLAGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">MKL_SCALAPACK_SEQUENTIAL</span><span class="si">}</span><span class="s2">&quot;</span> <span class="nv">SCALAPACK_FCFLAGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">MKL_SCALAPACK_SEQUENTIAL</span><span class="si">}</span><span class="s2"> -I</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/include/intel64/lp64&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># same as above</span>
+./configure <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifort <span class="nv">CXX</span><span class="o">=</span>mpicxx <span class="nv">SCALAPACK_LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_openmpi_lp64 -lpthread -lm -ldl&quot;</span> <span class="nv">SCALAPACK_FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-I</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/include/intel64/lp64&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># bad</span>
+./configure <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifort <span class="nv">SCALAPACK_LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -Wl,-rpath,</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/lib/intel64&quot;</span> <span class="nv">SCALAPACK_FCFLAGS</span><span class="o">=</span><span class="s2">&quot;-L</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -I</span><span class="si">${</span><span class="nv">MKLROOT</span><span class="si">}</span><span class="s2">/include/intel64/lp64&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">j8</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="useful-guides">
+<h2>Useful guides<a class="headerlink" href="#useful-guides" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>https://gitlab.mpcdf.mpg.de/elpa/elpa/-/wikis/INSTALL</p></li>
+<li><p>https://github.com/hfp/xconfigure/blob/master/config/elpa/configure-elpa-skx.sh</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/software/ELPA.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

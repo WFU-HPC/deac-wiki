@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Installation and Management of the Intel Parallel Studio XE Cluster Edition &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="installation-and-management-of-the-intel-parallel-studio-xe-cluster-edition">
+<h1>Installation and Management of the Intel Parallel Studio XE Cluster Edition<a class="headerlink" href="#installation-and-management-of-the-intel-parallel-studio-xe-cluster-edition" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The Intel Parallel Studio XE (PSXE) is a software development product developed
+by Intel that facilitates native code development on Windows, macOS and Linux in
+C++ and Fortran for parallel computing. Parallel programming enables software
+programs to take advantage of multi-core processors from Intel and other
+processor vendors. The Cluster Edition consists of the following components:</p>
+<ul class="simple">
+<li><p>Build</p>
+<ul>
+<li><p>Intel C/C++ Compiler</p></li>
+<li><p>Intel Fortran Compiler</p></li>
+<li><p>Intel Distribution for Python</p></li>
+<li><p>Intel Math Kernel Library (MKL)</p></li>
+<li><p>Intel Data Analytics Acceleration Library (DAAL)</p></li>
+<li><p>Intel Integrated Performance Primitives (IPP)</p></li>
+<li><p>Intel Threading Building Blocks (TBB)</p></li>
+<li><p>Intel Parallel STL (PSTL)</p></li>
+</ul>
+</li>
+<li><p>Analyze</p>
+<ul>
+<li><p>Intel Debugger</p></li>
+<li><p>Intel Advisor</p></li>
+<li><p>Intel Inspector</p></li>
+<li><p>Intel VTune Profiler</p></li>
+</ul>
+</li>
+<li><p>Scale</p>
+<ul>
+<li><p>Intel MPI Library</p></li>
+<li><p>Intel Trace Analyzer and Collector (ITAC)</p></li>
+<li><p>Intel Cluster Checker</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="general-usage">
+<h2>General Usage<a class="headerlink" href="#general-usage" title="Permalink to this headline">¶</a></h2>
+<p>Generally speaking, scientific applications obtain enhanced performance using
+the Intel toolset when running on Intel hardware. The DEAC cluster compute nodes
+use several models of Intel Xeon processors, making this toolset a valuable tool
+for all researchers and software developers who make use of the DEAC cluster.</p>
+<p>For most activities, only three components of the Intel PSXE are needed:</p>
+<ul class="simple">
+<li><p>The Intel C and FORTRAN compilers (<code class="docutils literal notranslate"><span class="pre">icc</span></code> and <code class="docutils literal notranslate"><span class="pre">ifort</span></code>)</p></li>
+<li><p>The Intel MKL (as an alternative for SCALAPACK, FFTW, BLAS, LAPACK, etc.)</p></li>
+<li><p>The Intel MPI libraries and compilers (<code class="docutils literal notranslate"><span class="pre">mpiicc</span></code> and <code class="docutils literal notranslate"><span class="pre">mpiifort</span></code>)</p></li>
+</ul>
+<p>The Intel MKL offers a variety of high performance library interfaces that can
+be used even when using other compilers, such as the GNU C and FORTRAN
+compilers. The Intel MPI library and compilers can be used to build applications
+that rely on MPI parallelization, which is extremely popular in HPC
+environments. However, we suggest using Open MPI over Intel MPI due to the Open
+MPI’s ability to access the low latency Cisco usNIC hardware that is available
+on the compute nodes. In most other areas either MPI library should yield
+similar performance under most conditions.</p>
+<p>The DEAC cluster has several versions of the PSXE available to you via standard
+modules; we will use the PSXE 2020 as our working example in this guide.
+Individual components have been separated into standalone modules:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">compilers</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">libs</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">daal</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">libs</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">ipp</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">libs</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">mkl</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">libs</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">pstl</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">libs</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">tbb</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">mpi</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">utils</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">advisor</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">utils</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">clck</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">utils</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">debugger</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">utils</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">inspector</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">utils</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">itac</span><span class="o">/</span><span class="mi">2020</span>
+<span class="n">utils</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">vtune</span><span class="o">/</span><span class="mi">2020</span>
+</pre></div>
+</div>
+<p>Each module will automatically set up your environment to have access to the
+relevant software and libraries.</p>
+</div>
+<div class="section" id="advanced-usage-sourcing-directly-from-installation">
+<h2>Advanced Usage: Sourcing Directly from Installation<a class="headerlink" href="#advanced-usage-sourcing-directly-from-installation" title="Permalink to this headline">¶</a></h2>
+<p>The PSXE is installed cluster-wide, and is divided into a variety of
+subdirectories that contain the various components and necessary scripts that
+load the appropriate environment variables; these are broken down as follows.
+There are two main scripts that load the majority of the PSXE components. First,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> <span class="nv">$PSXE</span>/compilers_and_libraries_2020.0.166/linux/bin/compilervars.sh intel64
+</pre></div>
+</div>
+<p>which will load the compilers (C, FORTRAN, MPI), libraries (MPI, MKL, TBB, IPP,
+DAAL, PSTL), and the Intel Debugger; and</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> <span class="nv">$PSXE</span>/parallel_studio_xe_2020/bin/psxevars.sh
+</pre></div>
+</div>
+<p>which will load everything listed at the beginning of this document. <code class="docutils literal notranslate"><span class="pre">$PSXE</span></code> is
+assumed to be the path to the PSXE root installation directory. Only load one
+file in given session; for compiling software and running with MPI, the latter
+will suffice. These scripts actually load individual scripts for each component.
+These can be manually loaded in order to fine-tune your shell environment as
+follows,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># From compilervars.sh</span>
+. <span class="nv">$PSXE</span>/compilers_and_libraries_2020/linux/bin/compilervars_arch.sh intel64 linux <span class="c1"># Compilers only</span>
+. <span class="nv">$PSXE</span>/compilers_and_libraries_2020/linux/mpi/intel64/bin/mpivars.sh             <span class="c1"># MPI compilers and libs</span>
+. <span class="nv">$PSXE</span>/compilers_and_libraries_2020/linux/mkl/bin/mklvars.sh intel64             <span class="c1"># MKL</span>
+. <span class="nv">$PSXE</span>/compilers_and_libraries_2020/linux/tbb/bin/tbbvars.sh intel64 linux       <span class="c1"># TBB Library</span>
+. <span class="nv">$PSXE</span>/compilers_and_libraries_2020/linux/pstl/bin/pstlvars.sh intel64           <span class="c1"># PSTL</span>
+. <span class="nv">$PSXE</span>/compilers_and_libraries_2020/linux/ipp/bin/ippvars.sh intel64 linux       <span class="c1"># IPP Library</span>
+. <span class="nv">$PSXE</span>/compilers_and_libraries_2020/linux/daal/bin/daalvars.sh intel64           <span class="c1"># DAAL</span>
+. <span class="nv">$PSXE</span>/debugger_2020/bin/debuggervars.sh intel64                                 <span class="c1"># Debugger</span>
+
+<span class="c1"># Extra stuff from psxevars.sh</span>
+. <span class="nv">$PSXE</span>/parallel_studio_xe_2020/clck_2019/bin/clckvars.sh                         <span class="c1"># Cluster Checker</span>
+. <span class="nv">$PSXE</span>/parallel_studio_xe_2020/itac_2020/bin/itacvars.sh                         <span class="c1"># ITAC</span>
+. <span class="nv">$PSXE</span>/parallel_studio_xe_2020/inspector_2020/inspxe-vars.sh quiet               <span class="c1"># Inspector</span>
+. <span class="nv">$PSXE</span>/parallel_studio_xe_2020/vtune_profiler_2020/vtune-vars.sh quiet           <span class="c1"># VTune</span>
+. <span class="nv">$PSXE</span>/parallel_studio_xe_2020/advisor_2020/advixe-vars.sh quiet                 <span class="c1"># Advisor</span>
+. <span class="nv">$PSXE</span>/intelpython3/bin/activate                                                 <span class="c1"># Intel Python</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="advanced-usage-creating-modulefiles">
+<h2>Advanced Usage: Creating Modulefiles<a class="headerlink" href="#advanced-usage-creating-modulefiles" title="Permalink to this headline">¶</a></h2>
+<p>Modulefiles can be created directly from the above scripts using the
+<code class="docutils literal notranslate"><span class="pre">createmodule.sh</span></code> tool that comes bundled with the Environment Module package.
+Run this tool on each of the above scripts (including positional arguments, if
+any). The resulting outputs can be formatted to taste; see the DEAC Modulefiles
+repository for examples.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/compilers/Intel_Parallel_Studio_XE.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

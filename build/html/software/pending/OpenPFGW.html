@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Compilation Instructions &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>OpenPFGW</strong> is software that is designed to perform PRP and primality
+tests on numbers of specific forms. It must be downloaded, compiled, and
+run from user home directories.</p>
+<div class="section" id="compilation-instructions">
+<h1>Compilation Instructions<a class="headerlink" href="#compilation-instructions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>First, create a directory for the downloads and compilations:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">~/Src/</span></code></p>
+<p>and cd into that directory</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">~/Src/</span></code></p>
+<p>Move all downloads described below into this directory.</p>
+</div>
+<div class="section" id="downloads">
+<h2>Downloads<a class="headerlink" href="#downloads" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>openpfgw.tar.gz</p></li>
+<li><p>gmp</p></li>
+<li><p>gwnum</p></li>
+</ul>
+</div>
+<div class="section" id="gmp">
+<h2>GMP<a class="headerlink" href="#gmp" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Download the source package from <a class="reference external" href="http://gmplib.org/">http://gmplib.org/</a> - example
+uses: gmp-5.0.2.tar.bz2</p></li>
+<li><p>Expand the package:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tar</span> <span class="pre">jxf</span> <span class="pre">gmp-5.0.2.tar.bz2</span></code></p>
+<ul class="simple">
+<li><p>This creates the directory gmp-5.0.2 – cd into it:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">gmp-5.0.2</span></code></p>
+<ul class="simple">
+<li><p>Do a standard configure and make, setting the installation to your
+home directory:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">./configure</span> <span class="pre">--prefix=$HOME</span> <span class="pre">--enable-cxx</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">make</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.out</span></code></p>
+<ul class="simple">
+<li><p>Wait for the make to complete, and then run the provided tests and
+make sure all are passed:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">make</span> <span class="pre">check</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.check.out</span></code></p>
+<ul class="simple">
+<li><p>View the file Make.check.out and look for lines which say something
+like “All 30 tests passed”.</p></li>
+<li><p>Install the package:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">install</span></code></p>
+</div>
+<div class="section" id="gwnum">
+<h2>GWNUM<a class="headerlink" href="#gwnum" title="Permalink to this headline">¶</a></h2>
+<p>GWNUM is part of the GIMPS package.</p>
+<ul class="simple">
+<li><p>Create a subdirectory under Src for the GIMPS package:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">~/Src/gimps</span></code></p>
+<ul class="simple">
+<li><p>Download version 2.65 from <a class="reference external" href="http://www.mersenneforum.org/gimps/">http://www.mersenneforum.org/gimps/</a> –
+package is source265.zip and move it into the gimps directory</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mv</span> <span class="pre">source265.zip</span> <span class="pre">~/Src/gimps</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">~/Src/gimps</span></code></p>
+<ul class="simple">
+<li><p>Expand the archive, and cd into the gwnum directory:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">unzip</span> <span class="pre">source265.zip</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">gwnum</span></code></p>
+<ul class="simple">
+<li><p>Modify the gwnum makefile <strong>~/Src/gimps/gwnum/make64</strong> so that the
+CFLAGS and CPPFLAGS lines look like the following:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CFLAGS</span> <span class="pre">=</span> <span class="pre">-I..</span> <span class="pre">-DX86_64</span> <span class="pre">-O2</span> <span class="pre">-m64</span> <span class="pre">-march=k8</span> <span class="pre">-mtune=k8</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CPPFLAGS</span> <span class="pre">=</span> <span class="pre">-I..</span> <span class="pre">-I../qd</span> <span class="pre">-DX86_64</span> <span class="pre">-O2</span> <span class="pre">-m64</span> <span class="pre">-march=k8</span> <span class="pre">-mtune=k8</span></code></p>
+<ul class="simple">
+<li><p>Build the package:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">-f</span> <span class="pre">make64</span></code></p>
+</div>
+<div class="section" id="openpfgw">
+<h2>OpenPFGW<a class="headerlink" href="#openpfgw" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Download the source
+code:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">~/Src/</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">svn</span> <span class="pre">co</span> <span class="pre">https://openpfgw.svn.sourceforge.net/svnroot/openpfgw</span> <span class="pre">openpfgw</span></code></p>
+<ul class="simple">
+<li><p>Copy the appropriate files from GMP and GWNUM into the appropriate
+directories in openpfgw</p></li>
+<li><p>GMP:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">~/lib/libgmp*.a</span> <span class="pre">~/Src/openpfgw/packages/gmp/64bit</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">~/include/gmp*.h</span> <span class="pre">~/Src/openpfgw/packages/gmp/64bit</span></code></p>
+<ul class="simple">
+<li><p>GWNUM:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">~/Src/gimps/gwnum/gwnum.a</span> <span class="pre">~/Src/openpfgw/packages/gwnum/64bit</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">~/Src/gimps/gwnum/*.h</span> <span class="pre">~/Src/openpfgw/packages/gwnum/64bit</span></code></p>
+<ul class="simple">
+<li><p>Edit the file <strong>~/Src/openpfgw/make.inc</strong> to add a PFGWSRC line, and
+so that the CFLAGS and CXXFLAGS lines look like
+this:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">IS64</span> <span class="pre">=</span> <span class="pre">1</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">PFGWSRC=${HOME}/Src/openpfgw</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">ifeq</span> <span class="pre">($(IS64),1)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CFLAGS</span> <span class="pre">=</span> <span class="pre">-O2</span> <span class="pre">-m64</span> <span class="pre">-march=k8</span> <span class="pre">-mtune=k8</span> <span class="pre">-DX86_64</span> <span class="pre">-D_64BIT</span> <span class="pre">-I../../packages/gmp/64bit</span> <span class="pre">-I${PFGWSRC}/pfconfig/headers</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CXXFLAGS</span> <span class="pre">=</span> <span class="pre">-O2</span> <span class="pre">-m64</span> <span class="pre">-march=k8</span> <span class="pre">-mtune=k8</span> <span class="pre">-DX86_64</span> <span class="pre">-D_64BIT</span>&#160; <span class="pre">-I../../packages/gmp/64bit</span> <span class="pre">-I${PFGWSRC}/pfconfig/headers</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">endif</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">ifeq</span> <span class="pre">($(IS64),0)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CFLAGS</span>&#160; <span class="pre">=</span> <span class="pre">-O2</span> <span class="pre">-malign-double</span> <span class="pre">-m32</span> <span class="pre">-I../../packages/gmp/32bit</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CXXFLAGS</span>&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O2</span> <span class="pre">-malign-double</span> <span class="pre">-m32</span> <span class="pre">-I../../packages/gmp/32bit</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">endif</span></code></p>
+<ul class="simple">
+<li><p><strong>cd</strong> into the openpfgw directory:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">~/Src/openpfgw</span></code></p>
+<ul class="simple">
+<li><p>Edit all the following <strong>pform</strong> makefiles, and remove the line that
+says “include deps.d” (this is usually the last line in the files):</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">~/Src/openpfgw/pform/pflib/makefile</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pfmath/makefile</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pfgwlib/makefile</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pfglue/makefile</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pfoo/makefile</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pfio/makefile</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pfgw/makefile</span></code></p>
+<ul class="simple">
+<li><p>Create all the submakefiles for the prmsieve subproject. For each of
+the following MODULEs – <strong>erat</strong>, <strong>atkins</strong>, <strong>compress</strong>,
+<strong>tables</strong>, <strong>arith</strong> – do:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">pform/prmsieve/</span></code><em><code class="docutils literal notranslate"><span class="pre">MODULE</span></code></em>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">sh</span> <span class="pre">configure</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">../..</span></code></p>
+<ul class="simple">
+<li><p>Edit the main pfgw makefile, and add “<strong>-lpthread -lstdc++</strong>” to the
+pfgw64 rule (the bits in bold
+below):</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">pfgw64:</span> <span class="pre">baselib</span> <span class="pre">integer</span> <span class="pre">fft</span> <span class="pre">glue</span> <span class="pre">pfoo</span> <span class="pre">io</span> <span class="pre">entrypoint</span> <span class="pre">prmsieve</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">${CXX}</span> <span class="pre">${CXXFLAGS}</span>&#160; <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pform/pfgw/.libs/pfgw_main.a</span>&#160; <span class="pre">pform/pfio/.libs/pfio.a</span> <span class="pre">pform/pfoo/.libs/pfoo.a</span> <span class="pre">pform/pfglue/.libs/pfglue.a</span> <span class="pre">pform/pfgwlib/.libs/pfgwlib.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">pform/pfmath/.libs/pfmath.a</span> <span class="pre">pform/pflib/.libs/pflib.a</span> <span class="pre">pform/prmsieve/.libs/prmsieve.a</span> <span class="pre">packages/gmp/64bit/libgmp.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">packages/gwnum/64bit/gwnum.a</span>&#160; <span class="pre">-o</span> <span class="pre">pfgw64</span></code><strong><code class="docutils literal notranslate"><span class="pre">-lpthread``</span> <span class="pre">``-lstdc++</span></code></strong></p>
+<ul class="simple">
+<li><p>Build pfgw64:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">pfgw64</span></code></p>
+<p>That process creates the executable <strong>pfgw64</strong>.</p>
+</div>
+</div>
+<div class="section" id="external-links">
+<h1>External Links<a class="headerlink" href="#external-links" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://sourceforge.net/projects/openpfgw/">OpenPFGW project page</a></p></li>
+<li><p><a class="reference external" href="http://www.mersenneforum.org/gimps/">Mersenne Forum GIMPS download
+page</a></p></li>
+<li><p><a class="reference external" href="http://gmplib.org/">GNU Multiple Precision Arithmetic Library
+(GMP)</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Software">Category:Software</a>
+<a class="reference external" href="Category:Compiling">Category:Compiling</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/OpenPFGW.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

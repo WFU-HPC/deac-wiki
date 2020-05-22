@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>About &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="about">
+<h1>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h1>
+<p>BWA is a software package for mapping low-divergent sequences against a
+large reference genome, such as the human genome. It consists of three
+algorithms: BWA-backtrack, BWA-SW and BWA-MEM. The first algorithm is
+designed for Illumina sequence reads up to 100bp, while the rest two for
+longer sequences ranged from 70bp to 1Mbp. BWA-MEM and BWA-SW share
+similar features such as long-read support and split alignment, but
+BWA-MEM, which is the latest, is generally recommended for high-quality
+queries as it is faster and more accurate. BWA-MEM also has better
+performance than BWA-backtrack for 70-100bp Illumina reads. BWA also has
+an parallel version called pBWA</p>
+</div>
+<div class="section" id="version">
+<h1>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>BWA Version = 0.7.15 with Intel-2017-lp64 compiler</p></li>
+<li><p>pBWA version = 0.5.9-1.21009 with openmpi/2.1.0-intel-2017</p></li>
+</ul>
+</div>
+<div class="section" id="compiling">
+<h1>Compiling<a class="headerlink" href="#compiling" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="bwa">
+<h2>BWA<a class="headerlink" href="#bwa" title="Permalink to this headline">¶</a></h2>
+<p>Find the source file at
+<a class="reference external" href="https://sourceforge.net/projects/bio-bwa/files/">https://sourceforge.net/projects/bio-bwa/files/</a>
+In the home dir of bwa</p>
+<p><code class="docutils literal notranslate"> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel-2017-lp64</span></code>
+<code class="docutils literal notranslate"> <span class="pre">vim</span> <span class="pre">Makefile</span>&#160;&#160;&#160;&#160; <span class="pre">//edit</span> <span class="pre">the</span> <span class="pre">makefile,</span> <span class="pre">change</span> <span class="pre">compiler</span> <span class="pre">to</span> <span class="pre">icc</span></code></p>
+<p>In Makefile:</p>
+<p><code class="docutils literal notranslate"> <span class="pre">CC</span>&#160; <span class="pre">=</span>&#160;&#160; <span class="pre">icc</span></code></p>
+<p>Now, compile:</p>
+<p><code class="docutils literal notranslate"> <span class="pre">make</span>&#160; <span class="pre">//now</span> <span class="pre">a</span> <span class="pre">executable</span> <span class="pre">file</span> <span class="pre">‘bwa’</span> <span class="pre">is</span> <span class="pre">created</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">directory</span></code></p>
+</div>
+<div class="section" id="pbwa">
+<h2>pBWA<a class="headerlink" href="#pbwa" title="Permalink to this headline">¶</a></h2>
+<p>Find the source file at <a class="reference external" href="https://sourceforge.net/projects/pbwa/files/">https://sourceforge.net/projects/pbwa/files/</a>
+In the home dir of
+pBWA</p>
+<p><code class="docutils literal notranslate"> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">openmpi/2.1.0-intel-2017</span></code>
+<code class="docutils literal notranslate"> <span class="pre">make</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">//now</span> <span class="pre">a</span> <span class="pre">executable</span> <span class="pre">file</span> <span class="pre">‘pBWA’’</span> <span class="pre">is</span> <span class="pre">created</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">directory</span></code></p>
+<p><a class="reference external" href="Category:Software">Category:Software</a>
+<a class="reference external" href="Category:Compiling">Category:Compiling</a></p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/BWA.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

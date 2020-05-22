@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>GCC and gprof &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Profiling</strong> is a form of dynamic program analysis (as opposed to
+static code analysis). It is the investigation of a program’s behavior
+using information gathered as the program executes. The usual purpose of
+this analysis is to determine which sections of a program to optimize -
+to increase its overall speed, decrease its memory requirement or
+sometimes both.[1]</p>
+<div class="section" id="gcc-and-gprof">
+<h1>GCC and gprof<a class="headerlink" href="#gcc-and-gprof" title="Permalink to this headline">¶</a></h1>
+<p>GCC and gprof are GNU tools. Here is a contrived example:[2] please
+download a copy of the source.</p>
+<p>First, you will need to compile with the “-pg” option. Here is an
+example Makefile:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">CC=gcc</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">CFLAGS=-pg</span> <span class="pre">-g</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Unset</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">three</span> <span class="pre">because</span> <span class="pre">Intel</span> <span class="pre">compiler</span> <span class="pre">installation</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">sets</span> <span class="pre">them</span> <span class="pre">and</span> <span class="pre">they</span> <span class="pre">interfere</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">INCLUDE=</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">LD_LIBRARY_PATH=</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">CPATH=</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">.PHONY:</span> <span class="pre">clean</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">sieve:</span> <span class="pre">sieve.c</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(CC)</span> <span class="pre">$(CFLAGS)</span> <span class="pre">-o</span> <span class="pre">$&#64;</span> <span class="pre">$^</span> <span class="pre">-lm</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">clean:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">/bin/rm</span> <span class="pre">-f</span> <span class="pre">sieve</span> <span class="pre">gmon.out</span></code></p>
+<p>Then, run make to build. Run the program as usual: the program will
+generate profiling data in a file named <strong><code class="docutils literal notranslate"><span class="pre">gmon.out</span></code></strong>. To see the
+profiling information, do:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``GprofExample]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">./sieve</span> <span class="pre">20000</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code><em><code class="docutils literal notranslate"><span class="pre">output``</span> <span class="pre">``removed</span></code></em>
+<code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``GprofExample]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">gprof</span> <span class="pre">sieve</span> <span class="pre">gmon.out</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">Flat</span> <span class="pre">profile:</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">Each</span> <span class="pre">sample</span> <span class="pre">counts</span> <span class="pre">as</span> <span class="pre">0.01</span> <span class="pre">seconds.</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">no</span> <span class="pre">time</span> <span class="pre">accumulated</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">%</span>&#160;&#160; <span class="pre">cumulative</span>&#160;&#160; <span class="pre">self</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">self</span>&#160;&#160;&#160;&#160; <span class="pre">total</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">time</span>&#160;&#160; <span class="pre">seconds</span>&#160;&#160; <span class="pre">seconds</span>&#160;&#160;&#160; <span class="pre">calls</span>&#160; <span class="pre">Ts/call</span>&#160; <span class="pre">Ts/call</span>&#160; <span class="pre">name</span>&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">62.09</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">0.21</span>&#160;&#160;&#160;&#160; <span class="pre">0.21</span>&#160;&#160;&#160;&#160; <span class="pre">2263</span>&#160;&#160;&#160;&#160; <span class="pre">0.09</span>&#160;&#160;&#160;&#160; <span class="pre">0.09</span>&#160; <span class="pre">factorial</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">35.48</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">0.33</span>&#160;&#160;&#160;&#160; <span class="pre">0.12</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1</span>&#160;&#160; <span class="pre">120.63</span>&#160;&#160; <span class="pre">341.80</span>&#160; <span class="pre">sieve</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">2.96</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">0.34</span>&#160;&#160;&#160;&#160; <span class="pre">0.01</span>&#160;&#160;&#160;&#160; <span class="pre">2263</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160; <span class="pre">foo</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">0.34</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160; <span class="pre">init</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">0.34</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160;&#160;&#160;&#160; <span class="pre">0.00</span>&#160; <span class="pre">xcalloc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">[</span></code><em><code class="docutils literal notranslate"><span class="pre">truncated</span></code></em><code class="docutils literal notranslate"><span class="pre">]</span></code></p>
+<p>You will notice that there are two functions which have been called the
+most number of times: <code class="docutils literal notranslate"><span class="pre">factorial</span></code>, and <code class="docutils literal notranslate"><span class="pre">sieve</span></code>. Of these two, about 62%
+of the total running time was used by the <code class="docutils literal notranslate"><span class="pre">factorial</span></code> function, and 35%
+by the <code class="docutils literal notranslate"><span class="pre">sieve</span></code> function.</p>
+<p>Read the online gprof manual[3] for more information.</p>
+</div>
+<div class="section" id="see-also">
+<h1>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://hpctoolkit.org/">HPCToolkit</a> - an integrated suite of tools
+for measurement and analysis of program performance on computers
+ranging from multicore desktop systems to the nation’s largest
+supercomputers.</p></li>
+<li><p><a class="reference external" href="http://vmlinux.org/foswiki/bin/view/Main/GprofQuickStart">GprofQuickStart</a>
+– profiling with GNU’s gprof and GCC</p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://en.wikipedia.org/wiki/Profiling_(computer_programming)">Profiling (computer programming) article at
+Wikipedia</a></p></li>
+<li><p><a class="reference external" href="http://www.wfu.edu/~chindw/DEAC/Examples/GprofExample.tar.gz">GprofExample.tar.gz</a>
+– downloadable example of using gprof</p></li>
+<li><p>gprof info pages – type “info gprof” at the command line; also <a class="reference external" href="http://sourceware.org/binutils/docs-2.20/gprof/index.html">on
+the web</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/Profiling.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

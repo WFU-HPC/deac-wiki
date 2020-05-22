@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Available Versions &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Open MPI</strong> is an open source implementation of the MPI-2 standard.
+Several academic, research, and commercial entities contribute the the
+Open MPI Project.[1]</p>
+<div class="section" id="available-versions">
+<h1>Available Versions<a class="headerlink" href="#available-versions" title="Permalink to this headline">¶</a></h1>
+<p>The recommended version is 1.6, the latest “stable” version, available
+by loading the modulefile:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">module</span> <span class="pre">load</span> <span class="pre">openmpi/1.6-gnu</span></code></p>
+<p>Also available is version 1.5.5, available with the module
+openmpi/1.5.5-gnu. The Open MPI project recommends version 1.6 for all
+users.</p>
+</div>
+<div class="section" id="using-open-mpi-to-compile">
+<h1>Using Open MPI to Compile<a class="headerlink" href="#using-open-mpi-to-compile" title="Permalink to this headline">¶</a></h1>
+<p>Once the modulefile is loaded, the MPI compiler commands are available:
+mpicc, mpicxx, mpif77, and mpif90. The module also defines environment
+variables for these compilers:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">MPICC</span> <span class="pre">=</span> <span class="pre">mpicc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">MPICXX</span> <span class="pre">=</span> <span class="pre">mpicxx</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">MPIF77</span> <span class="pre">=</span> <span class="pre">mpif77</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">MPIF90</span> <span class="pre">=</span> <span class="pre">mpif90</span></code></p>
+<p>Please see the official documentation for details on programming with
+MPI-2 and with Open MPI in particular.[2][3]</p>
+</div>
+<div class="section" id="using-open-mpi-to-run-cluster-jobs">
+<h1>Using Open MPI to Run Cluster Jobs<a class="headerlink" href="#using-open-mpi-to-run-cluster-jobs" title="Permalink to this headline">¶</a></h1>
+<p>We have compiled Open MPI with Torque support, but SLURM still runs on
+it. This means that you do not have to generate a host file and figure
+out the distribution of jobs over each node. Open MPI’s mpirun command
+will examine the job properties given by the “nodes” and
+“tasks-per-node” directives and act accordingly.</p>
+<p>For a brief summary on usage of the mpirun program, type the following
+at the command line:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mpirun</span> <span class="pre">--help</span></code></p>
+<p>Further details are available in the official documentation.[4]</p>
+</div>
+<div class="section" id="infiniband">
+<h1>Infiniband<a class="headerlink" href="#infiniband" title="Permalink to this headline">¶</a></h1>
+<p>Open MPI has support for <a class="reference external" href="Infiniband">Infiniband</a>. To use
+Infiniband, you must do two things:</p>
+<ol class="simple">
+<li><p>request Infiniband nodes in your job script: <tt></p>
+<ul class="simple">
+<li><p>#SBATCH –partition=infiniband</tt></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--switches=1</span></code></p></li>
+</ul>
+</li>
+<li><p>pass options to mpirun to use the Infiniband network (instead of the
+default Ethernet):</p></li>
+</ol>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mpirun</span> <span class="pre">--mca</span> <span class="pre">btl</span> <span class="pre">^tcp</span>&#160; <span class="pre">./my_program</span> <span class="pre">--my-options=foo</span> <span class="pre">--my-flag</span></code></p>
+<p>The “^tcp” argument means “NOT tcp”, i.e. “NOT ethernet”.</p>
+</div>
+<div class="section" id="intel-compilers">
+<h1>Intel Compilers<a class="headerlink" href="#intel-compilers" title="Permalink to this headline">¶</a></h1>
+<p>To run with OpenMPI + Intel Compilers, the module to use is</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">openmpi/1.6-intel</span></code></p>
+<p>The rest of the instructions should be the same.</p>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Software">Category:Software</a>
+<a class="reference external" href="Category:Compiling">Category:Compiling</a> <a class="reference external" href="Category:Quick_Start">Category:Quick
+Start</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://www.open-mpi.org/">Open MPI Project official web page</a></p></li>
+<li><p><a class="reference external" href="http://www.open-mpi.org/doc/">Open MPI Official Documentation</a></p></li>
+<li><p><a class="reference external" href="http://www.mpi-forum.org/docs/docs.html">Official MPI Documents from the MPI Forum</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/GNU_OpenMPI.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

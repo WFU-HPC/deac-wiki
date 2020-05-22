@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Unix/Linux Command Reference &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>This is a summary of commonly used commands.[1][2] We reproduce the
+content of the FOSSwire cheat sheet [3] here. You can <img alt="download a PDF" src="quick_start_guide/FOSSwire_unix_ref.pdf" />download a
+PDF.</p>
+<p>A more indepth, Linux guide is available at
+<a class="reference external" href="Information:Linux">Information:Linux</a>.</p>
+<div class="section" id="unix-linux-command-reference">
+<h1>Unix/Linux Command Reference<a class="headerlink" href="#unix-linux-command-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="file-commands">
+<h2>File Commands<a class="headerlink" href="#file-commands" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ls</span></code></strong> - directory listing</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ls``</span> <span class="pre">``-al</span></code></strong> - formatted listing with hidden files</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cd``</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir</span></code></i></strong> - change directory to <em>dir</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">pwd</span></code></strong> - show current directory (Print Working Directory)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">mkdir``</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir</span></code></i></strong> - create a directory <em>dir</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">rm``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - delete <em>file</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">rm``</span> <span class="pre">``-r``</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir</span></code></i></strong> - delete directory <em>dir</em> and all its
+contents</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">rm``</span> <span class="pre">``-f``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - force delete file</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">rm``</span> <span class="pre">``-rf``</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir</span></code></i></strong> - force delete directory <em>dir</em> and
+all its contents (use with caution)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cp``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file1</span></code></i><code class="docutils literal notranslate"> </code><i><code class="docutils literal notranslate"><span class="pre">file2</span></code></i></strong> - copy <em>file1</em> to <em>file2</em>
+(overwrites <em>file2</em> if it exists)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cp``</span> <span class="pre">``-r``</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir1</span></code></i><code class="docutils literal notranslate"> </code><i><code class="docutils literal notranslate"><span class="pre">dir2</span></code></i></strong> - copy <em>dir1</em> to
+<em>dir2</em>; create <em>dir2</em> if it doesn’t exist</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">mv``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file1</span></code></i><code class="docutils literal notranslate"> </code><i><code class="docutils literal notranslate"><span class="pre">file2</span></code></i></strong> - rename <em>file1</em> to
+<em>file2</em> (overwrites <em>file2</em> if it exists)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">mv``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i><code class="docutils literal notranslate"> </code><i><code class="docutils literal notranslate"><span class="pre">dir</span></code></i></strong> - move <em>file</em> to directory
+<em>dir</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ln``</span> <span class="pre">``-s``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file_or_dir</span></code></i><code class="docutils literal notranslate"> </code><i><code class="docutils literal notranslate"><span class="pre">link</span></code></i></strong> - create
+symbolic link <em>link</em> to <em>file_or_dir</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">touch``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - create empty <em>file</em>; if <em>file</em> exists,
+updates last-modified date</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">less``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - view contents of <em>file</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">head``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - output first 10 lines of <em>file</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tail``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - output last 10 lines of <em>file</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tail``</span> <span class="pre">``-f``</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - output contents of <em>file</em> as it
+grows, starting with last 10 lines</p></li>
+</ul>
+</div>
+<div class="section" id="process-management">
+<h2>Process Management<a class="headerlink" href="#process-management" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ps</span></code></strong> - display your currnet active processes</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">top</span></code></strong> - display all running processes</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">kill</span> </code><i><code class="docutils literal notranslate"><span class="pre">pid</span></code></i></strong> - kill process id <em>pid</em> (numerical ID)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bg</span></code></strong> - lists stopped or background jobs; resume a stopped job in
+the background</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fg</span></code></strong> - brings the most recent job to the foreground</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fg</span> </code><i><code class="docutils literal notranslate"><span class="pre">n</span></code></i></strong> - brings job <em>n</em> to the foreground</p></li>
+</ul>
+</div>
+<div class="section" id="file-permissions">
+<h2>File Permissions<a class="headerlink" href="#file-permissions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">chmod</span> </code><i><code class="docutils literal notranslate"><span class="pre">mode</span> <span class="pre">file</span></code></i></strong> - change permissions of <em>file</em> to
+given <em>mode</em>; mode is <code class="docutils literal notranslate"><span class="pre">[ugoa...][[+-=][perms...]...]</span></code></p>
+<ul>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">u,</span> <span class="pre">g,</span> <span class="pre">o,</span> <span class="pre">a</span></code></strong> : specify the owner (user), group, other, or
+all</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">+,</span> <span class="pre">-,</span> <span class="pre">=</span></code></strong> : + adds given permissions to file, - removes
+given permissions from file, = sets given permissions on file</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">perms</span></code> : <code class="docutils literal notranslate"><span class="pre">r,</span> <span class="pre">w,</span> <span class="pre">x</span></code></strong> or any combination of the three – r
+means read permission, w means write permission, x means execute
+(file) or cd (directory) permission</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="ssh">
+<h2>SSH<a class="headerlink" href="#ssh" title="Permalink to this headline">¶</a></h2>
+<p>See also: <a class="reference external" href="SSH_Quick_Start_Guide">SSH Quick Start Guide</a></p>
+</div>
+<div class="section" id="searching">
+<h2>Searching<a class="headerlink" href="#searching" title="Permalink to this headline">¶</a></h2>
+<p>Better described as finding strings in files.</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">grep</span> </code><i><code class="docutils literal notranslate"><span class="pre">pattern</span> <span class="pre">files</span></code></i></strong> - print out lines containing
+<em>pattern</em> in <em>files</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-r</span> </code><i><code class="docutils literal notranslate"><span class="pre">pattern</span> <span class="pre">dir</span></code></i></strong> - print out lines containing
+<em>pattern</em> in all files found recursively descending directory <em>dir</em></p></li>
+<li><p><strong><i><code class="docutils literal notranslate"><span class="pre">command</span></code></i><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">grep</span></code><i><code class="docutils literal notranslate"><span class="pre">pattern</span></code></i></strong> - print out lines in
+the output of <em>command</em> which contain <em>pattern</em></p></li>
+</ul>
+</div>
+<div class="section" id="system-info">
+<h2>System Info<a class="headerlink" href="#system-info" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">date</span></code></strong> - show current date and time</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cal</span></code></strong> - show this month’s calendar</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cal</span> </code><i><code class="docutils literal notranslate"><span class="pre">year</span></code></i></strong> - show calendar for entire <em>year</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">uptime</span></code></strong> - show how long the machine has been up</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">w</span></code></strong> - display users who are logged in</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">whoami</span></code></strong> - who you are logged in as</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">id</span></code></strong> - print all user ID information for yourself</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">finger</span> </code><i><code class="docutils literal notranslate"><span class="pre">user</span></code></i></strong> - display information about <em>user</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-a</span></code></strong> - show information about machine</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/proc/cpuinfo</span></code></strong> - cpu information</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/proc/meminfo</span></code></strong> - memory information</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">man</span> </code><i><code class="docutils literal notranslate"><span class="pre">command</span></code></i></strong> - show manual for <em>command</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">-h</span></code></strong> - show disk usage</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">free</span></code></strong> - show memory and swap usage</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">whereis</span> </code><i><code class="docutils literal notranslate"><span class="pre">command</span></code></i></strong> - show possible paths to <em>command</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">which</span> </code><i><code class="docutils literal notranslate"><span class="pre">command</span></code></i></strong> - show absolute path to <em>command</em></p></li>
+</ul>
+</div>
+<div class="section" id="compression">
+<h2>Compression<a class="headerlink" href="#compression" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">cf</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir.tar</span> <span class="pre">dir</span></code></i></strong> - create a tar file named
+<em>dir.tar</em> containing all files in the directory <em>dir</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">xf</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir.tar</span></code></i></strong> - extract all files from <em>dir.tar</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">zcf</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir.tar.gz</span> <span class="pre">dir</span></code></i></strong> - create a gzipped tar file
+named <em>dir.tar.gz</em> containing all files in <em>dir</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">zxf</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir.tar.gz</span></code></i></strong> - extract all files from
+<em>dir.tar.gz</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">jcf</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir.tar.bz2</span> <span class="pre">dir</span></code></i></strong> - create a tar file named
+<em>dir.tar.bz2</em> compressed with bzip2 containing all files in <em>dir</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">jxf</span> </code><i><code class="docutils literal notranslate"><span class="pre">dir.tar.bz2</span></code></i></strong> - extract all files from
+<em>dir.tar.bz2</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">gzip</span> </code><i><code class="docutils literal notranslate"><span class="pre">file</span></code></i></strong> - compress <em>file</em> and rename it <em>file.gz</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">gzip</span> <span class="pre">-d</span> </code><i><code class="docutils literal notranslate"><span class="pre">file.gz</span></code></i></strong> - uncompress <em>file.gz</em> into <em>file</em></p></li>
+</ul>
+</div>
+<div class="section" id="network">
+<h2>Network<a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">jwhois</span> </code><i><code class="docutils literal notranslate"><span class="pre">domain</span></code></i></strong> - print administrative and contact
+information for the owner of <em>domain</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">dig</span> </code><i><code class="docutils literal notranslate"><span class="pre">domain</span></code></i></strong> - print DNS information for <em>domain</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">dig</span> <span class="pre">-x</span> </code><i><code class="docutils literal notranslate"><span class="pre">host</span></code></i></strong> - print reverse DNS lookup of <em>host</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">wget</span> </code><i><code class="docutils literal notranslate"><span class="pre">url</span></code></i></strong> - download the file at <em>url</em></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">wget</span> <span class="pre">-c</span> </code><i><code class="docutils literal notranslate"><span class="pre">url</span></code></i></strong> - resume a stopped download</p></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Typical GNU-style source packages for software follow this recipe for
+building:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``package]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">./configure</span> <span class="pre">--prefix=$HOME</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``package]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">make</span> <span class="pre">&gt;&amp;</span> <span class="pre">make.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``package]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">make</span> <span class="pre">install</span> <span class="pre">&gt;&amp;</span> <span class="pre">make.install.out</span> <span class="pre">&amp;</span></code></p>
+</div>
+<div class="section" id="shortcuts">
+<h2>Shortcuts<a class="headerlink" href="#shortcuts" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Ctrl-C</strong> - halts the current command (send signal SIGINT)</p></li>
+<li><p><strong>Ctrl-Z</strong> - pauses the current command</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fg</span></code></strong> - resumes a Ctrl-Z’ed command</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bg</span></code></strong> - resumes a Ctrl-Z’ed command into the background
+(returning terminal control)</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">!!</span></code></strong> - repeats the last command</p></li>
+<li><p>cursor keys Up and Down - browse command history</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://oreilly.com/catalog/9780596006280/"><em>Linux Pocket Guide</em></a>,
+by Daniel J. Barrett (2004)</p></li>
+<li><p><a class="reference external" href="http://oreilly.com/catalog/9781565921320/"><em>Using csh and tcsh</em></a>,
+by Paul DuBois (1995)</p></li>
+<li><p><a class="reference external" href="http://oreilly.com/catalog/9780596558772/"><em>bash Quick Reference</em></a>,
+by Arnold Robbins (2006)</p></li>
+<li><p><a class="reference external" href="http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=PracticalUnix">Stanford University OpenClassroom’s “Practical Unix”
+class</a></p></li>
+<li><p><a class="reference external" href="Text_Editors">Text Editors</a></p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://fosswire.com/post/2007/8/unixlinux-command-cheat-sheet/">FOSSwire Unix/Linux Command Cheat Sheet</a>
+by Jacob Peddicord at FOSSwire.com</p></li>
+<li><p><a class="reference external" href="http://www.techieblogger.com/2009/10/linux-unix-ubuntu-solaris-cheat-sheets.html">25+ Useful Linux and Unix Cheat Sheets</a>
+by Mohamed Rias at Techieblogger.com</p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/Linux_Commands.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

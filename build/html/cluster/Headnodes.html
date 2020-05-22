@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Typically when you access a cluster system you are accessing a head
+node, that acts as a gateway to cluster resources. A head node is setup
+to be submit jobs to the cluster’s scheduler. In general, when “logging
+in to the cluster” is mentioned, the act of logging into a head node is
+how you do it.</p>
+<p>A head node is often nothing more than a system configured to act as the
+midway point between cluster resources and everything else. When you are
+on a head node, you should not actually running or working on cluster
+compute resources. Configuration of the headnode is very similar to
+available compute nodes, in that all required software and data paths
+should be present. This allows users to verify job functionality before
+fully submitting them. This simplifies access, usage, and efficiency by
+having all interactions filtered and managed through a few designated
+points. In theory, users should never need to access any of the
+individual compute nodes directly, instead relying on the head node and
+the tools it provides to submit jobs to the cluster, monitor them, and
+view and retrieve their results.</p>
+<p>Ideally you do not want to run computational programs on the head node
+itself. Meaning specifically, any programs you want to run on the
+cluster should not be run on the head node, instead they should be run
+and tested on the cluster itself using the scheduling system tools on
+the head node. You should restrict your usage of the head node to
+programs that let you build and prepare your cluster programs and manage
+and view your data.</p>
+</div>
+<div class="section" id="deac-headnodes">
+<h1>DEAC Headnodes<a class="headerlink" href="#deac-headnodes" title="Permalink to this headline">¶</a></h1>
+<p><strong>gemini.deac.wfu.edu</strong>
+<strong>pegasus.deac.wfu.edu</strong></p>
+<p>The DEAC cluster has TWO headnodes. These nodes are virtual machines (to
+allow better redundancy and higher uptime), with 12 cores and 128GB of
+memory each.</p>
+</div>
+<div class="section" id="access">
+<h1>Access<a class="headerlink" href="#access" title="Permalink to this headline">¶</a></h1>
+<p>To login to the DEAC cluster headnodes, users must use the SSH protocol.
+Login can only be achieved after a
+[<a class="reference external" href="https://is.wfu.edu/deac/user-support/account-request/">https://is.wfu.edu/deac/user-support/account-request/</a>| cluster
+account request] has been submitted. Do NOT use your Desktop or Laptop
+account/password to access these nodes!</p>
+<p><em>Login to the DEAC headnodes is restricted to Wake Forest Networks
+only</em>! This is a security precaution to prohibit unauthorized access
+and bot login attempts. If any user is attempting to login via SSH off
+campus, they must have an [<a class="reference external" href="https://is.wfu.edu/services/vpn/">https://is.wfu.edu/services/vpn/</a>|
+established VPN connection] to vpn.wfu.edu! To make this VPN
+connection, one SHOULD use their Desktop/Laptop account/password. Once
+the VPN connection is made, SSH to the DEAC headnodes and user your
+cluster account/password as you normally would!</p>
+</div>
+<div class="section" id="external-collaborators">
+<h1>External Collaborators<a class="headerlink" href="#external-collaborators" title="Permalink to this headline">¶</a></h1>
+<p>If you wish to collaborate with non-WFU personnel, please have them
+email deac-help&#64;wfu.edu and we will create a guest account for them to
+be able to VPN in. More detailed info to come
+soon.</p>
+<p><a class="reference external" href="Category:New_User_Information">Category:New_User_Information</a>
+<a class="reference external" href="Category:Cluster">Category:Cluster</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/cluster/Headnodes.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

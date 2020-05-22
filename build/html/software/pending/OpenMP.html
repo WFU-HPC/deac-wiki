@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Compilers &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>OpenMP</strong> Application Program Interface (API) supports multi-platform
+shared-memory parallel programming in C/C++ and Fortran on all
+architectures, including Unix platforms and Windows platforms. Jointly
+defined by a group of major computer hardware and software vendors,
+OpenMP is a portable, scalable model that gives shared-memory parallel
+programmers a simple and flexible interface for developing parallel
+applications for platforms ranging from the desktop to the
+supercomputer.[1]</p>
+<p><strong>Note: Do NOT confuse OpenMP with
+<a class="reference external" href="Software:OpenMPI">Software:OpenMPI</a></strong></p>
+<div class="section" id="compilers">
+<h1>Compilers<a class="headerlink" href="#compilers" title="Permalink to this headline">¶</a></h1>
+<p>All the compilers installed on the cluster support OpenMP.[2] This
+includes GNU, Intel, PGI, and Absoft.</p>
+</div>
+<div class="section" id="example">
+<h1>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h1>
+<p>This is a very simple example of computing (\pi) by approximating an
+integral:
+(\pi = \int_{0}^{1}\frac{4}{1 + x^2}dx \approx \frac{1}{N}\sum_{i=0}^{N-1}\frac{4}{1 + (\frac{i + 0.5}{N})^2}).</p>
+<p>Here is the serial
+version:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#include</span> <span class="pre">&lt;stdio.h&gt;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#include</span> <span class="pre">&lt;stdlib.h&gt;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#include</span> <span class="pre">&lt;math.h&gt;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">int</span> <span class="pre">main(int</span> <span class="pre">argc,</span> <span class="pre">char**</span> <span class="pre">argv)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">{</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">int</span> <span class="pre">N</span> <span class="pre">=</span> <span class="pre">1000000;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">double</span> <span class="pre">step;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">i;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">double</span> <span class="pre">x</span> <span class="pre">=</span> <span class="pre">0.;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">double</span> <span class="pre">sum</span> <span class="pre">=</span> <span class="pre">0.;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">step</span> <span class="pre">=</span> <span class="pre">1./(double)N;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">(i</span> <span class="pre">=</span> <span class="pre">0;</span> <span class="pre">i</span> <span class="pre">&lt;</span> <span class="pre">N;</span> <span class="pre">++i)</span> <span class="pre">{</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">x</span> <span class="pre">=</span> <span class="pre">(i</span> <span class="pre">+</span> <span class="pre">0.5)</span> <span class="pre">*</span> <span class="pre">step;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">sum</span> <span class="pre">+=</span> <span class="pre">4./(1.</span> <span class="pre">+</span> <span class="pre">x*x);</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">sum</span> <span class="pre">*=</span> <span class="pre">step;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">printf(&quot;approx.</span> <span class="pre">pi</span> <span class="pre">=</span> <span class="pre">%.14g;</span> <span class="pre">delta</span> <span class="pre">=</span> <span class="pre">%.14g\n&quot;,</span> <span class="pre">sum,</span> <span class="pre">fabs(M_PI</span> <span class="pre">-</span> <span class="pre">sum));</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">0;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">}</span></code></p>
+<p>The OpenMP parallel version uses a reduction to accumulate the
+intermediate sums computed by the separate
+threads:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#include</span> <span class="pre">&lt;stdio.h&gt;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#include</span> <span class="pre">&lt;stdlib.h&gt;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#include</span> <span class="pre">&lt;math.h&gt;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#include</span> <span class="pre">&lt;omp.h&gt;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">int</span> <span class="pre">main(int</span> <span class="pre">argc,</span> <span class="pre">char**</span> <span class="pre">argv)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">{</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">const</span> <span class="pre">int</span> <span class="pre">N</span> <span class="pre">=</span> <span class="pre">1000000;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">double</span> <span class="pre">step;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">i;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">double</span> <span class="pre">x</span> <span class="pre">=</span> <span class="pre">0.;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">double</span> <span class="pre">sum</span> <span class="pre">=</span> <span class="pre">0.;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">step</span> <span class="pre">=</span> <span class="pre">1./(double)N;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span> <span class="pre">for</span> <span class="pre">private(i,x)</span> <span class="pre">reduction(+:sum)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">(i</span> <span class="pre">=</span> <span class="pre">0;</span> <span class="pre">i</span> <span class="pre">&lt;</span> <span class="pre">N;</span> <span class="pre">++i)</span> <span class="pre">{</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">x</span> <span class="pre">=</span> <span class="pre">(i</span> <span class="pre">+</span> <span class="pre">0.5)</span> <span class="pre">*</span> <span class="pre">step;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">sum</span> <span class="pre">+=</span> <span class="pre">4./(1.</span> <span class="pre">+</span> <span class="pre">x*x);</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">}</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">sum</span> <span class="pre">*=</span> <span class="pre">step;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">printf(&quot;approx.</span> <span class="pre">pi</span> <span class="pre">=</span> <span class="pre">%.14g;</span> <span class="pre">delta</span> <span class="pre">=</span> <span class="pre">%.14g\n&quot;,</span> <span class="pre">sum,</span> <span class="pre">fabs(M_PI</span> <span class="pre">-</span> <span class="pre">sum));</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">0;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">}</span></code></p>
+<p>The compiler automatically generates the appropriate code, taking care
+of protecting variables and synchronizing the reduction at the end.</p>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Software">Category:Software</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://openmp.org/wp/about-openmp/">About OpenMP - OpenMP official
+website</a></p></li>
+<li><p><a class="reference external" href="http://openmp.org/wp/openmp-compilers/">OpenMP Compilers - OpenMP official
+website</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/OpenMP.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>NAMD on the DEAC Cluster &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="namd-on-the-deac-cluster">
+<h1>NAMD on the DEAC Cluster<a class="headerlink" href="#namd-on-the-deac-cluster" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>NAMD, recipient of a 2002 Gordon Bell Award and a 2012 Sidney Fernbach Award, is
+a parallel molecular dynamics code designed for high-performance simulation of
+large biomolecular systems. Based on Charm++ parallel objects, NAMD scales to
+hundreds of cores for typical simulations and beyond 500,000 cores for the
+largest simulations. NAMD uses the popular molecular graphics program VMD for
+simulation setup and trajectory analysis, but is also file-compatible with
+AMBER, CHARMM, and X-PLOR. NAMD is distributed free of charge with source code.</p>
+<p>DEAC users can load NAMD package using the available module,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>module load rhel7/namd/2.13-multicore-intel
+</pre></div>
+</div>
+<p>which is the 64-bit, single node, multicore variant. It was compiled using the
+Intel compilers and Math Kernel Library (MKL), yielding binaries with
+performance enhancements that take advantage of the DEAC hardware. What follows
+are instructions on how to compile the source code using the Intel Parallel
+Studio XE 2018, for users who wish to compile their own versions.</p>
+</div>
+<div class="section" id="compiling-with-the-intel-parallel-studio-xe-2018">
+<h2>Compiling with the Intel Parallel Studio XE 2018<a class="headerlink" href="#compiling-with-the-intel-parallel-studio-xe-2018" title="Permalink to this headline">¶</a></h2>
+<p>General usage and installation instructions can be found in the <code class="docutils literal notranslate"><span class="pre">notes.txt</span></code>
+document included in the source code. Load the Intel compiler module in order to
+access the Intel compilers and libraries.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>rhel7/compilers/intel-2018-lp64
+</pre></div>
+</div>
+<div class="section" id="charm">
+<h3>Charm++<a class="headerlink" href="#charm" title="Permalink to this headline">¶</a></h3>
+<p>Download and uncompress the NAMD source tarball, and then uncompress the
+included Charm++ tarball (as indicated in the aforementioned <code class="docutils literal notranslate"><span class="pre">notes.txt</span></code>). Issue
+the following build command for Charm++,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>./build charm++ multicore-linux-x86_64 iccstatic --with-production
+</pre></div>
+</div>
+<p>where the <code class="docutils literal notranslate"><span class="pre">iccstatic</span></code> option indicates that we are using the Intel compiler for
+creating a static library, and the <code class="docutils literal notranslate"><span class="pre">--with-production</span></code> flag will enable
+aggressive optimization. For DEAC nodes, this will include AVX-specific
+optimizations that can make significantly extend compile time, but generally
+yields good performance. After successfully compiling, test your new Charm++
+library,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> multicore-linux-x86_64-iccstatic/tests/charm++/megatest
+make pgm
+./pgm +p4
+</pre></div>
+</div>
+</div>
+<div class="section" id="tcl">
+<h3>Tcl<a class="headerlink" href="#tcl" title="Permalink to this headline">¶</a></h3>
+<p>NAMD requires Tcl, but the developers provide all the necessary files for download,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wget http://www.ks.uiuc.edu/Research/namd/libraries/tcl8.5.9-linux-x86_64-threaded.tar.gz
+tar xzf tcl8.5.9-linux-x86_64-threaded.tar.gz
+mv tcl8.5.9-linux-x86_64-threaded tcl-threaded
+</pre></div>
+</div>
+<p>Since we are compiling the multicore variant, we want to use threaded Tcl.</p>
+</div>
+<div class="section" id="arch-files-configure-and-build">
+<h3>Arch files, configure, and build<a class="headerlink" href="#arch-files-configure-and-build" title="Permalink to this headline">¶</a></h3>
+<p>Copy a couple of arch files to facilitate the building process for the Intel toolset,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cp arch/Linux-x86_64.mkl arch/Linux-x86_64-icc.fftw
+cp arch/Linux-x86_64.tcl arch/Linux-x86_64-icc.tcl
+</pre></div>
+</div>
+<p>and check the <code class="docutils literal notranslate"><span class="pre">arch/Linux-x86_64-icc.arch</span></code>, <code class="docutils literal notranslate"><span class="pre">arch/Linux-x86_64-icc.tcl</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">arch/Linux-x86_64-icc.fftw</span></code> to ensure that all the paths are correct. In this
+case, the <code class="docutils literal notranslate"><span class="pre">CHARMARCH</span></code> variable should be set to
+<code class="docutils literal notranslate"><span class="pre">multicore-linux-x86_64-iccstatic</span></code>, as mentioned above. You will most likely
+need to update <code class="docutils literal notranslate"><span class="pre">arch/Linux-x86_64-icc.tcl</span></code> with the path to the tcl-threaded
+directory from the previous step. These files are included here for</p>
+<p>Issue the following commands to configure NAMD with our selected
+<code class="docutils literal notranslate"><span class="pre">Linux-x86_64-icc</span></code> architecture, and then build using four cores,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>./config Linux-x86_64-icc
+<span class="nb">cd</span> Linux-x86_64-icc/
+gmake -j4
+</pre></div>
+</div>
+<p>and lastly, test your new build by running a simple test case,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>./namd2 src/alanin
+./charmrun +p2 ./namd2 src/alanin
+</pre></div>
+</div>
+<p>If these tests complete with no errors, you have now successfully compiled NAMD!
+The binaries are located in <code class="docutils literal notranslate"><span class="pre">Linux-x86_64-icc</span></code> directory.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/software/NAMD.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

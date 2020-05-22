@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Requirements &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>Disk space is the most overlooked resource until it gets fully utilized.
+Users are encouraged to periodically review their usage on the various
+filesystems and relocate or back up/remove files that are infrequently
+used or no longer needed on the cluster. Aside from space consumption,
+Disk IO (Input/Output) plays a large role in High Performance Computing.
+The more IO generated, the slower performance can be.</p>
+<p>This document will instruct users on how to copy files efficiently
+within the cluster or external to the cluster using a command called
+<strong>rsync</strong>.</p>
+<div class="section" id="requirements">
+<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>rsync : A syncronization program that looks for differences between
+the source and destination files/directories in order to synchronize
+the two locations as specified.
+SSH : If the syncronization of files/directories occurs between two
+different servers, you will need to use SSH to perform the file
+transfers (FTP and RCP are not permitted).</p></li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="assumptions">
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><em>srcdir</em> : Directory that contains the files to be moved.
+<em>destdir</em> : Directory where you would like to move the contents of
+<em><strong>srcdir</strong></em> files.
+<em>remhost</em> : Remote host (outside of cluster) where you would like to
+move the
+directory/files.</p></li>
+</ul>
+</div>
+<div class="section" id="copying-files-from-researchgrp-directory-to-archive">
+<h2>Copying files from researchGrp directory to Archive<a class="headerlink" href="#copying-files-from-researchgrp-directory-to-archive" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">rsync</span> <span class="pre">-av</span> <span class="pre">/deac/generalGrp/users/carsloas/srcdir</span> <span class="pre">/archive1/generalGrp/users/carlsoas/destdir/</span></code></p>
+</div>
+<div class="section" id="copying-files-to-remhost">
+<h2>Copying files to <em><strong>remhost</strong></em><a class="headerlink" href="#copying-files-to-remhost" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">export</span> <span class="pre">RSYNC_RSH=/usr/bin/ssh</span>&#160; <span class="pre">###</span>&#160; <span class="pre">For</span> <span class="pre">bash.</span>&#160; <span class="pre">Use</span> <span class="pre">&quot;setenv</span> <span class="pre">RSYNC_RSH</span> <span class="pre">/usr/bin/ssh&quot;</span> <span class="pre">for</span> <span class="pre">tcsh.</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">rsync</span> <span class="pre">-av</span> <span class="pre">/deac/generalGrp/users/carlsoas/srcdir/</span> <span class="pre">carlsoas&#64;remhost:/home/carlsoas/cluster.archive/destdir/</span></code></p>
+<ul class="simple">
+<li><p>You will be prompted for a password for the user account on the
+<em><strong>remhost</strong></em> before the file transfer will begin.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="about-rsync">
+<h1>About rsync<a class="headerlink" href="#about-rsync" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-good">
+<h2>The Good<a class="headerlink" href="#the-good" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>rsync could take a while before the actual transfer starts : If you
+are resuming an interrupted rsync or have a significant number of
+files to copy, <strong>rsync</strong> could take several minutes to determine the
+file list to transfer. This delay is even more likely for remote
+file transfers.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>rsync can pick up where it left off : If your file transfer was
+aborted for whatever reason (network problem, for example), you can
+re-issue the exact same command in the same directory and rsync will
+determine what is different and resume where it left off.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>rsync can be issued multiple times with the same arguments! : As
+the previous comment stated, you can verify that all of your files
+are the same one last time before you remove them from the full
+filesystem.</p></li>
+</ul>
+</div>
+<div class="section" id="the-pitfalls">
+<h2>The Pitfalls<a class="headerlink" href="#the-pitfalls" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><em>Trailing slashes on the source specification DOES matter!</em> : If
+the trailing slash is <strong>omitted</strong> from the file/directory source
+specification (<em><strong>srcdir</strong></em>), the directory (and all of its
+contents, preserving the directory structure) will get created in
+the destination (<em><strong>destdir</strong></em>) specified.</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">ls</span> <span class="pre">test1/*</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testA</span>&#160; <span class="pre">test1/testB</span>&#160; <span class="pre">test1/testC</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">rsync</span> <span class="pre">-av</span> <span class="pre">test1</span> <span class="pre">test2</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">building</span> <span class="pre">file</span> <span class="pre">list</span> <span class="pre">...</span> <span class="pre">done</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">created</span> <span class="pre">directory</span> <span class="pre">test2</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testA</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testB</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testC</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">wrote</span> <span class="pre">232</span> <span class="pre">bytes</span>&#160; <span class="pre">read</span> <span class="pre">68</span> <span class="pre">bytes</span>&#160; <span class="pre">600.00</span> <span class="pre">bytes/sec</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">total</span> <span class="pre">size</span> <span class="pre">is</span> <span class="pre">0</span>&#160; <span class="pre">speedup</span> <span class="pre">is</span> <span class="pre">0.00</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">ls</span> <span class="pre">test2</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">ls</span> <span class="pre">test2/test1/*</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test2/test1/testA</span>&#160; <span class="pre">test2/test1/testB</span>&#160; <span class="pre">test2/test1/testC</span></code></p>
+<p>Specifying the trailing slash means the all of the files and directories
+in the source specification (<em><strong>srcdir</strong></em>) will get copied directly the
+destination specified (<em><strong>destdir</strong></em>).</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">ls</span> <span class="pre">test1/*</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testA</span>&#160; <span class="pre">test1/testB</span>&#160; <span class="pre">test1/testC</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">rsync</span> <span class="pre">-av</span> <span class="pre">test1/</span> <span class="pre">test3</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">building</span> <span class="pre">file</span> <span class="pre">list</span> <span class="pre">...</span> <span class="pre">done</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">created</span> <span class="pre">directory</span> <span class="pre">test3</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testA</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testB</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test1/testC</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">wrote</span> <span class="pre">232</span> <span class="pre">bytes</span>&#160; <span class="pre">read</span> <span class="pre">68</span> <span class="pre">bytes</span>&#160; <span class="pre">600.00</span> <span class="pre">bytes/sec</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">total</span> <span class="pre">size</span> <span class="pre">is</span> <span class="pre">0</span>&#160; <span class="pre">speedup</span> <span class="pre">is</span> <span class="pre">0.00</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">ls</span> <span class="pre">test3/*</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">test3/testA</span>&#160; <span class="pre">test3/testB</span>&#160; <span class="pre">test3/testC</span></code></p>
+<ul class="simple">
+<li><p><em>rsync does not (!) mirror two directory structures!</em> : <strong>rsync</strong>
+merely synchronizes the source files with the destination files,
+creating them if they do not exist. <strong>rsync</strong> does not remove files
+(by default) from the destination that are no longer in the source.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p><em>rsync does not remove files from the source destination as it
+copies them!</em> : This means that you have not actually freed up any
+space after running the rsync command! In situations where disk
+space is critically low, it is <em><strong>STRONGLY</strong></em> suggested that you
+rsync smaller directory structures and remove them quickly to free
+up space in a more timely fashion to relieve the constraints.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p><em>rsync may not obey the destination directory’s data management
+policies!</em> : This simply means that when you use rsync to move
+data, your destination may require different read/write/execute and
+owner/group membership settings than the original directory. After
+the rsync, before sure to make the required changes to comply with
+that policy.</p></li>
+</ul>
+<p><a class="reference external" href="Category:New_User_Information">Category:New User
+Information</a></p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/information/Moving_Files_Efficiently.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

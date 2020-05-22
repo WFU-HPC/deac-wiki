@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>QE &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="qe">
+<h1>QE<a class="headerlink" href="#qe" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="to-do">
+<h2>To-Do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>LibXC, other libs</p></li>
+<li><p>https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/quantum-espresso/package.py</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="compile-with-my-intel-compilers-and-open-mpi">
+<h1>Compile with my Intel Compilers and Open MPI<a class="headerlink" href="#compile-with-my-intel-compilers-and-open-mpi" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">/</span><span class="n">deac</span><span class="o">/</span><span class="n">generalGrp</span><span class="o">/</span><span class="n">usershare</span><span class="o">/</span><span class="n">anderss</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">psxe</span><span class="o">-</span><span class="mf">18.04</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">compilervars</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">arch</span> <span class="n">intel64</span> <span class="o">-</span><span class="n">platform</span> <span class="n">linux</span>
+<span class="c1">#module load rhel7/openmpi/4.0.2-intel-2018</span>
+<span class="c1">#module unload rhel7/compilers/intel-2018-lp64</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">configure</span> <span class="n">CC</span><span class="o">=</span><span class="n">icc</span> <span class="n">F77</span><span class="o">=</span><span class="n">ifort</span> <span class="n">F90</span><span class="o">=</span><span class="n">ifort</span> <span class="n">MPIF90</span><span class="o">=</span><span class="n">mpiifort</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">deac</span><span class="o">/</span><span class="n">generalGrp</span><span class="o">/</span><span class="n">usershare</span><span class="o">/</span><span class="n">anderss</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">qe</span><span class="o">-</span><span class="mf">6.5</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">shared</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">parallel</span> <span class="o">--</span><span class="k">with</span><span class="o">-</span><span class="n">scalapack</span><span class="o">=</span><span class="n">intel</span>
+
+<span class="o">./</span><span class="n">configure</span> <span class="n">CC</span><span class="o">=</span><span class="n">icc</span> <span class="n">F77</span><span class="o">=</span><span class="n">ifort</span> <span class="n">F90</span><span class="o">=</span><span class="n">ifort</span> <span class="n">MPIF90</span><span class="o">=</span><span class="n">mpiifort</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">deac</span><span class="o">/</span><span class="n">generalGrp</span><span class="o">/</span><span class="n">usershare</span><span class="o">/</span><span class="n">anderss</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">qe</span><span class="o">-</span><span class="mf">6.5</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">shared</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">parallel</span> <span class="o">--</span><span class="k">with</span><span class="o">-</span><span class="n">scalapack</span><span class="o">=</span><span class="n">intel</span> <span class="o">--</span><span class="k">with</span><span class="o">-</span><span class="n">libxc</span> <span class="o">--</span><span class="k">with</span><span class="o">-</span><span class="n">libxc</span><span class="o">-</span><span class="n">prefix</span><span class="o">=/</span><span class="n">deac</span><span class="o">/</span><span class="n">generalGrp</span><span class="o">/</span><span class="n">usershare</span><span class="o">/</span><span class="n">anderss</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">libxc</span><span class="o">/</span> <span class="n">LD_LIBS</span><span class="o">=</span><span class="s2">&quot;-L/deac/generalGrp/usershare/anderss/bin/libxc/lib/ -lxcf90 -lxcf03 -lxc&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">j16</span> <span class="nb">all</span>
+</pre></div>
+</div>
+<p>These tests run just fine:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">tests</span><span class="o">-</span><span class="n">pw</span><span class="o">-</span><span class="n">parallel</span>
+<span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">tests</span><span class="o">-</span><span class="n">ph</span><span class="o">-</span><span class="n">parallel</span>
+<span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">tests</span><span class="o">-</span><span class="n">hp</span><span class="o">-</span><span class="n">parallel</span>
+</pre></div>
+</div>
+<p>Running these automated tests fail, but they run just fine if you run them directory by directory, so meh. Instead of:</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run-tests-cp-parallel</span></code></p>
+<p>do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">custom</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">parallel</span> <span class="n">testdir</span><span class="o">=</span><span class="n">cp_h2o</span>
+<span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">custom</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">parallel</span> <span class="n">testdir</span><span class="o">=</span><span class="n">cp_o2</span>
+<span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">custom</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">parallel</span> <span class="n">testdir</span><span class="o">=</span><span class="n">cp_si</span>
+<span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">custom</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">parallel</span> <span class="n">testdir</span><span class="o">=</span><span class="n">cp_sio2</span>
+</pre></div>
+</div>
+<p>For some reason, the epw tests fail, but I think it has to do solely with the automated test system…</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run-tests-epw-parallel</span></code></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/software/QuantumEspresso.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

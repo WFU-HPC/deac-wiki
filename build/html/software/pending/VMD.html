@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Source Code &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>VMD</strong> is Visual Molecular Dynamics from the Theoretical and
+Computational Biophysics Group at UIUC..[1] It is made by the same
+people who make <a class="reference external" href="Software:NAMD">NAMD</a>.</p>
+<p>It’s a long and fairly complicated process,[2] involving multiple
+edits of makefiles, and some edits of source code. We will use the Intel
+compilers. We will <em>not</em> use CUDA or any GPU acceleration.</p>
+<div class="section" id="source-code">
+<h1>Source Code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h1>
+<p>Currently installed on the cluster is version 1.9.1. The source code is
+<a class="reference external" href="http://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD">available at the VMD
+website</a>.
+Download version 1.9.1 (2012-02-04).</p>
+</div>
+<div class="section" id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h1>
+<p>VMD is a visualization tool. It requires 3D graphics libraries (OpenGL,
+MESA) to function. If an NVIDIA graphics card is installed, and if the
+<a class="reference external" href="http://www.nvidia.com/object/cuda_home_new.html">CUDA GPU programming software development
+kit</a> is installed, it
+can take advantage of both. Neither is required but will greatly speed
+up execution.</p>
+<p>Here is a non-exhaustive list of prerequisite packages (as provided by
+RedHat):</p>
+<ul class="simple">
+<li><p>netcdf</p></li>
+<li><p>netcdf-devel</p></li>
+<li><p>netcdf-static</p></li>
+<li><p>libXinerama</p></li>
+<li><p>libXinerama-devel</p></li>
+<li><p>libXi-devel</p></li>
+<li><p>python-devel</p></li>
+<li><p>glibc-static</p></li>
+<li><p>fltk-devel</p></li>
+</ul>
+</div>
+<div class="section" id="step-by-step">
+<h1>Step-by-step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>First, read the official compilation guide.[3]</p>
+<p>Set up your environment to use the Intel compilers:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel-2012-lp64</span></code></p>
+<p>Decide on an installation
+location:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">export</span> <span class="pre">VMDHOME</span> <span class="pre">~/Applications/vmd-1.9.1</span>&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">tcsh:</span> <span class="pre">setenv</span> <span class="pre">VMDHOME</span> <span class="pre">~/Applications/vmd-1.9.1</span></code></p>
+<p>Create a directory to contain all the VMD-related source
+code:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">export</span> <span class="pre">VMDSRCDIR=~/src/vmd</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">this</span> <span class="pre">is</span> <span class="pre">for</span> <span class="pre">bash;</span> <span class="pre">for</span> <span class="pre">tcsh/csh,</span> <span class="pre">do</span> <span class="pre">&quot;setenv</span> <span class="pre">VMDSRCDIR</span> <span class="pre">~src/vmd&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">-p</span> <span class="pre">$VMDSRCDIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR</span></code></p>
+<p>Download and expand the source code in that directory:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">vmd-1.9.1.tar.gz</span>&#160;&#160;&#160; </code></p>
+<p>This creates two directories: <code class="docutils literal notranslate"><span class="pre">vmd-1.9.1</span></code> and <code class="docutils literal notranslate"><span class="pre">plugins</span></code>.</p>
+<p>In general, we will redirect all make output to a file so that any error
+messages will be captured and not scroll off the screen.</p>
+<div class="section" id="external-programs">
+<h2>External Programs<a class="headerlink" href="#external-programs" title="Permalink to this headline">¶</a></h2>
+<p>VMD depends on several external programs, some of which have to be
+compiled.</p>
+<div class="section" id="stride">
+<h3>STRIDE<a class="headerlink" href="#stride" title="Permalink to this headline">¶</a></h3>
+<p><strong>STRIDE</strong>[4][5] secondary structure prediction. We use the version
+of STRIDE archived by the VMD
+team.</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1/lib/stride</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">wget</span></code><a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/extsrcs/Stride_src.tar.Z">http://www.ks.uiuc.edu/Research/vmd/extsrcs/Stride_src.tar.Z</a>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">Stride_src.tar.Z</span></code></p>
+<p>Edit the file <code class="docutils literal notranslate"><span class="pre">stride.h</span></code>, and change line 43 to:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#define</span> <span class="pre">MAX_AT_IN_RES</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">75</span></code></p>
+<p>i.e. change the value from 50 to 75.</p>
+<p>Also, edit <code class="docutils literal notranslate"><span class="pre">stride.c</span></code>, and change line 96 from “return(SUCCESS);” to:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">0;</span></code></p>
+<p>Create your own makefile named Makefile.deac. <strong>IMPORTANT</strong> you cannot
+just copy and paste this. Makefiles are sensitive to whitespace – there
+is a difference between TAB and
+SPACE.[6]</p>
+<p><code class="docutils literal notranslate"><span class="pre">CC</span> <span class="pre">=</span> <span class="pre">icc</span> <span class="pre">-O3</span> <span class="pre">-static</span> <span class="pre">-ipo</span> <span class="pre">-xSSE2</span> <span class="pre">-no-prec-div</span> <span class="pre">-pthread</span> <span class="pre">-I$(MKLROOT)/include</span></code>
+<code class="docutils literal notranslate"><span class="pre">LDFLAGS</span> <span class="pre">=</span>&#160; <span class="pre">-L$(MKLROOT)/lib/intel64</span> <span class="pre">-lmkl_intel_lp64</span> <span class="pre">-lmkl_sequential</span> <span class="pre">-lmkl_core</span> <span class="pre">-lpthread</span> <span class="pre">-lm</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">SOURCE</span> <span class="pre">=</span> <span class="pre">stride.c</span> <span class="pre">splitstr.c</span> <span class="pre">rdpdb.c</span> <span class="pre">initchn.c</span> <span class="pre">geometry.c</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">thr2one.c</span> <span class="pre">one2thr.c</span> <span class="pre">filename.c</span> <span class="pre">tolostr.c</span> <span class="pre">strutil.c</span> <span class="pre">place_h.c</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">hbenergy.c</span> <span class="pre">memory.c</span> <span class="pre">helix.c</span> <span class="pre">sheet.c</span> <span class="pre">rdmap.c</span> <span class="pre">phipsi.c</span> <span class="pre">command.c</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">molscr.c</span> <span class="pre">die.c</span> <span class="pre">hydrbond.c</span> <span class="pre">mergepat.c</span> <span class="pre">fillasn.c</span> <span class="pre">escape.c</span> <span class="pre">p_jrnl.c</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">p_rem.c</span> <span class="pre">p_atom.c</span> <span class="pre">p_helix.c</span> <span class="pre">p_sheet.c</span> <span class="pre">p_turn.c</span> <span class="pre">p_ssbond.c</span> <span class="pre">p_expdta.c</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">p_model.c</span> <span class="pre">p_compnd.c</span> <span class="pre">report.c</span> <span class="pre">nsc.c</span> <span class="pre">area.c</span> <span class="pre">ssbond.c</span> <span class="pre">chk_res.c</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">chk_atom.c</span> <span class="pre">turn.c</span> <span class="pre">pdbasn.c</span> <span class="pre">dssp.c</span> <span class="pre">outseq.c</span> <span class="pre">chkchain.c</span> <span class="pre">elem.c</span> <span class="pre">measure.c</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">asngener.c</span> <span class="pre">p_endmdl.c</span> <span class="pre">stred.c</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">OBJECT</span> <span class="pre">=</span> <span class="pre">${SOURCE:.c=.o}</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">.c.o:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$(CC)</span> <span class="pre">-c</span> <span class="pre">$&lt;</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">stride</span> <span class="pre">:</span> <span class="pre">$(OBJECT)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$(CC)</span> <span class="pre">$(OBJECT)</span> <span class="pre">-o</span> <span class="pre">$&#64;</span> <span class="pre">$(LDFLAGS)</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">$(OBJECT)</span> <span class="pre">:</span> <span class="pre">stride.h</span> <span class="pre">protot.h</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">clean:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">-rm</span> <span class="pre">-f</span> <span class="pre">$(OBJECT)</span> <span class="pre">stride</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">show:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">-echo</span> <span class="pre">$(SOURCE)</span></code></p>
+<p>Build stride:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">-f</span> <span class="pre">Makefile.deac</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.out</span>&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Ctrl-C</span> <span class="pre">to</span> <span class="pre">stop</span> <span class="pre">following</span> <span class="pre">the</span> <span class="pre">output</span></code></p>
+<p>Once done:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">stride</span> <span class="pre">stride_LINUXAMD64</span></code></p>
+</div>
+<div class="section" id="surf">
+<h3>SURF<a class="headerlink" href="#surf" title="Permalink to this headline">¶</a></h3>
+<p><strong>SURF</strong> solvent accessible surface. Since the original authors of SURF
+no longer make the source code available. The source is provided in the
+vmd-1.9.1.tar.gz archive</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1/lib/surf</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">surf.tar.Z</span></code></p>
+<p>Build SURF:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">depend</span></code></p>
+<p>There will be many warnings which can be ignored.</p>
+<p>This creates <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>. Make a copy of it:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">Makefile</span> <span class="pre">Makefile.deac</span></code></p>
+<p>And edit so that the first 9 lines are deleted and replaced with the
+following 5
+lines:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Compilation</span> <span class="pre">flags</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CC</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">icc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">INCLUDE</span>&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-I.</span>&#160; <span class="pre">-I$(MKLROOT)/include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">LINCLUDE</span>&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-L$(MKLROOT)/lib/intel64</span> <span class="pre">-lmkl_intel_lp64</span> <span class="pre">-lmkl_sequential</span> <span class="pre">-lmkl_core</span> <span class="pre">-lpthread</span> <span class="pre">-lm</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CFLAGS</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-static</span> <span class="pre">-no-prec-div</span> <span class="pre">-ipo</span> <span class="pre">-xSSE2</span> <span class="pre">-pthread</span> <span class="pre">$(FLAGS)</span> <span class="pre">$(INCLUDE)</span></code></p>
+<p>Edit <code class="docutils literal notranslate"><span class="pre">surf.c</span></code> so that lines 10-13 are:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">int</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">main(ac,av)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">ac;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">char*</span>&#160;&#160; <span class="pre">av[];</span></code></p>
+<p>and insert a statement before line 59 so that lines 58-60 are:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(Write_Option)</span> <span class="pre">end_output_dataset();</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">return</span> <span class="pre">0;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">}</span></code></p>
+<p>Build:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">-f</span> <span class="pre">Makefile.deac</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.out</span>&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Ctrl-C</span> <span class="pre">to</span> <span class="pre">stop</span> <span class="pre">following</span> <span class="pre">the</span> <span class="pre">file</span></code></p>
+<p>Once this is done, the executable <code class="docutils literal notranslate"><span class="pre">surf</span></code> is produced. Then, do:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">surf</span> <span class="pre">surf_LINUXAMD64</span></code></p>
+</div>
+<div class="section" id="tachyon">
+<h3>TACHYON<a class="headerlink" href="#tachyon" title="Permalink to this headline">¶</a></h3>
+<p><strong>TACHYON</strong> is not provided.[7] It is a parallel raytracer. VMD
+requires version 0.99 or
+higher</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1/lib</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">wget</span></code><a class="reference external" href="http://jedi.ks.uiuc.edu/~johns/raytracer/files/0.99b2/tachyon-0.99b2.tar.gz">http://jedi.ks.uiuc.edu/~johns/raytracer/files/0.99b2/tachyon-0.99b2.tar.gz</a>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">tachyon-0.99b2.tar.gz</span></code></p>
+<p>Then, edit the file <code class="docutils literal notranslate"><span class="pre">unix/Make-arch</span></code>:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">tachyon/unix</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><em><code class="docutils literal notranslate"><span class="pre">edit``</span> <span class="pre">``Make-arch</span></code></em></p>
+<p>Create a new “arch” type by adding the following to the file Make-arch -
+note that this is a Makefile, so the initial whitespace on the line
+“$(MAKE) all” is a single TAB
+character:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Linux</span> <span class="pre">on</span> <span class="pre">AMD64/EM64T,</span> <span class="pre">using</span> <span class="pre">icc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">linux-64-thr-icc:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(MAKE)</span> <span class="pre">all</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;ARCH</span> <span class="pre">=</span> <span class="pre">linux-64-thr-icc&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;CC</span> <span class="pre">=</span> <span class="pre">icc&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;CFLAGS</span> <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-static</span> <span class="pre">-no-prec-div</span> <span class="pre">-xSSE2</span> <span class="pre">-ipo</span> <span class="pre">-pthread</span> <span class="pre">-fomit-frame-pointer</span> <span class="pre">-DLinux</span> <span class="pre">-DLP64</span> <span class="pre">-DTHR</span> <span class="pre">-D_REENTRANT</span> <span class="pre">$(MISCFLAGS)&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;AR</span> <span class="pre">=</span> <span class="pre">xiar&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;ARFLAGS</span> <span class="pre">=</span> <span class="pre">r&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;STRIP</span> <span class="pre">=</span> <span class="pre">strip&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;RANLIB</span> <span class="pre">=</span> <span class="pre">ranlib&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;LIBS</span> <span class="pre">=</span> <span class="pre">-L.</span> <span class="pre">-ltachyon</span> <span class="pre">$(MISCLIB)</span> <span class="pre">-lm</span> <span class="pre">-lpthread&quot;</span></code></p>
+<p>Build:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">linux-64-thr-icc</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.out</span>&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Ctrl-C</span> <span class="pre">to</span> <span class="pre">stop</span> <span class="pre">following</span> <span class="pre">output</span></code></p>
+<p>Once complete, copy several tachyon files to the appropriate places</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1/lib/tachyon</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">src/tachyon.h</span> <span class="pre">include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">src/util.h</span> <span class="pre">include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">src/tachyon_dep.h</span> <span class="pre">include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">lib_LINUXAMD64</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1/lib/tachyon/compile/linux-64-thr-icc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">tachyon</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1/lib/tachyon/tachyon_LINUXAMD64</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">libtachyon.a</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1/lib/tachyon/lib_LINUXAMD64</span></code></p>
+</div>
+<div class="section" id="actc">
+<h3>ACTC<a class="headerlink" href="#actc" title="Permalink to this headline">¶</a></h3>
+<p><strong>ACTC</strong> is a triangle mesh consolidator.[8]</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/lib</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">wget</span></code><a class="reference external" href="http://plunk.org/~grantham/actc-1.1.tar.gz">http://plunk.org/~grantham/actc-1.1.tar.gz</a>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">actc-1.1.tar.gz</span></code></p>
+<p>Edit the makefile:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">actc-1.1</span> <span class="pre">actc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">actc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">''edit</span> <span class="pre">Makefile'</span></code></p>
+<p>Change one line, add one line:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">Makefile</span></code></strong><code class="docutils literal notranslate"> <span class="pre">-</span> <span class="pre">comment</span> <span class="pre">out</span> <span class="pre">line</span> <span class="pre">17,</span> <span class="pre">and</span> <span class="pre">add</span> <span class="pre">a</span> <span class="pre">line</span> <span class="pre">after</span> <span class="pre">it:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#CFLAGS=-g</span> <span class="pre">$(DEBUG)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CFLAGS=-O3</span> <span class="pre">-static</span> <span class="pre">-no-prec-div</span> <span class="pre">-xSSE2</span> <span class="pre">-ipo</span></code></p>
+<p>Then build:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.out</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Ctrl-C</span> <span class="pre">to</span> <span class="pre">stop</span> <span class="pre">following</span></code></p>
+<p>Copy include files and library files:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cp</span> <span class="pre">tc.h</span> <span class="pre">include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">lib_LINUXAMD64</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mv</span> <span class="pre">libactc.a</span> <span class="pre">lib_LINUXAMD64</span></code></p>
+</div>
+</div>
+<div class="section" id="plugins">
+<h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h2>
+<p>As prep, create the directory where plugins will be installed:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">export</span> <span class="pre">PLUGINDIR=$VMDHOME/lib/vmd/plugins</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mkdir</span> <span class="pre">-p</span> <span class="pre">$PLUGINDIR/LINUXAMD64</span></code></p>
+<p>The next stage is to build the plugins for VMD.</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/plugins</span></code></p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">Make-arch</span></code></strong> needs to be modified first to use the Intel compilers.
+Lines 358-373 define the compilers and flags for compiling in the
+LINUXAMD64 architecture. Replace the whole block with the following
+(<strong>NOTE</strong> the whitespace at the front of the line “$(MAKE) dynlibs
+staticlibs bins” is a TAB character, <em>not</em> space):</p>
+<p><code class="docutils literal notranslate"><span class="pre">LINUXAMD64:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$(MAKE)</span> <span class="pre">dynlibs</span> <span class="pre">staticlibs</span> <span class="pre">bins</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;ARCH</span> <span class="pre">=</span> <span class="pre">LINUXAMD64&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;COPTO</span> <span class="pre">=</span> <span class="pre">-fPIC</span> <span class="pre">-o</span> <span class="pre">&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;LOPTO</span> <span class="pre">=</span> <span class="pre">-fPIC</span> <span class="pre">-o</span> <span class="pre">&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;CC</span> <span class="pre">=</span> <span class="pre">icc&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;CXX</span> <span class="pre">=</span> <span class="pre">icpc&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;DEF</span> <span class="pre">=</span> <span class="pre">-D&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;CCFLAGS</span> <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE2</span> <span class="pre">-no-prec-div</span> <span class="pre">-ipo</span> <span class="pre">-fPIC</span> <span class="pre">-shared</span> <span class="pre">&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;CXXFLAGS</span> <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE2</span> <span class="pre">-no-prec-div</span> <span class="pre">-ipo</span> <span class="pre">-fPIC</span> <span class="pre">-shared</span> <span class="pre">&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;TCLLDFLAGS</span> <span class="pre">=</span> <span class="pre">-ltcl8.5</span> <span class="pre">-ldl&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;NETCDFLDFLAGS</span> <span class="pre">=</span> <span class="pre">-lnetcdf</span> <span class="pre">&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;AR</span> <span class="pre">=</span> <span class="pre">xiar&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;NM</span> <span class="pre">=</span> <span class="pre">nm</span> <span class="pre">-p&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;RANLIB</span> <span class="pre">=</span> <span class="pre">touch&quot;</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">&quot;SHLD</span> <span class="pre">=</span> <span class="pre">icc</span> <span class="pre">-shared&quot;</span></code></p>
+<p>Next, edit <strong><code class="docutils literal notranslate"><span class="pre">build.csh</span></code></strong> and add a new <code class="docutils literal notranslate"><span class="pre">switch</span></code> block starting at line
+205:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">case</span> <span class="pre">rhel6head*:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">echo</span> <span class="pre">&quot;Using</span> <span class="pre">build</span> <span class="pre">settings</span> <span class="pre">for</span> <span class="pre">DEAC...&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">set</span> <span class="pre">archname=LINUXAMD64</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">setenv</span> <span class="pre">TCLINC</span> <span class="pre">-I/usr/include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">setenv</span> <span class="pre">TCLLIB</span> <span class="pre">-L/usr/lib64</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">setenv</span> <span class="pre">NETCDFINC</span> <span class="pre">-I/usr/include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">setenv</span> <span class="pre">NETCDFLIB</span> <span class="pre">-L/usr/lib64</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$unixdir;</span> <span class="pre">gmake</span> <span class="pre">${archname}</span> <span class="pre">&gt;&amp;</span> <span class="pre">log.${archname}.$DATE</span> <span class="pre">&lt;</span> <span class="pre">/dev/null</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">echo</span> <span class="pre">&quot;Waiting</span> <span class="pre">for</span> <span class="pre">all</span> <span class="pre">plugin</span> <span class="pre">make</span> <span class="pre">jobs</span> <span class="pre">to</span> <span class="pre">complete...&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">wait;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">echo</span> <span class="pre">&quot;^G^G^G^G&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">echo</span> <span class="pre">&quot;Plugin</span> <span class="pre">builds</span> <span class="pre">done.&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160; <span class="pre">breaksw;</span></code></p>
+<p>Next, fix some errors in source code. This will be an iterative process:
+“make world; look at log; fix code; make clean; make world; repeat;” The
+specific errors will probably vary by VMD version: look in the log file
+<code class="docutils literal notranslate"><span class="pre">log.LINUXAMD64-MMDD-TTTTTT</span></code> that “make world” produces, and look for
+problems of the
+type:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">src/gamessplugin.c(385):</span> <span class="pre">warning</span> <span class="pre">#592:</span> <span class="pre">variable</span> <span class="pre">&quot;data&quot;</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">before</span> <span class="pre">its</span> <span class="pre">value</span> <span class="pre">is</span> <span class="pre">set</span></code></p>
+<p>Most of them are “variable used before being set”. In C, there is no
+guarantee that a new (non-static) variable will be initialized to
+zero.[9] Several of the source files here assume an initial value of 0
+or NULL. Instances where a NULL pointer is freed will cause the program
+to
+crash.</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">molfile_plugin/src/offplugin.C</span></code></strong><code class="docutils literal notranslate"> <span class="pre">--</span> <span class="pre">line</span> <span class="pre">125:</span> <span class="pre">replace</span> <span class="pre">with</span> <span class="pre">two</span> <span class="pre">separate</span> <span class="pre">lines</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">idx[4];</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">j</span> <span class="pre">=</span> <span class="pre">0;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">molfile_plugin/src/lammpsplugin.c</span></code></strong><code class="docutils literal notranslate"> <span class="pre">--</span> <span class="pre">line</span> <span class="pre">407:</span> <span class="pre">replace</span> <span class="pre">with</span> <span class="pre">two</span> <span class="pre">separate</span> <span class="pre">lines</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">atomid,</span> <span class="pre">atomtype,</span> <span class="pre">needhash;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">*idlist</span> <span class="pre">=</span> <span class="pre">(int*)NULL;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">molfile_plugin/src/moldenplugin.c</span></code></strong><code class="docutils literal notranslate"> <span class="pre">--</span> <span class="pre">lines</span> <span class="pre">96--98:</span> <span class="pre">replace</span> <span class="pre">with</span> <span class="pre">these</span> <span class="pre">three</span> <span class="pre">lines</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">FILE</span> <span class="pre">*fd</span> <span class="pre">=</span> <span class="pre">(FILE*)NULL;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">qmdata_t</span> <span class="pre">*data</span> <span class="pre">=</span> <span class="pre">(qmdata_t*)NULL;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">moldendata_t</span> <span class="pre">*moldendata</span> <span class="pre">=</span> <span class="pre">(moldendata_t*)NULL;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">molfile_plugin/src/gamessplugin.c</span></code></strong><code class="docutils literal notranslate"> <span class="pre">--</span> <span class="pre">lines</span> <span class="pre">372--374:</span> <span class="pre">replace</span> <span class="pre">with</span> <span class="pre">these</span> <span class="pre">three</span> <span class="pre">lines</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">FILE</span> <span class="pre">*fd</span> <span class="pre">=</span> <span class="pre">(FILE*)NULL;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">qmdata_t</span> <span class="pre">*data</span> <span class="pre">(qmdata_t*)NULL;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">gmsdata</span> <span class="pre">*gms</span> <span class="pre">=</span> <span class="pre">(gmsdata*)NULL;</span></code></p>
+<p>Build:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">world</span></code></p>
+<p>Output is automatically logged to a file named
+<code class="docutils literal notranslate"><span class="pre">log.LINUXAMD64-MMDD-TTTTTT</span></code> (where “MM” is the two-digit month number,
+“DD” is the two-digit day number, and “TTTTTT” is some representation of
+time in the Unix epoch). Check the log file – if there are any errors,
+fix the appropriate source file, then:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">clean</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">world</span></code></p>
+<p>Once you are satisfied with the build, install the plugins:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">distrib</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.distrib.out</span> <span class="pre">&amp;</span></code></p>
+<p>This installs all the plugins in $PLUGINDIR.</p>
+</div>
+<div class="section" id="configure-and-build-vmd">
+<h2>Configure and Build VMD<a class="headerlink" href="#configure-and-build-vmd" title="Permalink to this headline">¶</a></h2>
+<p>The following environment variables must be set (these are bash
+commands; if you use csh/tcsh, use
+setenv):</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">export</span> <span class="pre">PYTHON_INCLUDE_DIR=/usr/include/python2.6</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">export</span> <span class="pre">NUMPY_INCLUDE_DIR=/usr/lib64/python2.6/site-packages/numpy/core/include</span></code></p>
+<p>Go to the base source directory:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">$VMDSRCDIR/vmd-1.9.1</span></code></p>
+<p>and edit the file named
+“configure”:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">16:</span> <span class="pre">replace</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">following.</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$install_bin_dir=$ENV{VMDHOME};</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">19:</span> <span class="pre">replace</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">following.</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$install_library_dir=</span> <span class="pre">&quot;$install_bin_dir/lib/$install_name&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">409:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$arch_gnucompress</span> <span class="pre">=</span> <span class="pre">&quot;/usr/bin/gzip&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">454:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$plugin_dir</span> <span class="pre">=</span> <span class="pre">$ENV{PLUGINDIR};</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">lines</span> <span class="pre">516-519:</span> <span class="pre">replace</span> <span class="pre">with:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$mesa_dir</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;&quot;;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$mesa_include</span>&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;&quot;;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$mesa_library</span>&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;&quot;;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$mesa_libs</span>&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;-lGL</span> <span class="pre">-lGLU&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">1104:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$python_libs</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;-lpython2.6</span> <span class="pre">-lpthread&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">1968:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$arch_opt_flag</span>&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;-Wall</span> <span class="pre">-xSSE2</span> <span class="pre">-O3</span> <span class="pre">-ipo</span> <span class="pre">-no-prec-div&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">1970:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$arch_copts</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;-Wall</span> <span class="pre">-xSSE2</span> <span class="pre">-O3</span> <span class="pre">-ipo</span> <span class="pre">-no-prec-div&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">1985:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$arch_lopts</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">.=</span> <span class="pre">&quot;-static-intel</span> <span class="pre">&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">2009-2010:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$opengl_libs</span>&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;-lGL</span> <span class="pre">-lGLU</span> <span class="pre">-lX11&quot;;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$mesa_libs</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">&quot;-lGL</span> <span class="pre">-lGLU</span> <span class="pre">-lXext</span> <span class="pre">-lX11&quot;;</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">3047:</span> <span class="pre">replace</span> <span class="pre">with</span> <span class="pre">(NOTE:</span> <span class="pre">no</span> <span class="pre">space</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">end</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">line)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">\$(COPY)</span> <span class="pre">run_vmd_tmp</span> <span class="pre">$install_bin_dir/$install_name</span> <span class="pre">;</span> <span class="pre">\\</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">line</span> <span class="pre">3049:</span> <span class="pre">replace</span> <span class="pre">with</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">\$(ECHO)</span> <span class="pre">&quot;Make</span> <span class="pre">sure</span> <span class="pre">$install_bin_dir/$install_name</span> <span class="pre">is</span> <span class="pre">in</span> <span class="pre">your</span> <span class="pre">path.&quot;</span></code></p>
+<p>Link the plugins directory to the proper place:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">../plugins</span> <span class="pre">.</span></code></p>
+<p>Edit the file configure.options to contain just one
+line:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">LINUXAMD64</span> <span class="pre">MESA</span> <span class="pre">FLTK</span> <span class="pre">TK</span> <span class="pre">ACTC</span> <span class="pre">XINERAMA</span> <span class="pre">XINPUT</span> <span class="pre">LIBTACHYON</span> <span class="pre">NETCDF</span> <span class="pre">TCL</span> <span class="pre">PYTHON</span> <span class="pre">PTHREADS</span> <span class="pre">NUMPY</span> <span class="pre">ICC</span></code></p>
+<p>Run configure:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">./configure</span></code></p>
+<p>Then build:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">cd</span> <span class="pre">src</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.out</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Ctrl-C</span> <span class="pre">to</span> <span class="pre">stop</span> <span class="pre">following</span></code></p>
+<p>And install:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">make</span> <span class="pre">install</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.install.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.install.out</span>&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Ctrl-C</span> <span class="pre">to</span> <span class="pre">stop</span> <span class="pre">following</span></code></p>
+<p>This installs the executable shell script in</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$VMDHOME/vmd</span></code></p>
+<p>To run vmd, you may need:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">export</span> <span class="pre">LIBGL_ALWAYS_INDIRECT=1</span></code></p>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Software">Category:Software</a>
+<a class="reference external" href="Category:Compiling">Category:Compiling</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/">VMD official project page</a></p></li>
+<li><p><a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/doxygen/compiling.html#compiling">VMD Documentation - Compiling VMD from source
+code</a></p></li>
+<li></li>
+<li><p><a class="reference external" href="http://webclu.bio.wzw.tum.de/stride/">STRIDE official site</a></p></li>
+<li><p><a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/doxygen/extprogs.html#stride">STRIDE secondary structure
+prediction</a></p></li>
+<li><p><a class="reference external" href="Quick_Start_Guide:Make">Quick Start Guide:Make</a></p></li>
+<li><p><a class="reference external" href="http://jedi.ks.uiuc.edu/~johns/raytracer/">Tachyon Parallel / Multiprocessor Ray Tracing System web
+page</a></p></li>
+<li><p><a class="reference external" href="http://plunk.org/~grantham/public/actc/">ACTC triangle mesh
+consolidator</a> by Brad
+Granthan</p></li>
+<li><p><a class="reference external" href="http://stackoverflow.com/questions/1597405/what-happens-to-a-declared-uninitialized-variable-in-c-does-it-have-a-value">Q: What happens to a declared, uninitialized variable in C? Does it
+have a
+value?</a>
+at Stack Overflow</p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/VMD.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

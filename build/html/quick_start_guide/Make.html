@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>What is Make? &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="what-is-make">
+<h1>What is Make?<a class="headerlink" href="#what-is-make" title="Permalink to this headline">¶</a></h1>
+<p><strong>Make</strong> is a tool which controls the generation of executables and
+other non-source files of a program from the program’s source
+files.[1][2] It is typically used in compilation, but it is also
+useful in generating TeX/LaTeX documents. In general, it manages
+dependencies: which “target” or “product” depends on which “source”
+files.</p>
+</div>
+<div class="section" id="a-simple-makefile">
+<h1>A Simple Makefile<a class="headerlink" href="#a-simple-makefile" title="Permalink to this headline">¶</a></h1>
+<p>Makefiles are commonly named <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>.[3][4]. The basic element of
+a makefile is the rule block:</p>
+<p><code class="docutils literal notranslate">&#160; <span class="pre">TARGET:</span> <span class="pre">PREREQUISITES</span> <span class="pre">...</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">[tab</span> <span class="pre">character]COMMAND</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">...</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">...</span></code></p>
+<p>Note that <strong>all lines for the commands must start with a Tab
+character</strong>. Beware that some editors may insert multiple spaces instead
+of an actual Tab.</p>
+<p>Here is a basic Makefile for compiling the program BigProgram from
+several source
+files:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Everything</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">same</span> <span class="pre">line</span> <span class="pre">after</span> <span class="pre">a</span> <span class="pre">#</span> <span class="pre">character</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">comment</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">The</span> <span class="pre">following</span> <span class="pre">statements</span> <span class="pre">define</span> <span class="pre">variables</span> <span class="pre">which</span> <span class="pre">may</span> <span class="pre">be</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">used</span> <span class="pre">later</span> <span class="pre">on</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">makefile</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">CC=gcc</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">CFLAGS=-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">LIBS=-lm</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">.PHONY</span> <span class="pre">declares</span> <span class="pre">targets</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">not</span> <span class="pre">actual</span> <span class="pre">products</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">.PHONY:</span> <span class="pre">clean</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">BIGSOURCES</span> <span class="pre">=</span> <span class="pre">BigProgram.c</span> <span class="pre">first.c</span> <span class="pre">second.c</span> <span class="pre">third.c</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160; <span class="pre">#</span> <span class="pre">BigProgram</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">&quot;target&quot;.</span> <span class="pre">It</span> <span class="pre">depends</span> <span class="pre">on</span> <span class="pre">BigProgram.c,</span> <span class="pre">first.c,</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">second.c,</span> <span class="pre">and</span> <span class="pre">third.c.</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">#</span> <span class="pre">If</span> <span class="pre">the</span> <span class="pre">timestamp</span> <span class="pre">on</span> <span class="pre">any</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">files</span> <span class="pre">in</span> <span class="pre">$(BIGSOURCES)</span> <span class="pre">is</span> <span class="pre">newer</span> <span class="pre">than</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">#</span> <span class="pre">the</span> <span class="pre">timestamp</span> <span class="pre">on</span> <span class="pre">BigProgram,</span> <span class="pre">the</span> <span class="pre">commands</span> <span class="pre">&quot;$(CC)...&quot;</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">executed.</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">This</span> <span class="pre">compiles</span> <span class="pre">BigProgram.</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Note</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">&quot;$(CC)</span> <span class="pre">...&quot;</span> <span class="pre">line</span> <span class="pre">starts</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">Tab</span> <span class="pre">character</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">$&#64;</span> <span class="pre">and</span> <span class="pre">$^</span> <span class="pre">are</span> <span class="pre">pre-defined</span> <span class="pre">variables:</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span>&#160;&#160;&#160;&#160; <span class="pre">$&#64;</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">file</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">target</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">rule.</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span>&#160;&#160;&#160;&#160; <span class="pre">$^</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">names</span> <span class="pre">of</span> <span class="pre">all</span> <span class="pre">the</span> <span class="pre">prerequisites,</span> <span class="pre">with</span> <span class="pre">spaces</span> <span class="pre">between</span> <span class="pre">them.</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">BigProgram:</span> <span class="pre">$(BIGSOURCES)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(CC)</span> <span class="pre">$(CFLAGS)</span> <span class="pre">$(CPPFLAGS)</span> <span class="pre">-o</span> <span class="pre">$&#64;</span> <span class="pre">$^</span> <span class="pre">$(LIBS)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">clean:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">/bin/rm</span> <span class="pre">-f</span> <span class="pre">BigProgram</span></code></p>
+<p>You compile BigProgram by typing:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``~]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">make</span> <span class="pre">BigProgram</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">gcc</span> <span class="pre">-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span>&#160; <span class="pre">-o</span> <span class="pre">BigProgram</span> <span class="pre">BigProgram.c</span> <span class="pre">first.c</span> <span class="pre">second.c</span> <span class="pre">third.c</span> <span class="pre">-lm</span></code></p>
+<p>You could also type “make” without specifying BigProgram: make will find
+the first rule in the makefile. You can remove the compiled program by
+doing:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``~]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">make</span> <span class="pre">clean</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">/bin/rm</span> <span class="pre">-f</span> <span class="pre">BigProgram</span></code></p>
+</div>
+<div class="section" id="a-more-complex-example">
+<h1>A More Complex Example<a class="headerlink" href="#a-more-complex-example" title="Permalink to this headline">¶</a></h1>
+<p>You may have noted that the above makefile is rather inefficient: it
+recompiles every single source file every time BigProgram is built. If
+your code is complex, the compilation may take a long time.</p>
+<p>The fix for this is to create a library[5]. The library file can be
+updated only with a single changed .o object file. There are two types
+of libraries:</p>
+<ul class="simple">
+<li><p><em>static</em>, with a .a extension</p></li>
+<li><p><em>dynamic</em>, or <em>shared</em>, with a .so or .so.<em>N</em> extension</p></li>
+</ul>
+<p>Our example will create static library for simplicity’s sake.</p>
+<p>The
+makefile:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">CC=gcc</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">CFLAGS=-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">LD_LIBRARY_PATH=</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">specify</span> <span class="pre">directories</span> <span class="pre">in</span> <span class="pre">which</span> <span class="pre">to</span> <span class="pre">look</span> <span class="pre">for</span> <span class="pre">.h</span> <span class="pre">files</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">CPPFLAGS=-I.</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">specify</span> <span class="pre">directories</span> <span class="pre">in</span> <span class="pre">which</span> <span class="pre">to</span> <span class="pre">look</span> <span class="pre">for</span> <span class="pre">library</span> <span class="pre">files</span> <span class="pre">(.a,</span> <span class="pre">.so.*)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">LDFLAGS=-L.</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">specify</span> <span class="pre">libraries</span> <span class="pre">to</span> <span class="pre">link</span> <span class="pre">to</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">LIBS=-lsmall</span> <span class="pre">-lm</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">LIBSMALL_OBJS</span> <span class="pre">=</span> <span class="pre">fourth.o</span> <span class="pre">fifth.o</span> <span class="pre">sixth.o</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">.PHONY</span> <span class="pre">declares</span> <span class="pre">targets</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">not</span> <span class="pre">actual</span> <span class="pre">products</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">.PHONY:</span> <span class="pre">clean</span> <span class="pre">all</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">programs</span> <span class="pre">=</span> <span class="pre">SmallProgram</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">all:</span> <span class="pre">libsmall.a</span> <span class="pre">$(programs)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">clean:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">/bin/rm</span> <span class="pre">-f</span> <span class="pre">*.o</span> <span class="pre">*.a</span> <span class="pre">*.so</span> <span class="pre">*.so.*</span> <span class="pre">$(programs)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">libsmall.a:</span> <span class="pre">$(LIBSMALL_OBJS)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">ar</span> <span class="pre">-ruv</span> <span class="pre">$&#64;</span> <span class="pre">$?</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">ranlib</span> <span class="pre">$&#64;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">SmallProgram:</span> <span class="pre">SmallProgram.o</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(CC)</span> <span class="pre">$(CFLAGS)</span> <span class="pre">$(CPPFLAGS)</span> <span class="pre">-o</span> <span class="pre">$&#64;</span> <span class="pre">$&lt;</span> <span class="pre">$(LDFLAGS)</span> <span class="pre">$(LIBS)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Make</span> <span class="pre">already</span> <span class="pre">knows</span> <span class="pre">that</span> <span class="pre">.o</span> <span class="pre">files</span> <span class="pre">depend</span> <span class="pre">on</span> <span class="pre">.c</span> <span class="pre">files</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">so</span> <span class="pre">these</span> <span class="pre">rules</span> <span class="pre">just</span> <span class="pre">specify</span> <span class="pre">small.h</span> <span class="pre">as</span> <span class="pre">an</span> <span class="pre">additional</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">prerequisite</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">fourth.o:</span> <span class="pre">small.h</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">fifth.o:</span> <span class="pre">small.h</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">sixth.o:</span> <span class="pre">small.h</span></code></p>
+<p>Run make:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``Libsmall]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">make</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">gcc</span> <span class="pre">-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span> <span class="pre">-I.</span>&#160; <span class="pre">-c</span> <span class="pre">-o</span> <span class="pre">fourth.o</span> <span class="pre">fourth.c</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">gcc</span> <span class="pre">-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span> <span class="pre">-I.</span>&#160; <span class="pre">-c</span> <span class="pre">-o</span> <span class="pre">fifth.o</span> <span class="pre">fifth.c</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">gcc</span> <span class="pre">-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span> <span class="pre">-I.</span>&#160; <span class="pre">-c</span> <span class="pre">-o</span> <span class="pre">sixth.o</span> <span class="pre">sixth.c</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">ar</span> <span class="pre">-ruv</span> <span class="pre">libsmall.a</span> <span class="pre">fourth.o</span> <span class="pre">fifth.o</span> <span class="pre">sixth.o</span> <span class="pre">small.h</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">ar:</span> <span class="pre">creating</span> <span class="pre">libsmall.a</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">a</span> <span class="pre">-</span> <span class="pre">fourth.o</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">a</span> <span class="pre">-</span> <span class="pre">fifth.o</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">a</span> <span class="pre">-</span> <span class="pre">sixth.o</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">a</span> <span class="pre">-</span> <span class="pre">small.h</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">ranlib</span> <span class="pre">libsmall.a</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">gcc</span> <span class="pre">-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span> <span class="pre">-I.</span>&#160; <span class="pre">-c</span> <span class="pre">-o</span> <span class="pre">SmallProgram.o</span> <span class="pre">SmallProgram.c</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">gcc</span> <span class="pre">-O2</span> <span class="pre">-Wall</span> <span class="pre">-g</span> <span class="pre">-I.</span> <span class="pre">-o</span> <span class="pre">SmallProgram</span> <span class="pre">SmallProgram.o</span> <span class="pre">-L.</span> <span class="pre">-lsmall</span> <span class="pre">-lm</span></code></p>
+</div>
+<div class="section" id="an-example-with-mpich2-using-the-intel-compiler-v-11">
+<h1>An Example with MPICH2 Using the Intel Compiler v.11<a class="headerlink" href="#an-example-with-mpich2-using-the-intel-compiler-v-11" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="rhel6">
+<h2>RHEL6<a class="headerlink" href="#rhel6" title="Permalink to this headline">¶</a></h2>
+<p>With <a class="reference external" href="Quick_Start_Guide:Environment_Modules">modules</a>, the
+process is simplified. Before starting, load the module for the Intel
+Compiler:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">[username&#64;headnode``</span> <span class="pre">``~]&gt;</span></code></strong><code class="docutils literal notranslate"> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel-2012-lp64</span></code></p>
+<p>The makefile now looks like:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CC=mpicc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">CFLAGS=-O3</span> <span class="pre">-ipo</span> <span class="pre">-no-prec-div</span> <span class="pre">-xHOST</span> <span class="pre">-I$(MKLROOT)/include</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Use</span> <span class="pre">the</span> <span class="pre">Intel</span> <span class="pre">MKL</span> <span class="pre">Link</span> <span class="pre">Line</span> <span class="pre">Advisor</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">The</span> <span class="pre">&quot;\&quot;</span> <span class="pre">character</span> <span class="pre">indicates</span> <span class="pre">a</span> <span class="pre">continuation</span> <span class="pre">on</span> <span class="pre">the</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">succeeding</span> <span class="pre">line.</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">LDFLAGS=-L$(MKLROOT)/lib/intel64</span> <span class="pre">-lmkl_scalapack_lp64</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-lmkl_cdft_core</span> <span class="pre">-lmkl_intel_lp64</span> <span class="pre">-lmkl_intel_thread</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-lmkl_core</span>&#160; <span class="pre">-lmkl_blacs_intelmpi_lp64</span> <span class="pre">-openmp</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-lpthread</span> <span class="pre">-lm</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">.PHONY:</span> <span class="pre">clean</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">all:</span> <span class="pre">hello_mpi</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">clean:</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">/bin/rm</span> <span class="pre">-f</span> <span class="pre">hello_mpi</span> <span class="pre">hello_mpi-*.slurm.e</span> <span class="pre">hello_mpi-*.slurm.o</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">hello_mpi:</span> <span class="pre">hello_mpi.c</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(CC)</span> <span class="pre">-o</span> <span class="pre">$&#64;</span> <span class="pre">$^</span> <span class="pre">$(LDFLAGS)</span></code></p>
+<p>A sample SLURM script is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/tcsh -f
+#SBATCH --partition=debug
+#SBATCH --time=0-0:20:00
+#SBATCH --constraint=&quot;ethernet&quot;
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=1
+#SBATCH --output=&quot;hello_mpi-%j.slurm.o&quot;
+#SBATCH --error=&quot;hello_mpi-%j.slurm.e&quot;
+# CHANGE these two parameters to your own group and email address
+#SBATCH --account=&quot;researcherGrp&quot;
+#SBATCH --mail-user=username@wfu.edu
+
+setenv MPIEXEC_RSH /usr/bin/ssh
+set MPI_HOME=/opt/intel110-libs/mpich2
+set MPI_BINDIR=${MPI_HOME}/bin
+
+#NOTE:SLURM defaults to running jobs in the directory where submitted;
+#NOTE:Consider --workdir directive instead; and check functionality!
+cd ${SLURM_SUBMIT_DIR}
+${MPI_BINDIR}/mpiexec ./hello_mpi
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://oreilly.com/catalog/9780596006105/"><em>Managing Projects with GNU
+Make, 3/e</em></a>, by Robert
+Mecklenburg (2004)</p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a>
+<a class="reference external" href="Category:Software">Category:Software</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://www.gnu.org/software/make/">GNU Make</a></p></li>
+<li><p><a class="reference external" href="http://en.wikipedia.org/wiki/Make_%28software%29">make (software)</a>
+at Wikipedia</p></li>
+<li><p>make info page (type “info make” at the commandline)</p></li>
+<li><p><a class="reference external" href="http://www.gnu.org/software/make/manual/">GNU Make Manual</a></p></li>
+<li><p><a class="reference external" href="http://en.wikipedia.org/wiki/Library_%28computing%29">Library
+(computing)</a>,
+at Wikipedia</p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/Make.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

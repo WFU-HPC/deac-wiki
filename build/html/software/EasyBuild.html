@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>EasyBuild (WORK IN PROGRESS) &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="easybuild-work-in-progress">
+<h1>EasyBuild (WORK IN PROGRESS)<a class="headerlink" href="#easybuild-work-in-progress" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dependency-graphs-enhancements">
+<h2>Dependency graphs (enhancements)<a class="headerlink" href="#dependency-graphs-enhancements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Develop code to output to Cypher langauge instead of DOT</p></li>
+</ul>
+</div>
+<div class="section" id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://easybuild.readthedocs.io/en/latest/eb_list_toolchains.html">Toolchains</a>:
+the tools (compilers, libraries, MPI) that will be used to build a package.</p>
+<ul>
+<li><p><a class="reference external" href="https://easybuild.readthedocs.io/en/latest/Common-toolchains.html">Common
+toolchains</a>:
+EasyBuild already has numerous pre-defined toolchains, based mainly around
+<code class="docutils literal notranslate"><span class="pre">foss</span></code> (GCC, BLAS, LAPACK, …), and <code class="docutils literal notranslate"><span class="pre">intel</span></code> (Intel compilers, MKL, …).</p></li>
+<li><p><a class="reference external" href="https://github.com/easybuilders/easybuild/wiki/Compiler-toolchains">Custom
+toolchains</a>:
+toolchains can be readily created and altered. This is particularly useful
+when you want to mix-and-match components from different toolchains.</p></li>
+<li><p><a class="reference external" href="#">System toolchain</a>: use your own system compilers and libraries.</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://github.com/easybuilders/easybuild-easyconfigs">Easyconfigs</a>: config
+files that dictate the toolchain and build options of a given package. This is
+the easiest way to create custom packages for installation.</p></li>
+<li><p><a class="reference external" href="https://github.com/easybuilders/easybuild-easyblocks">Easyblocks</a>: python
+modules that establish the build procedures for every package available in
+EasyBuild. These are separated into generic and software-specific modules; the
+former are used with any package that supports a standard build process, while
+the latter are for packages that require a more customized approach.</p></li>
+</ul>
+</div>
+<div class="section" id="procedure">
+<h2>Procedure<a class="headerlink" href="#procedure" title="Permalink to this headline">¶</a></h2>
+<p>Export the necessary Intel license environment variable in order to build the
+intel toolchains,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">INTEL_LICENSE_FILE</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">intel</span><span class="o">/</span><span class="n">licenses</span>
+<span class="n">export</span> <span class="n">SBATCH_PARTITION</span><span class="o">=</span><span class="n">small</span>
+<span class="n">export</span> <span class="n">SBATCH_RESERVATION</span><span class="o">=</span><span class="n">easybuild</span>
+</pre></div>
+</div>
+<p>Building a software stack with EasyBuild is quite straightforward. We will focus
+on the <code class="docutils literal notranslate"><span class="pre">iomkl-2018b</span></code> toolchain, which includes the Intel 2018 compilers, Open
+MPI, and the Intel MKL. Times on a single node (Lancaster)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">foss</span><span class="o">-</span><span class="mi">2018</span><span class="n">b</span><span class="o">.</span><span class="n">eb</span>                                                       <span class="mi">288</span><span class="n">m09</span><span class="o">.</span><span class="mi">775</span><span class="n">s</span>
+<span class="n">iomkl</span><span class="o">-</span><span class="mi">2018</span><span class="n">b</span><span class="o">.</span><span class="n">eb</span>                                                      <span class="mi">185</span><span class="n">m44</span><span class="o">.</span><span class="mi">639</span><span class="n">s</span>
+<span class="n">intel</span><span class="o">-</span><span class="mi">2018</span><span class="n">b</span><span class="o">.</span><span class="n">eb</span>                                                      <span class="mi">022</span><span class="n">m28</span><span class="o">.</span><span class="mi">400</span><span class="n">s</span>
+<span class="n">ABINIT</span><span class="o">-</span><span class="mf">8.10</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">intel</span><span class="o">-</span><span class="mi">2018</span><span class="n">b</span><span class="o">.</span><span class="n">eb</span> <span class="o">--</span><span class="k">try</span><span class="o">-</span><span class="n">toolchain</span><span class="o">=</span><span class="n">iomkl</span><span class="p">,</span><span class="mi">2018</span><span class="n">b</span>            <span class="mi">148</span><span class="n">m08</span><span class="o">.</span><span class="mi">808</span><span class="n">s</span>
+<span class="n">QuantumESPRESSO</span><span class="o">-</span><span class="mf">6.4</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">intel</span><span class="o">-</span><span class="mi">2019</span><span class="n">a</span><span class="o">.</span><span class="n">eb</span> <span class="o">--</span><span class="k">try</span><span class="o">-</span><span class="n">toolchain</span><span class="o">=</span><span class="n">iomkl</span><span class="p">,</span><span class="mi">2018</span><span class="n">b</span>    <span class="mi">237</span><span class="n">m45</span><span class="o">.</span><span class="mi">361</span><span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="concerns-questions">
+<h2>Concerns/Questions<a class="headerlink" href="#concerns-questions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dependencies">
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>investigate <code class="docutils literal notranslate"><span class="pre">system</span></code> toolchain</p></li>
+<li><p>develop <code class="docutils literal notranslate"><span class="pre">iomkl</span></code> toolchain, see community efforts</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--filter-deps</span></code> to avoid excessive compiling</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--use-existing-modules</span></code> doesn’t seem to work as I want</p></li>
+</ul>
+</div>
+<div class="section" id="modulefiles-usage">
+<h3>Modulefiles (usage)<a class="headerlink" href="#modulefiles-usage" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/easybuilders/easybuild/wiki/Using-a-custom-module-naming-scheme">custom module naming</a></p></li>
+<li><p>moduleclasses alternatives?</p></li>
+<li><p>hide dependency modules, but think about better solution</p></li>
+<li><p>post-process modules using script</p></li>
+</ul>
+</div>
+<div class="section" id="slurm-job-submission-enhancements">
+<h3>Slurm job submission (enhancements)<a class="headerlink" href="#slurm-job-submission-enhancements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>fix reading of <code class="docutils literal notranslate"><span class="pre">job</span></code> section from config file</p></li>
+<li><p>enabling <code class="docutils literal notranslate"><span class="pre">job=True</span></code> in config file does not work correctly</p></li>
+<li><p>add memory limiting options</p></li>
+<li><p>allow specifying job email</p></li>
+<li><p>allow specifying job partition</p></li>
+<li><p>job paths (testoutput, output-dir) don’t seem to do anything</p></li>
+<li><p>save slurm batch scripts for manual execution</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/software/EasyBuild.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

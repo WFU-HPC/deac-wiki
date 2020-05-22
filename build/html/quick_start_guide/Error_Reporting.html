@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Issue Tracking &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>There is a bit of an art to reporting bugs/errors in a way that helps
+the support staff help you more effectively.[1][2]</p>
+<div class="section" id="issue-tracking">
+<h1>Issue Tracking<a class="headerlink" href="#issue-tracking" title="Permalink to this headline">¶</a></h1>
+<p><strong>Please send all help requests to <a class="reference external" href="mailto:deac-help&#37;&#52;&#48;wfu&#46;edu">deac-help<span>&#64;</span>wfu<span>&#46;</span>edu</a></strong>.</p>
+<p>Requests sent to that address generate a “ticket” in our issue tracker:
+this means all the support staff have access to the report, and we can
+keep a running record of information pertaining to the issue. This also
+means that your report won’t be missed if the person you emailed
+directly happens to be away.</p>
+</div>
+<div class="section" id="key-requirements">
+<h1>Key Requirements<a class="headerlink" href="#key-requirements" title="Permalink to this headline">¶</a></h1>
+<p>An effective error report has two requirements:</p>
+<ol class="simple">
+<li><p><strong>Reproducible:</strong> An error must be consistently reproducible. This
+means that the report must contain enough information for the
+support staff to reproduce the error: input files, specific versions
+of software, outputs (for comparison), etc. If the report involves
+<a class="reference external" href="SLURM:Quick_Start_Guide">SLURM:Quick Start Guide</a>,
+details about the job and the node(s) on which the job ran are
+important. Once a job is out of the queue, there may not be any
+remaining log information which can be used for debugging.</p></li>
+<li><p><strong>Specific:</strong> An “error” is really a difference between expected
+output and actual output. The report should state exactly how the
+actual output/result differs from what was expected. For example,
+“Mathematica is not working” is not specific enough. What aspect of
+it is not working? Are you getting “2 + 2 = 7”?</p></li>
+</ol>
+<p><em>Neither edit (with the exception of passwords) nor interpret the
+behavior you see. Verbatim logs of actions taken and output received are
+absolutely necessary.</em></p>
+</div>
+<div class="section" id="specific-information-for-slurm-job-issues">
+<h1>Specific Information for SLURM Job Issues<a class="headerlink" href="#specific-information-for-slurm-job-issues" title="Permalink to this headline">¶</a></h1>
+<p>When having problems with SLURM jobs, there are some details that may
+make the troubleshooting process easier if included when contact the HPC
+team with issues.</p>
+<ol class="simple">
+<li><p>If possible, start the troubleshooting process by forwarding the job
+informational email received from SLURM when the error occurs or job
+ends.</p>
+<ul class="simple">
+<li><p>If your job is not configured to send emails upon failure, or
+ending, see the <a class="reference external" href="SLURM:Job_Script_Templates">SLURM:Job Script
+Templates</a> page to set
+this up.</p></li>
+</ul>
+</li>
+<li><p>In the body of the forwarded email, make attempts to include the
+following information, which will dramatically improve odds of
+diagnosing the problem.</p>
+<ol class="simple">
+<li><p>Output of “<code class="docutils literal notranslate"><span class="pre">scontrol</span> <span class="pre">show</span> <span class="pre">job</span> </code><Job ID>” while having the
+problem.</p>
+<ul class="simple">
+<li><p>This information is also inserted within the job output file
+during the prolog process.</p></li>
+</ul>
+</li>
+<li><p>Output of “<code class="docutils literal notranslate"><span class="pre">sinfo</span> <span class="pre">--long</span> <span class="pre">--Node</span> <span class="pre">-n</span> </code><em><code class="docutils literal notranslate"><span class="pre">NODENAME</span></code></em>” while having
+problem (if possible) if you think it should be running on that
+node.</p></li>
+<li><p>Output of “<code class="docutils literal notranslate"><span class="pre">sacct</span> <span class="pre">--long</span> <span class="pre">--jobs=</span></code><em><code class="docutils literal notranslate"><span class="pre">YOURJOBNUM</span></code></em>” if the job has
+completed.</p></li>
+</ol>
+</li>
+<li><p>Attached to the email, please include a copy of your job script and
+error file if created.</p></li>
+</ol>
+<p>In diagnosing SLURM issues, the more real time information related to
+the job and the environment the better. Recreating that environment from
+log files is not the best method to arrive at a solution.</p>
+<p>It is understood that this is a lot of information to ask for, and it
+will not be possible to include everything for every job. Your
+assistance in making the best effort possible when starting the
+troubleshooting process is appreciated!</p>
+</div>
+<div class="section" id="disk-space-issues">
+<h1>Disk Space Issues<a class="headerlink" href="#disk-space-issues" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="research-filesystems">
+<h2>Research Filesystems<a class="headerlink" href="#research-filesystems" title="Permalink to this headline">¶</a></h2>
+<p>When having issues concerning filesystem space on the DEAC cluster, it
+is important to know some background about your shared space.</p>
+<ul class="simple">
+<li><p>The /deac* filesystems are individually assigned to research
+groups, and shared amongst the general group.</p></li>
+<li><p>Each filesystem varies in size, and the only quota system enforced
+is on the general group.</p></li>
+<li><p>We ask each user and group to be courteous of their usage, and to
+remove non-vital data generated as job output.</p></li>
+</ul>
+<p>If filesystem issues occur, please include the following information
+when initializing the troubleshooting process</p>
+<ol class="simple">
+<li><p>The full filesystem path attempting to be written to</p></li>
+<li><p>What you are attempting to write (file type, size, number of files)</p></li>
+<li><p>Time at which the error occurred</p></li>
+</ol>
+<p>Additionally, when research filesystems fill up, the HPC team will seek
+out highest consumers of space and the following options can occur:</p>
+<ul class="simple">
+<li><p>Unimportant files will be deleted by the user</p></li>
+<li><p>Many small files will be placed into a compressed tarball and only
+kept on the filesystem in this capacity.</p></li>
+<li><p>Important files to keep will be archived, and then deleted from the
+filesystem.</p></li>
+<li><p>Adviser groups will collectively clean up space through the
+aforementioned means.</p></li>
+<li><p>Culprit jobs will be stopped (by admins or the user) and the scripts
+will have clean-up measures implemented.</p></li>
+<li><p>As a last resort, if no response is given from high consumers within
+24 hours, jobs and/or data will be forcibly deleted.</p></li>
+</ul>
+</div>
+<div class="section" id="home-directories">
+<h2>Home Directories<a class="headerlink" href="#home-directories" title="Permalink to this headline">¶</a></h2>
+<p>The /home filesystem is NOT to be used for reading/writing research
+data. The aforementioned steps will be taken to clean up space if found
+being used by a user.</p>
+</div>
+<div class="section" id="inodes">
+<h2>Inodes<a class="headerlink" href="#inodes" title="Permalink to this headline">¶</a></h2>
+<p>Rarely, a filesystem may show as having space available, but the “no
+space left on device” error message still occurs. This is caused by the
+filesystem running out of metadata, or inodes. Inodes are
+administratively configured and keep track of the files on the
+filesystem. Just as standard filesystem space, they have a limit of how
+much they can track (on the level of millions of files). Inodes may run
+out when a series of jobs creates a millions of small files in order to
+arrive at a result for a job. If best practices are not used and these
+small files are not cleaned up, all users attempting to use that
+filesystem are impacted; and most likely, the job series will not be
+able to complete successfully.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a>
+<a class="reference external" href="Category:SLURM">Category:SLURM</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://www.chiark.greenend.org.uk/~sgtatham/bugs.html">How to Report Bugs
+Effectively</a>,
+Simon Tatham (author of PuTTY)</p></li>
+<li><p><a class="reference external" href="https://community.helixcommunity.org/2006/writingbugreport">How to Write a Useful Bug
+Report</a>,
+Helix developer community</p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/Error_Reporting.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

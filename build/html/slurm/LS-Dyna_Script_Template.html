@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>LS-Dyna SLURM Script &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>TOC</strong> <strong>UPDATE - 23 FEB 2017</strong> – Template migrated to new Wiki,
+updated links.</p>
+<p><strong>UPDATE - 05 Mar 2016</strong> – Template updated to properly submit
+multinode jobs.</p>
+<p><strong>UPDATE - 11 Feb 2016</strong> – Page updated with new template and
+guidelines</p>
+<p><strong>UPDATE - 09 Sept 2015</strong> – Page created to cover correlating SLURM
+instructions… currently in testing, so this content may change.</p>
+<div class="section" id="ls-dyna-slurm-script">
+<h1>LS-Dyna SLURM Script<a class="headerlink" href="#ls-dyna-slurm-script" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>This wiki page provides information on running
+<a class="reference external" href="Software:LS-Dyna">Software:LS-Dyna</a> jobs.</p></li>
+<li><p>Running LS-Dyna jobs can be written manually, or the template below
+can be used as a guide</p></li>
+</ul>
+</div>
+<div class="section" id="general-script-sections">
+<h1>General Script Sections<a class="headerlink" href="#general-script-sections" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>The LS-Dyna script based upon the provided template has 8 distinct
+sections</p>
+<ol class="simple">
+<li><p>Directives</p>
+<ul>
+<li><p>Not provided within the template.</p></li>
+<li><p>Directive content should have minor differences between
+requested resource type</p>
+<ul>
+<li><p>Infiniband - Specify the infiniband partition and set
+“–switches=1”</p></li>
+<li><p>Ethernet - Specify a non-infiniband partition and set
+“–constraint=ethernet” (this is optional)</p></li>
+<li><p>Tengig - Specify a non-infiniband partition and set
+“–constraint=tengig” (this is optional)</p></li>
+</ul>
+</li>
+<li><p>Reference
+<a class="reference external" href="SLURM:Job_Script_Templates">SLURM:Job_Script_Templates</a>
+for more directive guidelines</p></li>
+</ul>
+</li>
+<li><p>LS-Dyna Setup</p>
+<ul>
+<li><p>This is where the majority of template customization will
+occur</p></li>
+<li><p>Replace “FIXME” as needed</p></li>
+<li><p>Define version of LS-Dyna used in this section</p></li>
+<li><p>SLURM job information is extracted here as well</p>
+<ul>
+<li><p>A FOR loop is used to create a properly formatted host
+list:</p></li>
+<li><p>Upon submission, each node will be listed X number of
+times, X equalling the tasks-per-node directive value.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Report Header</p>
+<ul>
+<li><p>Establish formatting of output file header</p></li>
+<li><p>Display information about the job environment in output</p></li>
+</ul>
+</li>
+<li><p>.pfile Configuration</p>
+<ul>
+<li><p>LS-Dyna specific file used for job</p></li>
+<li><p>Can change on a job to job basis</p></li>
+</ul>
+</li>
+<li><p>MPIRUN execution</p>
+<ul>
+<li><p>Command line call to execute LS-Dyna</p></li>
+</ul>
+</li>
+<li><p>Results Parser</p>
+<ul>
+<li><p>Extra data from command line call results</p></li>
+</ul>
+</li>
+<li><p>Results Display</p>
+<ul>
+<li><p>Print results to output file</p></li>
+</ul>
+</li>
+<li><p>File Chmod</p>
+<ul>
+<li><p>Change ownership of created files for team collaboration</p></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="section" id="version">
+<h1>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>The template is configured to use the most often desired version of
+LS-Dyna installed on the cluster (R6.1.1prime).</p></li>
+<li><p>The version is set in the Setup Section where Dyna_EXE is defined</p></li>
+<li><p>To use a different version of LS-Dyna, the Dyna_EXE variable must
+be replaced the with desired versions binary file</p></li>
+<li><p>All versions of LS-Dyna available for use are installed to
+/deac/opt/LS-Dyna/64-Bit</p></li>
+<li><p>If installing a new version of LS-Dyna, it should also be in
+/deac/opt/LS-Dyna/64-Bit</p>
+<ul>
+<li><p>To install, expand the archive file that you download, and move
+(mv) the resulting files (there are usually 2) into that
+directory. For example:</p></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">tar</span> <span class="n">zxf</span> <span class="n">mpp971_s_r5</span><span class="o">.</span><span class="mf">1.1_67365</span><span class="n">_intel_linux86</span><span class="o">-</span><span class="mi">64</span><span class="n">_hpmpi</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">&gt;</span> <span class="n">ls</span> <span class="o">-</span><span class="n">l</span>
+<span class="n">total</span> <span class="mi">132280</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">chindw</span>   <span class="n">stitzelGrp</span> <span class="mi">96522725</span> <span class="n">Jul</span>  <span class="mi">6</span> <span class="mi">14</span><span class="p">:</span><span class="mi">16</span> <span class="n">mpp971_s_r5</span><span class="o">.</span><span class="mf">1.1_67365</span><span class="n">_intel_linux86</span><span class="o">-</span><span class="mi">64</span><span class="n">_hpmpi</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">chindw</span>   <span class="n">stitzelGrp</span>   <span class="mi">303241</span> <span class="n">Jul</span>  <span class="mi">6</span> <span class="mi">14</span><span class="p">:</span><span class="mi">16</span> <span class="n">mpp971_s_r5</span><span class="o">.</span><span class="mf">1.1_67365</span><span class="n">_intel_linux86</span><span class="o">-</span><span class="mi">64</span><span class="n">_hpmpi</span><span class="o">.</span><span class="n">l2a</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">kdanelso</span> <span class="n">stitzelGrp</span> <span class="mi">38980690</span> <span class="n">Jul</span>  <span class="mi">6</span> <span class="mi">17</span><span class="p">:</span><span class="mi">31</span> <span class="n">mpp971_s_r5</span><span class="o">.</span><span class="mf">1.1_67365</span><span class="n">_intel_linux86</span><span class="o">-</span><span class="mi">64</span><span class="n">_hpmpi</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">&gt;</span> <span class="n">mv</span> <span class="n">mpp971_s_r5</span><span class="o">.</span><span class="mf">1.1_67365</span><span class="n">_intel_linux86</span><span class="o">-</span><span class="mi">64</span><span class="n">_hpmpi</span> <span class="n">mpp971_s_r5</span><span class="o">.</span><span class="mf">1.1_67365</span><span class="n">_intel_linux86</span><span class="o">-</span><span class="mi">64</span><span class="n">_hpmpi</span><span class="o">.</span><span class="n">l2a</span> <span class="o">/</span><span class="n">deac</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">LS</span><span class="o">-</span><span class="n">Dyna</span><span class="o">/</span><span class="mi">64</span><span class="o">-</span><span class="n">Bit</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="template">
+<h1>Template<a class="headerlink" href="#template" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>REMINDER - Directives need to be added to this template before
+submitting as a job to SLURM</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>###########################################
+# Setup for LS-Dyna - Sub FIXME as needed #
+###########################################
+
+# Extract just the SLURM job ID number
+JOBID=$SLURM_JOB_ID
+NCPU=$SLURM_NCPU
+HOSTBUILD=()
+for i in $( /usr/bin/scontrol show hostnames $SLURM_JOB_NODELIST | sort -u | sed -e :a -e &#39;N;s/\n/ /;ba&#39; ); do
+  for j in $( seq 1 $SLURM_HOSTSLOTS ); do
+    HOSTBUILD+=(&quot;${i}&quot;)
+  done
+done
+HOSTLIST=$(printf &quot;,%s&quot; &quot;${HOSTBUILD[@]}&quot;)
+HOSTLIST=${HOSTLIST:1}
+
+
+#Setup run parameters and file locations etc.
+Title=&quot;${SLURM_JOB_NAME}&quot;  # If set manually, must not have any spaces.
+Series=&quot;FBM&quot;
+WordSize=&quot;64&quot;
+Memory=&quot;1000m&quot;
+Memory2=&quot;100m&quot;
+Keyword=&quot;FIXME&quot;
+OutputDir=&quot;FIXME&quot;
+SendMail=&quot;1&quot;
+Email=&quot;FIXME&quot;
+Description=&quot;FIXME - ${NCPU} cpu - Ethernet&quot;
+
+# Set up for HP MPI
+export DynaPath=/deac/opt/LS-Dyna
+export HPMPIPATH=${DynaPath}/hpmpi
+export MPIRUN_OPTIONS=&quot;-prot -v&quot;
+unset  LD_LIBRARY_PATH
+unset  DYLD_LIBRARY_PATH
+export PATH=/usr/local/bin:/usr/lpp/mmfs/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/libexec:/usr/kerberos/bin:/usr/X11R6/bin
+export LD_LIBRARY_PATH=/lib64:/usr/lib64:${HPMPIPATH}/lib/linux_amd64:${DynaPath}/libs/other-libs
+
+#   Prepend DynaPath, HPMPIPATH
+export PATH=$DynaPath/64-Bit:${HPMPIPATH}/bin:${HPMPIPATH}/sbin:${PATH}
+
+# LSTC LS-Dyna license control
+export LSTC_DIR=/deac/opt/LS-Dyna/lstc
+export LSTC_LICENSE=network
+export LSTC_LICENSE_SERVER=lstclm.deac.wfu.edu
+export PATH=${LSTC_DIR}:${PATH}
+
+###
+### For other versions of LS-Dyna, pick one of the following Dyna_EXE and comment
+### out the other lines:
+#For R4.2.1 - Revision 53450, Product ID 67119:
+#Dyna_EXE=&quot;${DynaPath}/64-Bit/mpp971_s_R4.2.1_67119_Intel_linux86-64_hpmpi&quot;
+#For R6.1.1 - Revision 78769, SVN Version: 79036:
+#Dyna_EXE=&quot;${DynaPath}/64-Bit/ls-dyna_mpp_s_r6_1_1_79036_x64_redhat54_ifort101_sse2_platformmpi&quot;
+#For R6.1.1beta - Revision 78769, SVN Version: 80485:
+#Dyna_EXE=&quot;${DynaPath}/64-Bit/ls-dyna_mpp_s_r6_1_1_80485_x64_redhat54_ifort101_sse2_platformmpi&quot;
+#For R7.1.2 - Revision , SVN Version: 95028:
+Dyna_EXE=&quot;${DynaPath}/64-Bit/ls-dyna_mpp_s_r7_1_2_95028_x64_redhat54_ifort131_sse2_platformmpi&quot;
+
+echo &quot;&quot;
+echo &quot;$Description
+
+----General Information----
+LS-Dyna License:              $LSTC_LICENSE
+LS-Dyna License Server:       $LSTC_LICENSE_SERVER
+Current IP Address:           $( host `hostname` | awk &#39;{print $4}&#39; )
+Home:                         $HOME
+Job:                          $SLURM_JOB_NAME
+Working directory is:         $SLURM_SUBMIT_DIR
+Running on host               `hostname`
+Time is:                      `date`
+Directory is:                 $OutputDir
+CPUs Allocated:               $NCPU
+This job runs on the following nodes:
+$HOSTLIST
+
+------Job Information------
+Title:         $Title
+Series:        $Series
+Word Size:     $WordSize
+Dyna Version:  $Dyna_EXE
+CPUs:          $NCPU
+Memory:        $Memory
+Memory2:       $Memory2
+Keyword:       $Keyword
+Output:        $OutputDir
+SendMail:      $SendMail
+Email:         $Email
+-----------------------
+&quot;
+
+cd ${OutputDir}
+
+#
+# pfile
+#
+
+# Global and Local directories
+PFILE=${Title}.pfile
+GLOBALDIR=${Title}_global_dir
+LOCALDIR=${Title}_local_dir
+#/scratch/${SLURM_JOBID}/
+
+# create pfile
+echo &quot;dir { transfer_files rmlocal global ${GLOBALDIR} local ${LOCALDIR} }&quot; &gt;&gt; ${PFILE}
+
+
+### UPDATE Dec 06, 2018 -- FORCING &#39;TCP&#39; FOR NON-USNIC USAGE, REMOVE ALL INFINIBAND REFERENCES
+${HPMPIPATH}/bin/mpirun -TCP \
+    -e LSTC_LICENSE=${LSTC_LICENSE} \
+    -e LSTC_LICENSE_SERVER=${LSTC_LICENSE_SERVER} \
+    -e PATH=${PATH} \
+    -e LD_LIBRARY_PATH=${LD_LIBRARY_PATH} \
+    -np ${NCPU} \
+    -hostlist ${HOSTLIST} \
+    ${Dyna_EXE} \
+    I=${OutputDir}/${Keyword} \
+    p=${PFILE} \
+    MEMORY=${Memory} \
+    MEMORY2=${Memory2} \
+    JOBID=${Title}
+
+
+# Result Parser, this script parses the results of a run
+
+# Files to be used
+MsgFile=&quot;${GLOBALDIR}/${Title}.mes0000&quot;
+# Regular Expressions
+TermReg=&#39;t e r m i n a t i o n&#39;
+TermTReg=&#39;Problem time&#39;
+ErrReg=&#39; \*\*\* Error&#39;
+ShReg=&#39;shell element .* failed at time&#39;
+SoReg=&#39;solid element .* failed at time&#39;
+
+
+# Calculate number of errors and list of errors
+Errors=&quot;`grep \&quot;$ErrReg\&quot; \&quot;$MsgFile\&quot;`&quot;
+FirstErr=&quot;`grep -m1 \&quot;$ErrReg\&quot; \&quot;$MsgFile\&quot; | cut -d# -f2`&quot;
+ErrorCnt=&quot;`grep -c \&quot;$ErrReg\&quot; \&quot;$MsgFile\&quot;`&quot;
+
+# Calculate failed shells
+FailedSh=&quot;`grep \&quot;$ShReg\&quot; \&quot;$MsgFile\&quot;`&quot;
+FailedShCnt=&quot;`grep -c \&quot;$ShReg\&quot; \&quot;$MsgFile\&quot;`&quot;
+
+# Calculate failed solids
+FailedSo=&quot;`grep \&quot;$SoReg\&quot; \&quot;$MsgFile\&quot;`&quot;
+FailedSoCnt=&quot;`grep -c \&quot;$SoReg\&quot; \&quot;$MsgFile\&quot;`&quot;
+
+# Figure out what kind of termination it is
+if [[`grep_&quot;$TermReg&quot;_&quot;$MsgFile&quot;`_=~_&#39;E_r_r_o_r*&#39;|`grep &quot;$TermReg&quot; &quot;$MsgFile&quot;` =~ &#39;E r r o r*&#39;]]; then
+     TermStat=&quot;Error&quot;;
+     TermTime=&quot;`grep \&quot;$TermTReg\&quot; \&quot;$MsgFile\&quot; | cut -d= -f2 | tr -d &#39; &#39;`&quot;
+     TermErr=&quot;ErrEl:[$FirstErr ]&quot;
+elif [[`grep_&quot;$TermReg&quot;_&quot;$MsgFile&quot;`_=~_&#39;N_o_r_m_a_l*&#39;|`grep &quot;$TermReg&quot; &quot;$MsgFile&quot;` =~ &#39;N o r m a l*&#39;]]; then
+     TermStat=&quot;Normal&quot;;
+     TermTime=&quot;`grep \&quot;$TermTReg\&quot; \&quot;$MsgFile\&quot; | cut -d= -f2 | tr -d &#39; &#39;`&quot;
+     TermErr=&quot;&quot;
+else
+     TermStat=&quot;Incomplete&quot;;
+     TermTime=&quot;Incomplete&quot;;
+     TermErr=&quot;&quot;
+fi
+
+echo &quot;$Description
+
+------Job Termination------
+Termination:   $TermStat
+Prob. Time:    $TermTime
+------Job Information------
+Title:         $Title
+Series:        $Series
+Word Size:     $WordSize
+Dyna Version:  $Dyna_EXE
+CPUs:          $NCPU
+Memory:        $Memory
+Keyword:       $Keyword
+Output:        $OutputDir
+SendMail:      $SendMail
+Email:         $Email
+---------------------------
+Errors:        $ErrorCnt
+Failed Shells: $FailedShCnt
+Failed Solids: $FailedSoCnt
+-----------Stats-----------
+`tail -n14 \&quot;$MsgFile\&quot;`
+-----------Errors----------
+$Errors
+
+------Failed Shells--------
+$FailedSh
+
+------Failed Solids--------
+$FailedSo
+
+&quot;
+
+echo &quot;Job Complete&quot;
+
+# Give group read permissions on all generated files
+chmod -Rf g+rw ${SLURM_JOB_NAME}* ${GLOBALDIR} ${LOCALDIR}
+</pre></div>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="Software:LS-Dyna">Software:LS-Dyna</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Software">Category:Software</a>
+<a class="reference external" href="Category:SLURM">Category:SLURM</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/slurm/LS-Dyna_Script_Template.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Attendance &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="attendance">
+<h1>Attendance<a class="headerlink" href="#attendance" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Adam Carlson</p></li>
+<li><p>Cody Stevens</p></li>
+<li><p>Odi Iancu</p></li>
+</ul>
+</div>
+<div class="section" id="agenda">
+<h1>Agenda<a class="headerlink" href="#agenda" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Introductions</p></li>
+<li><p>State of the Cluster</p></li>
+<li><p>Network Migration</p></li>
+<li><p>Review Fairshare Policy</p></li>
+</ul>
+</div>
+<div class="section" id="state-of-the-cluster">
+<h1>State of the Cluster<a class="headerlink" href="#state-of-the-cluster" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cluster-stats">
+<h2>Cluster Stats<a class="headerlink" href="#cluster-stats" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>We Will not review cluster stats. Due to migration efforts, they are
+not effective in depicting usage.</p></li>
+</ul>
+</div>
+<div class="section" id="storage-stats">
+<h2>Storage Stats<a class="headerlink" href="#storage-stats" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>As of May 21, 2018</strong></p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Research Data on DEAC</strong></p>
+<ul>
+<li><p>Total Storage Space = <strong>139.56TB</strong></p></li>
+<li><p>Used Space = <strong>108.40TB</strong></p></li>
+<li><p>% of Utilized Space = <strong>77.68%</strong></p></li>
+<li><p>Days to full = <strong>3000+ Days</strong></p></li>
+<li><p>Archive Consumption = <strong>15.6TB</strong></p></li>
+<li><p>% of Utilized Archive = <strong>79.00%</strong></p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="network-migration">
+<h1>Network Migration<a class="headerlink" href="#network-migration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="reason">
+<h2>Reason<a class="headerlink" href="#reason" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Retirement of separate HPC firewall</p></li>
+</ul>
+<p>:* No more need for physical separation, can now be done logically</p>
+<p>:* Cost savings for Network Team</p>
+<p>:* Time savings for Network Team</p>
+<p>:* Ease of administration for HPC Team</p>
+<ul class="simple">
+<li><p>Retirement of legacy network hardware</p></li>
+</ul>
+<p>:* Sole user of outdated switch in datacenter</p>
+<p>:* Last remaining type of switch in use by WFU.</p>
+<ul class="simple">
+<li><p>Migration away from Public IP 152.17.x VLAN, to 10.x VLAN</p></li>
+</ul>
+<p>:* No need for public IP addresses on all nodes</p>
+<p>:* Adjacent to Enterprise architecture</p>
+</div>
+<div class="section" id="impact">
+<h2>Impact<a class="headerlink" href="#impact" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>New head nodes</p></li>
+</ul>
+<p>:* Orion.deac.wfu.edu will be transitioned over on June 11.</p>
+<p>:* Log in directly to new head nodes: Pegasus.deac.wfu.edu and
+Gemini.deac.wfu.edu</p>
+<ul class="simple">
+<li><p>Data path the same</p></li>
+<li><p>Accounts/groups the same</p></li>
+</ul>
+<p>:* Password expiration/update within 30 days will need to be redone</p>
+</div>
+<div class="section" id="changes">
+<h2>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Newer SLURM Version - 17.02.10 (from 14.11.8)</p></li>
+</ul>
+<p>:* Better backfill algorithm</p>
+<p>:* No more “adminGrp”</p>
+<p>:* No more “tengig” constraint</p>
+<p>:* Cgroups instead of cpusets</p>
+<p>:* Will investigate “heterogeneous” feature</p>
+<ul class="simple">
+<li><p>New OpenMPI</p></li>
+</ul>
+<p>:* Version 3.1.0 compiled and working</p>
+<p>:* Version 2.1.0 was tested and works.</p>
+<ul class="simple">
+<li><p>All nodes usNIC enabled</p></li>
+</ul>
+<p>:* 3x faster communication w/OpenMPI (2.1 &amp; 3.1)</p>
+<p>:* Automatically chosen, can run strictly on TCP if need be via mpirun
+options</p>
+<ul class="simple">
+<li><p>No more world access</p></li>
+</ul>
+<p>:* Thousands of daily hack attempts on our old head nodes</p>
+<p>:* Plan to support external users…</p>
+</div>
+<div class="section" id="migration-plan">
+<h2>Migration Plan<a class="headerlink" href="#migration-plan" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>New head nodes are up!</p></li>
+</ul>
+<p>:* Hospital is already using</p>
+<p>:* Isilon storage path did not allow dual usage</p>
+<ul class="simple">
+<li><p>Start using <strong>NOW</strong>!</p></li>
+<li><p>Migration plan will be similar to Torque/SLURM transition</p></li>
+</ul>
+<p>:* Move nodes over weekly through June 11</p>
+<p>:* Supply/Demand could dictate speed</p>
+<ul class="simple">
+<li><p>Last remaining 5 year nodes will not move</p></li>
+</ul>
+<p>:* Will be retired with network hardwardware on June 30th.</p>
+</div>
+<div class="section" id="future-user-benefits">
+<h2>Future user benefits<a class="headerlink" href="#future-user-benefits" title="Permalink to this headline">¶</a></h2>
+<p>:* No more separate passwords</p>
+<p>:* Easier transfer of data</p>
+<p>:* Use of Cloud services</p>
+<p>:* Less administrative overhead</p>
+</div>
+</div>
+<div class="section" id="review-fairshare-policy">
+<h1>Review Fairshare Policy<a class="headerlink" href="#review-fairshare-policy" title="Permalink to this headline">¶</a></h1>
+<p>:* Operational costs are up, available grant funding is down.</p>
+<p>:* Centralized funding is dominant contributor</p>
+<p>:* Causing wild swings in fairshare from a small contributor</p>
+<p>:* Thoughts on how to balance</p>
+<p>::* Raise minimum floor on General Group? Currently locked at 7%.</p>
+</div>
+<div class="section" id="general-discussion">
+<h1>General Discussion<a class="headerlink" href="#general-discussion" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>New DEAC website thoughts?</p></li>
+</ul>
+<p>:* Replaced at beginning of semester</p>
+<ul class="simple">
+<li><p>New LSTC server is up and running</p></li>
+</ul>
+<p>:* Will lifecycle again in two years</p>
+<ul class="simple">
+<li><p>GitHub usage?</p></li>
+</ul>
+<p>:* SVN retirement last semester, faculty thoughts?</p>
+<ul class="simple">
+<li><p>Upcoming Fall Purchase</p></li>
+</ul>
+<p>:* 27 UCS nodes are over 4 years old</p>
+<p>:* a1a-u2-c5-b[6-8], a1a-u2-c6-b[1-8], a1a-u2-c7-b[1-8],
+a1a-u2-c8-b[1-8]</p>
+<p>:* 16-core Sandy Bridge architecture, 128GB memory each = 540 cores,
+3.375TB memory</p>
+<p><a class="reference external" href="Category:WFU_DEAC_Repcom_Meetings">Category:WFU DEAC Repcom
+Meetings</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/repcom/Meeting_2018-05-24.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

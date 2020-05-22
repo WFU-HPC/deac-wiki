@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Gaussian 09 is an electronic structure software program, originally
+developed by Nobel laureate John Pople, which is widely used by the
+chemistry and biophysics research groups.[1]</p>
+</div>
+<div class="section" id="version-supported">
+<h1>Version Supported<a class="headerlink" href="#version-supported" title="Permalink to this headline">¶</a></h1>
+<p>For the Red Hat Enterprise Linux 6 (RHEL6) system image, we have
+Gaussian 09, Build C.01. Users can check the exact version by
+referencing the installation directory for RHEL6 software (/deac/opt),
+where the Gaussian software is installed in a directory of the format
+<em>gaussian09-version</em> (e.g. gaussian09-c.01).</p>
+<p>The current directory for the software is /deac/opt/gaussian09-c.01</p>
+</div>
+<div class="section" id="usage-restrictions">
+<h1>Usage Restrictions<a class="headerlink" href="#usage-restrictions" title="Permalink to this headline">¶</a></h1>
+<p>Access to the software is restricted to faculty, staff, and students of
+the Reynolda Campus of Wake Forest University. Users requesting access
+to the software <strong>MUST</strong> request that access via the Request Tracker
+system by sending email to <a class="reference external" href="mailto:deac-help&#37;&#52;&#48;wfu&#46;edu">deac-help<span>&#64;</span>wfu<span>&#46;</span>edu</a>.</p>
+<p><strong>NOTE:</strong> You will be required to read and agree to the license terms
+for Gaussian found in the
+<a class="reference external" href="License:Gaussian">License:Gaussian</a> article.</p>
+</div>
+<div class="section" id="software-location">
+<h1>Software Location<a class="headerlink" href="#software-location" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Generic Link : /deac/opt/gaussian
+Version Specific Link : /deac/opt/gaussian09-c.01</p></li>
+</ul>
+</div>
+<div class="section" id="build-information">
+<h1>Build Information<a class="headerlink" href="#build-information" title="Permalink to this headline">¶</a></h1>
+<p>The Gaussian 09 software contains optimizations for two classes of Intel
+processors that exist in the cluster:</p>
+<p>:; EM64T : For Intel processor series 5100, 5300, and 5400.</p>
+<p>:; Nehalem : For Intel processor series 5500 and 5600.</p>
+<p>By far, the easiest (Gaussian) way to dynamically determine which node
+is the following:</p>
+<ul class="simple">
+<li><p><strong>/deac/opt/gaussian09-c.01/em64t/g09/bsd/x86type</strong></p></li>
+</ul>
+<p>There are two possible outputs for our current cluster:</p>
+<p>:; intel : indicates <em>em64t</em></p>
+<p>:; intel-1 : indicates <em>nehalem</em></p>
+<p>Use the strings <strong>em64t</strong> or <strong>nehalem</strong> (all lower case) to substitute
+for CLASS in the next section.</p>
+</div>
+<div class="section" id="using-gaussian-09">
+<h1>Using Gaussian 09<a class="headerlink" href="#using-gaussian-09" title="Permalink to this headline">¶</a></h1>
+<p>Gaussian prefers (possibly even strongly recommends) the use of the TCSH
+login shell. So, if you are a BASH user, you’ll need to invoke the TCSH
+shell prior to using Gaussian 09. While it is possible to use BASH with
+Gaussian 09, WFU DEAC Cluster does not support its use.</p>
+<p>Gaussian 09 requires the set up of one environment variable
+(<strong>g09root</strong>) and the execution of the login script that sets up all the
+required environment variables (<strong>g09.login</strong>). Using CLASS for the
+process class determined by the commands listed in <a class="reference external" href="#Build_Information">Build
+Information</a>, the set up process is as
+follows:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>setenv g09root /deac/opt/gaussian/CLASS  # &quot;CLASS&quot; must be replaced by one of &quot;em64t&quot; or &quot;nehalem&quot;
+source $g09root/g09/bsd/g09.login
+</pre></div>
+</div>
+</div></blockquote>
+<p>Command execution after this set up process depends entirely on your use
+of Gaussian 09.</p>
+<div class="section" id="convenience-script-to-set-cpu-type">
+<h2>Convenience Script to Set CPU Type<a class="headerlink" href="#convenience-script-to-set-cpu-type" title="Permalink to this headline">¶</a></h2>
+<p>To avoid having to manually pick “em64t” or “nehalem” every time, you
+can use a script to do it. Here is a tcsh script that will return the
+appropriate string “em64t” or “nehalem” that you can use to set the
+“g09root” environment variable.</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/tcsh
+# Name this script &quot;g09class&quot; and put it in your PATH:
+# ~/bin/ is a good place for it.
+
+set class=`/deac/opt/gaussian/em64t/g09/bsd/x86type`
+if ( x$class == &quot;xintel&quot; ) then
+    echo &quot;em64t&quot;
+else if ( x$class == &quot;xintel-1&quot; ) then
+    echo &quot;nehalem&quot;
+else
+    echo &quot;unknown&quot;
+endif
+</pre></div>
+</div>
+</div></blockquote>
+<p>To install:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir ~/bin
+$ [edit g09class and copy into ~/bin]
+$ chmod +x ~/bin/g09class
+</pre></div>
+</div>
+</div></blockquote>
+<p>Then, to use this, you can put this in your ~/.cshrc file:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>setenv g09root /deac/opt/gaussian/`~/bin/g09class`
+source $g09root/g09/bsd/g09.login
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="setting-ld-library-path">
+<h2>Setting LD_LIBRARY_PATH<a class="headerlink" href="#setting-ld-library-path" title="Permalink to this headline">¶</a></h2>
+<p>With Gaussian, you do not have a choice about using <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code>
+because the setup for using Gaussian requires <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> to be
+defined.</p>
+<div class="section" id="overwrite-do-not-prepend-append">
+<h3>Overwrite, do not prepend/append<a class="headerlink" href="#overwrite-do-not-prepend-append" title="Permalink to this headline">¶</a></h3>
+<p>To avoid accreting possibly conflicting library directories in your
+<code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code>, it is best to explicit set it rather than appending
+or prepending paths to it.</p>
+</div>
+<div class="section" id="gaussian-requires-pgi">
+<h3>Gaussian requires PGI<a class="headerlink" href="#gaussian-requires-pgi" title="Permalink to this headline">¶</a></h3>
+<p>First, you have to pick a version of the PGI compilers. The default on
+the cluster is version 7.0. There are two environment variables which
+help:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PGIDIR</span></code></strong><code class="docutils literal notranslate"> <span class="pre">-</span> <span class="pre">/opt/pgi</span></code></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PGIVERS</span></code></strong><code class="docutils literal notranslate"> <span class="pre">-</span> <span class="pre">7.0</span></code></p></li>
+</ul>
+<p>Then, you will set <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> to (according to your shell)
+:</p>
+<p><code class="docutils literal notranslate">&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">tcsh</span></code></strong><code class="docutils literal notranslate"><span class="pre">:</span> <span class="pre">setenv</span> <span class="pre">LD_LIBRARY_PATH</span> <span class="pre">${PGIDIR}/linux86-64/${PGIVERS}/libso</span></code>
+<code class="docutils literal notranslate">&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">bash</span></code></strong><code class="docutils literal notranslate"><span class="pre">:</span> <span class="pre">export</span> <span class="pre">LD_LIBRARY_PATH=${PGIDIR}/linux86-64/${PGIVERS}/libso</span></code></p>
+<p>Where $PGIVERS is the version of PGI used</p>
+</div>
+</div>
+</div>
+<div class="section" id="program-test-outputs">
+<h1>Program Test Outputs<a class="headerlink" href="#program-test-outputs" title="Permalink to this headline">¶</a></h1>
+<p>Gaussian provides a set of test jobs that can be run to determine if the
+compilation produces acceptable results to known “good” builds. These
+reference test results can be found in:</p>
+<p>:; /deac/opt/gaussian09-c.01/CLASS/g09/tests/ia64 The test results for
+the local WFU DEAC build for the process family <strong>CLASS</strong> (em64t or
+nehalem) are found in:</p>
+<p>:; /deac/opt/gaussian09-c.01/CLASS/g09/tests/amd64</p>
+</div>
+<div class="section" id="using-gaussview">
+<h1>Using Gaussview<a class="headerlink" href="#using-gaussview" title="Permalink to this headline">¶</a></h1>
+<p>As of 2012-Dec-07, GaussView 5 works on very specific combinations of
+local computer + remote node.</p>
+<ol class="simple">
+<li><p>Using an Ubuntu machine (or virtual machine) to log into a head
+node, GaussView 5 works as expected. Since you will already be
+logged into a RHEL6 node, you won’t have to start a separate ssh
+session to run the g09_s.pbs script.</p></li>
+<li><p>Using a <a class="reference external" href="Cluster:Using_from_Windows">Windows machine running
+XMing</a>, use PuTTY to login to
+a cluster headnode. Make sure PuTTY has “X11 Forwarding” checked on.</p></li>
+</ol>
+<p>After the environment has been set up to run Gaussian 09, GaussView may
+be run by doing:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">gv</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Software">Category:Software</a> <a class="reference external" href="Category:Quick_Start">Category:Quick
+Start</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://www.gaussian.com/">Official Gaussian Website</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/Gaussian.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

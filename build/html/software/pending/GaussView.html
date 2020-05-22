@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://www.gaussian.com/g_prod/gv5b.htm">GaussView 5</a> is a molecular
+and reaction visualization tool available from the
+<a class="reference external" href="http://www.gaussian.com/">Gaussian</a> corporation.</p>
+</div>
+<div class="section" id="version">
+<h1>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<p>Versions on the cluster include:</p>
+<p>:* <strong>5.0.9</strong> For the Red Hat Enterprise Linux 6 (RHEL6) system image,
+we have upgraded the GaussView version to GaussView 5.0.9. The software
+is installed along side the Gaussian 09 software underneath the
+/deac/opt/gaussian directory on the cluster. Please refer to the
+<a class="reference external" href="Software:Gaussian">Software:Gaussian</a> web page for more
+information about the location of the specific Gaussian builds in use on
+the cluster.</p>
+</div>
+<div class="section" id="usage-restrictions">
+<h1>Usage Restrictions<a class="headerlink" href="#usage-restrictions" title="Permalink to this headline">¶</a></h1>
+<p>Access to the software is restricted to faculty, staff, and students of
+the Reynolda Campus of Wake Forest University. Users requesting access
+to the software <strong>MUST</strong> request that access via the Request Tracker
+system by sending email to <a class="reference external" href="mailto:deac-help&#37;&#52;&#48;wfu&#46;edu">deac-help<span>&#64;</span>wfu<span>&#46;</span>edu</a>.</p>
+<p><strong>NOTE:</strong> You will be required to read and agree to the license terms
+for Gaussian found in the
+<a class="reference external" href="License:Gaussian">License:Gaussian</a> article.</p>
+</div>
+<div class="section" id="using-gaussview-5">
+<h1>Using GaussView 5<a class="headerlink" href="#using-gaussview-5" title="Permalink to this headline">¶</a></h1>
+<p>Setup is similar to that for <a class="reference external" href="Software:Gaussian#Using_Gaussian_09">Gaussian
+09</a>. Especially, see the
+setup for the “CLASS”, i.e. CPU class.</p>
+<p>Once you have the g09class script installed, make sure you have these
+lines in your ~/.cshrc (or ~/.tcshrc) file:</p>
+<p><code class="docutils literal notranslate">&#160; <span class="pre">setenv</span> <span class="pre">g09root</span> <span class="pre">/deac/opt/gaussian/`~/bin/g09class`</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">source</span> <span class="pre">$g09root/g09/bsd/g09.login</span></code></p>
+<p>These should set the GV_DIR directory correctly, and sets the alias
+“gv” to run GaussView.</p>
+</div>
+<div class="section" id="software-location">
+<h1>Software Location<a class="headerlink" href="#software-location" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Generic Link : /deac/opt/gaussian/CLASS/gv
+Version Specific Link : /deac/opt/gaussian09-c.01/CLASS/gv</p></li>
+</ul>
+<p><em>(see below for CLASS information)</em></p>
+</div>
+<div class="section" id="build-information">
+<h1>Build Information<a class="headerlink" href="#build-information" title="Permalink to this headline">¶</a></h1>
+<p>The Gaussian 09 software contains optimizations for two classes of Intel
+processors that exist in the cluster:</p>
+<p>:; EM64T : For Intel processor series 5100, 5300, and 5400.</p>
+<p>:; Nehalem : For Intel processor series 5500 and 5600.</p>
+<p>By far, the easiest (Gaussian) way to dynamically determine which node
+is the following:</p>
+<ul class="simple">
+<li><p><strong>/deac/opt/gaussian/em64t/g09/bsd/x86type</strong></p></li>
+</ul>
+<p>There are two possible outputs for our current cluster:</p>
+<p>:; intel : indicates <em>em64t</em></p>
+<p>:; intel-1 : indicates <em>nehalem</em></p>
+<p><a class="reference external" href="Category:Software">Category:Software</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/GaussView.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

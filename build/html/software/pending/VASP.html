@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Warning &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="warning">
+<h1>Warning<a class="headerlink" href="#warning" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>VASP has strict licensing requirements and you must follow the terms
+documented in <a class="reference external" href="License:VASP">License:VASP</a>. These terms
+are the ones you agreed to in order to access the software.</p></li>
+</ul>
+</div>
+<div class="section" id="environment">
+<h1>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h1>
+<p>We currently “support” the following builds of VASP on the RHEL6
+Cluster:</p>
+<ul class="simple">
+<li><p>vasp/5.2.12/parallel_gamma/intel-2012</p></li>
+<li><p>vasp/5.2.12/parallel_kpoints/intel-2012</p></li>
+<li><p>vasp/5.2.12/serial_kpoints/intel-2012</p></li>
+<li><p>vasp/5.3.3/parallel_gamma/intel-2012</p></li>
+<li><p>vasp/5.3.3/parallel_kpoints/intel-2012</p></li>
+<li><p>vasp/5.3.3/serial_kpoints/intel-2012</p></li>
+</ul>
+<p>As the environment modules suggest, all builds were made with the Intel
+2012 compiler suite. There are three VASP build types for each version:</p>
+<ul class="simple">
+<li><p>parallel_gamma</p></li>
+<li><p>parallel_kpoints</p></li>
+<li><p>serial_kpoints</p></li>
+</ul>
+<p><strong>PLEASE NOTE:</strong> these builds were handled by a cluster research group
+and “support” by the WFU DEAC Cluster is merely restricted to license
+control and availability of the software.</p>
+<div class="section" id="custom-build-requirements">
+<h2>Custom Build Requirements<a class="headerlink" href="#custom-build-requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>If you need a custom build of VASP, you <strong>MUST</strong> contact the cluster
+team to request a special directory get created.</p></li>
+<li><p>You <strong>CAN NOT</strong> under any circumstance create your own personal
+directory in any arbitrary directory.</p></li>
+</ul>
+<p>:* You are violating your acceptance of the license terms in doing so.</p>
+</div>
+</div>
+<div class="section" id="preparing-your-environment">
+<h1>Preparing your environment<a class="headerlink" href="#preparing-your-environment" title="Permalink to this headline">¶</a></h1>
+<p>Example using version 5.3.3, parallel_kpoints type build</p>
+<ul class="simple">
+<li></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```
+ module load vasp/5.3.3/parallel_kpoints/intel-2012
+```
+</pre></div>
+</div>
+<p>At this point, you are ready to use it!</p>
+</div>
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="License:VASP">License:VASP</a></p></li>
+<li><p><a class="reference external" href="https://www.vasp.at/index.php/documentation">VASP Website Documentation
+Page</a></p></li>
+</ul>
+</div>
+<div class="section" id="compiling">
+<h1>Compiling<a class="headerlink" href="#compiling" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://cms.mpi.univie.ac.at/vasp/vasp/vasp.html">VASP Manual</a>
+includes build instructions</p></li>
+</ul>
+<div class="section" id="intel-cluster-studio-xe-2012-openmpi-1-6">
+<h2>Intel Cluster Studio XE 2012 + OpenMPI 1.6<a class="headerlink" href="#intel-cluster-studio-xe-2012-openmpi-1-6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Architecture: -xSSE4.1 (All Nehalem nodes support SSE4.1; only some
+Nehalem nodes support SSE4.2)</p></li>
+<li><p>GotoBLAS</p>
+<ul>
+<li><p>Edit Makefile.rule</p>
+<ul>
+<li><p>TARGET = NEHALEM</p></li>
+<li><p>CC = icc</p></li>
+<li><p>FC = ifort</p></li>
+<li><p>BINARY = 64</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>MKL - use the <a class="reference external" href="http://software.intel.com/sites/products/mkl/">Link Line Advisor (MKL
+version 10.3)</a>:</p>
+<ul>
+<li><p>Link with Intel® MKL libraries explicitly</p></li>
+</ul>
+</li>
+<li><p><strong>IMPORTANT NOTE ON MEMORY ALLOCATION</strong> – by default, the Intel
+Fortran compiler will allocate static arrays on the stack. The usual
+trick to set the stacksize limit to “unlimited” in the running shell
+won’t work for MPI jobs as the remote jobs are launched by
+mpiexec/mpirun. The trick is to write a C module definining a
+function stacksize_() [note the underscore at the end of the
+name], and then calling it in the main VASP program before any work
+is done.[1]</p></li>
+</ul>
+</div>
+<div class="section" id="pgi-12-5-openmpi-1-6">
+<h2>PGI 12.5 + OpenMPI 1.6<a class="headerlink" href="#pgi-12-5-openmpi-1-6" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>PGI’s compilation notes:</p>
+<ul>
+<li><p>GotoBLAS -
+<a class="reference external" href="http://www.pgroup.com/resources/gotoblas/gotoblas_pgi2012.htm">http://www.pgroup.com/resources/gotoblas/gotoblas_pgi2012.htm</a></p></li>
+<li><p>VASP - <a class="reference external" href="http://www.pgroup.com/resources/vasp/vasp_pgi2010.htm">http://www.pgroup.com/resources/vasp/vasp_pgi2010.htm</a></p></li>
+</ul>
+</li>
+<li><p>GotoBLAS must use same compilation options as VASP, so must modify
+the default makefile for Nehalem</p>
+<ul>
+<li><p>remove “-i8” option everywhere applicable</p></li>
+<li><p>Edit Makefile.rule to change compilation options</p>
+<ul>
+<li><p>TARGET = NEHALEM (<strong>NB</strong> “NEHALEM” must be all caps)</p></li>
+<li><p>CC = pgcc</p></li>
+<li><p>FC = pgfortran</p></li>
+<li><p>BINARY = 64</p></li>
+<li><p>NUM_THREADS = 4 (this must be less than the number of
+cores; all Nehalem nodes have 8 cores)</p></li>
+<li><p>COMMON_OPT += -O1 -Kieee (-Kieee forces IEEE-compliant
+division)[2]</p></li>
+</ul>
+</li>
+<li><p>Edit Makefile.system to update the PGI compiler option
+specifying Nehalem architecture:</p></li>
+</ul>
+</li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--- Makefile.system     2010-01-28 15:11:08.000000000 -0500
++++ Makefile.system.deac        2013-01-14 11:09:56.280298528 -0500
+@@ -278,9 +278,9 @@
+
+ ifeq ($(C_COMPILER), PGI)
+ ifdef BINARY64
+-CCOMMON_OPT += -tp p7-64
++CCOMMON_OPT += -tp nehalem-64
+ else
+-CCOMMON_OPT += -tp p7
++CCOMMON_OPT += -tp nehalem
+ endif
+ endif
+
+@@ -384,11 +384,11 @@
+ COMMON_PROF +=  -DPGICOMPILER
+ ifdef BINARY64
+ ifdef INTERFACE64
+-FCOMMON_OPT += -i8
++FCOMMON_OPT += -i4
+ endif
+-FCOMMON_OPT += -tp p7-64
++FCOMMON_OPT += -tp nehalem-64
+ else
+-FCOMMON_OPT += -tp p7
++FCOMMON_OPT += -tp nehalem
+ endif
+ ifdef USE_OPENMP
+ FCOMMON_OPT += -mp
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VASP</p>
+<ul>
+<li><p>remove “-i8” option everywhere</p></li>
+<li><p>cannot use -O2 in main vasp;</p></li>
+<li><p>There are warning messages from GotoBLAS2 tests: “Warning:
+ieee_inexact signalling”. These are due to the use of the
+FORTRAN STOP statements. See
+<a class="reference external" href="http://www.pgroup.com/userforum/viewtopic.php?p=9571&amp;sid=965eae24c055f3272a3167a8e0b13ab8">http://www.pgroup.com/userforum/viewtopic.php?p=9571&amp;sid=965eae24c055f3272a3167a8e0b13ab8</a>
+<a class="reference external" href="http://www.pgroup.com/userforum/viewtopic.php?t=2971&amp;sid=b52789b7de53e224d5db0ab0e35aa2a5">The
+fix</a>
+is to set an environment variable at run time:
+NO_STOP_MESSAGE=1</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a>
+<a class="reference external" href="Category:Compiling">Category:Compiling</a>
+<a class="reference external" href="Category:Software">Category:Software</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://cms.mpi.univie.ac.at/vasp-forum/forum_viewtopic.php?3.12119">VASP Support Forum - stack size
+issue</a></p></li>
+<li><p><a class="reference external" href="http://en.wikipedia.org/wiki/IEEE_floating_point">IEEE Standard for Floating-Point Arithmetic
+(IEEE 754)</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/VASP.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

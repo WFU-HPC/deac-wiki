@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>SCALAPACK &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>GPAW is a module for ASE which depends on SCALAPACK… both SCALAPACK
+and ASE must be downloaded first.</p>
+<div class="section" id="scalapack">
+<h1>SCALAPACK<a class="headerlink" href="#scalapack" title="Permalink to this headline">¶</a></h1>
+<p>ScaLAPACK is a library of high-performance linear algebra routines for
+parallel distributed memory machines. ScaLAPACK solves dense and banded
+linear systems, least squares problems, eigenvalue problems, and
+singular value problems. It can be downloaded from:
+<a class="reference external" href="http://www.netlib.org/scalapack/">http://www.netlib.org/scalapack/</a></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">openmpi/1.6-gnu</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">mkdir</span> <span class="pre">~/src</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">cd</span> <span class="pre">~/src</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">wget</span></code><a class="reference external" href="http://www.netlib.org/scalapack/scalapack_installer.tgz">http://www.netlib.org/scalapack/scalapack_installer.tgz</a>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">scalapack_installer.tgz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">cd</span> <span class="pre">scalapack_install_1.0.2</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">./setup.py</span> <span class="pre">--prefix=$HOME</span> <span class="pre">--downall</span> <span class="pre">--ldflags_c=&quot;-L/usr/lib64</span> <span class="pre">-llapack</span> <span class="pre">-lblas&quot;</span> <span class="pre">--ldflags_fc=&quot;-L/usr/lib64</span> <span class="pre">-llapack</span> <span class="pre">-lblas&quot;</span> <span class="pre">--blaslib=/usr/lib64/libblas.a</span> <span class="pre">--lapacklib=/usr/lib64/liblapack.a</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">When``</span> <span class="pre">``asked``</span> <span class="pre">``&quot;Which``</span> <span class="pre">``BLAS``</span> <span class="pre">``library``</span> <span class="pre">``do``</span> <span class="pre">``you``</span> <span class="pre">``want``</span> <span class="pre">``to``</span> <span class="pre">``use?&quot;``</span> <span class="pre">``hit``</span> <span class="pre">``&quot;b&quot;</span></code></strong>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code></p>
+<p>This installs Scalapack into $HOME/lib – you should see
+$HOME/lib/libscalapack.a after it completes</p>
+</div>
+<div class="section" id="ase">
+<h1>ASE<a class="headerlink" href="#ase" title="Permalink to this headline">¶</a></h1>
+<p>The Atomic Simulation Environment (ASE) is a set of tools and Python
+modules for setting up, manipulating, running, visualizing and analyzing
+atomistic simulations. The code is freely available under the GNU LGPL
+license. It can be downloaded from: <a class="reference external" href="http://svn.fysik.dtu.dk/">http://svn.fysik.dtu.dk/</a></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">cd</span> <span class="pre">~/src</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">wget</span></code><a class="reference external" href="https://svn.fysik.dtu.dk/projects/ase/tags/3.6.0">https://svn.fysik.dtu.dk/projects/ase/tags/3.6.0</a>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">cd</span> <span class="pre">3.6.0</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">./setup.py</span> <span class="pre">build</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">./setup.py</span> <span class="pre">install</span> <span class="pre">--user</span></code></p>
+<p>This installs the ASE Python module into $HOME/.local</p>
+<p>Edit your login file ~/.cshrc to add the following:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">setenv</span> <span class="pre">PATH</span> <span class="pre">$HOME/.local/bin:$PATH</span></code></p>
+<p>Check that ASE was actually installed:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">~/.local/bin</span></code></p>
+</div>
+<div class="section" id="gpaw">
+<h1>GPAW<a class="headerlink" href="#gpaw" title="Permalink to this headline">¶</a></h1>
+<p>GPAW is a density-functional theory (DFT) Python code based on the
+projector-augmented wave (PAW) method and the atomic simulation
+environment (ASE). It can be downlaoded from:
+<a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/">https://wiki.fysik.dtu.dk/gpaw/</a></p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">cd</span> <span class="pre">~/src</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">$</span> <span class="pre">wget</span></code><a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw-files/gpaw-0.9.0.8965.tar.gz">https://wiki.fysik.dtu.dk/gpaw-files/gpaw-0.9.0.8965.tar.gz</a>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">gpaw-0.9.0.8965.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">cd</span> <span class="pre">gpaw-0.9.0.8965</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span> <span class="pre">--user</span></code></p>
+<p>This succeeds in building only the serial version of GPAW.</p>
+<p>Check that gpaw was installed:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">~/.local/bin</span></code></p>
+<p>Make sure that your environment is updated:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">source</span> <span class="pre">~/.cshrc</span></code></p>
+<p><a class="reference external" href="Category:Software">Category:Software</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/GPAW.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

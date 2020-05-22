@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Environment Setup &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>This quick start guide aims to provide enough information to get started
+compiling with Intel MPI Library 4.0.[1] Compilation must be done with
+Intel’s compilers.</p>
+<p>Users are recommended to use OpenMPI. Please see <a class="reference external" href="Quick_Start_Guide:GNU_OpenMPI">Quick Start Guide:GNU
+OpenMPI</a>.</p>
+<div class="section" id="environment-setup">
+<h1>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this headline">¶</a></h1>
+<p>There are various environment variables which need to be unset and set
+based on the compiler you are using. This can be done by loading the
+following <a class="reference external" href="Quick_Start_Guide:Environment_Modules">module</a>:</p>
+<p><code class="docutils literal notranslate"> <span class="pre">$</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel-2012-lp64</span></code></p>
+</div>
+<div class="section" id="running-the-program">
+<h1>Running the Program<a class="headerlink" href="#running-the-program" title="Permalink to this headline">¶</a></h1>
+<p>Basically, to run an mpi program, you need to specify the number of
+processors, which can be done by adding the following to your basic
+SLURM script:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">bash</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cd</span> <span class="pre">$SLURM_SUBMIT_DIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">np=$(</span> <span class="pre">cat</span> <span class="pre">$SLURM_JOB_NODELIST</span> <span class="pre">|</span> <span class="pre">wc</span> <span class="pre">-l</span> <span class="pre">)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">mpirun</span> <span class="pre">-n</span> <span class="pre">$np</span> <span class="pre">./hello_world</span></code></p>
+<p>or</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">tcsh</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cd</span> <span class="pre">$SLURM_SUBMIT_DIR</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">set</span> <span class="pre">np=`cat</span> <span class="pre">$SLURM_JOB_NODELIST</span> <span class="pre">|</span> <span class="pre">wc</span> <span class="pre">-l`</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">mpirun</span> <span class="pre">-n</span> <span class="pre">$np</span> <span class="pre">./hello_world</span></code></p>
+<div class="section" id="selecting-network-fabric">
+<h2>Selecting Network Fabric<a class="headerlink" href="#selecting-network-fabric" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="infiniband">
+<h3>Infiniband<a class="headerlink" href="#infiniband" title="Permalink to this headline">¶</a></h3>
+<p>If you want to use the <a class="reference external" href="InfiniBand">InfiniBand</a> network, you
+will have to</p>
+<ol class="simple">
+<li><p>request nodes from one of the InfiniBand pools</p></li>
+<li><p>specify the fabric to use in mpirun</p></li>
+</ol>
+<p>The SLURM script would have something like this:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--nodes=4</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--tasks-per-node=8</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--cpus-per-task=1</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--partition=1</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--switches=1</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">...</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cd</span> <span class="pre">$SLURM_SUBMIT_DIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">np=$(</span> <span class="pre">cat</span> <span class="pre">$SLURM_JOB_NODELIST</span> <span class="pre">|</span> <span class="pre">wc</span> <span class="pre">-l</span> <span class="pre">)</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">mpirun</span> <span class="pre">-genv</span> <span class="pre">I_MPI_FABRICS</span> <span class="pre">shm:ofa</span> <span class="pre">-n</span> <span class="pre">$np</span> <span class="pre">./hello_world</span></code></p>
+<p>The “-genv I_MPI_FABRICS shm:ofa” option says:</p>
+<ul class="simple">
+<li><p>use <strong>shm</strong> (shared memory) for intra-node communications</p></li>
+<li><p>use <strong>ofa</strong> (Open Fabrics Alliance – InfiniBand) for inter-node
+communications</p></li>
+</ul>
+</div>
+<div class="section" id="ethernet">
+<h3>Ethernet<a class="headerlink" href="#ethernet" title="Permalink to this headline">¶</a></h3>
+<p>To use Ethernet, specify “<strong>tcp</strong>” instead of “<strong>ofa</strong>”, or you can just
+use the plain invocation as in the prior example and mpirun will figure
+out the appropriate fabric to use. If the plain invocation without a
+fabric specification fails, add an explicit fabric specification.</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--nodes=4</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--tasks-per-node=8</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--cpus-per-task=1</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--constraints=&quot;ethernet&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">...</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cd</span> <span class="pre">$SLURM_SUBMIT_DIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">np=$(</span> <span class="pre">cat</span> <span class="pre">$SLURM_JOB_NODELIST</span> <span class="pre">|</span> <span class="pre">wc</span> <span class="pre">-l</span> <span class="pre">)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">mpirun</span> <span class="pre">-genv</span> <span class="pre">I_MPI_FABRICS</span> <span class="pre">shm:tcp</span> <span class="pre">-n</span> <span class="pre">$np</span> <span class="pre">./hello_world</span></code></p>
+</div>
+</div>
+</div>
+<div class="section" id="further-reading">
+<h1>Further Reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><img alt="Intel MPI for Linux Getting Started Guide" src="quick_start_guide/Intel_MPI_for_Linux_Getting_Started.pdf" />Intel MPI for Linux Getting Started
+Guide (PDF)</p></li>
+<li><p><img alt="Intel MPI for Linux Reference Manual" src="quick_start_guide/Intel_MPI_Reference_Manual.pdf" />Intel MPI for Linux Reference
+Manual (PDF)</p></li>
+</ul>
+</div>
+<div class="section" id="see-also">
+<h1>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="Quick_Start_Guide:GNU_OpenMPI">Quick Start Guide:GNU
+OpenMPI</a></p></li>
+<li><p><a class="reference external" href="Quick_Start_Guide:GNU_MPICH">Quick Start Guide:GNU
+MPICH</a></p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a>
+<a class="reference external" href="Category:Compiling">Category:Compiling</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://software.intel.com/en-us/articles/intel-mpi-library/">Intel MPI Library
+website</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/Intel_MPI.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

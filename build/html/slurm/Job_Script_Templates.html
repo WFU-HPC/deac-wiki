@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Prerequisites and Provisos &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="prerequisites-and-provisos">
+<h1>Prerequisites and Provisos<a class="headerlink" href="#prerequisites-and-provisos" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Before submitting any jobs, please read <strong>and</strong> understand the
+<a class="reference external" href="Cluster:User_Agreement">Cluster:User Agreement</a>.</p></li>
+<li><p>Be sure to read the <a class="reference external" href="SLURM:Torque_Conversion_Script">SLURM:Torque Conversion
+Script</a> instructions for
+converting legacy scripts.</p></li>
+<li><p>Note that any given system is using approximately 1GB of its memory
+for operating system and filesystem purposes.</p></li>
+<li><p>When configuring your jobs, please use 1GB less of memory than the
+blade claims to have.</p></li>
+<li><p>The <em>generalGrp</em> fair share group is provided here. Please replace
+that with your designated fair share group.</p></li>
+<li><p>You <strong>must</strong> specify an email address even if you do not want
+notifications</p></li>
+</ul>
+</div>
+<div class="section" id="serial-jobs">
+<h1>Serial Jobs<a class="headerlink" href="#serial-jobs" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Serial jobs only use a single processor</p></li>
+</ul>
+<div class="section" id="single-processor-job-128mb-ram-with-96-hour-time-limit">
+<h2>Single processor job, 128MB RAM with 96 Hour Time Limit<a class="headerlink" href="#single-processor-job-128mb-ram-with-96-hour-time-limit" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+#SBATCH --partition=medium
+#SBATCH --job-name=&quot;single_proc_128mb&quot;
+#SBATCH --constraint=&quot;skylake&quot;
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=1
+#SBATCH --time=0-96:00:00
+#SBATCH --account=&quot;generalGrp&quot;
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-user=my_username@wfu.edu
+#SBATCH --output=&quot;single_proc_128mb-%j.o&quot;
+#SBATCH --error=&quot;single_proc_128mb-%j.e&quot;
+#SBATCH --mem=128MB
+# Note: SLURM has no batch input for cputime, excluding.
+# Note: NCPUS directive is redundant from expected nodes#:ppn# input, excluding.
+
+# set up your environment - this is for bash. For csh/tcsh: source /etc/profile.d/modules.csh
+umask 027
+. /etc/profile.d/modules.sh
+module load rhel7/compilers/intel-2018-lp64
+
+cd /scratch/${SLURM_JOBID}
+###Now do your stuff
+
+###  Don&#39;t forget to copy results out of /scratch to a /deac directory!
+</pre></div>
+</div>
+</div>
+<div class="section" id="single-processor-job-128mb-ram-with-2-day-time-limit">
+<h2>Single processor job, 128MB RAM with 2 Day Time Limit<a class="headerlink" href="#single-processor-job-128mb-ram-with-2-day-time-limit" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#SBATCH --partition=small
+#SBATCH --job-name=&quot;single_proc_two_day&quot;
+#SBATCH --constraint=&quot;haswell&quot;
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=1
+#SBATCH --time=0-48:00:00
+#SBATCH --account=&quot;generalGrp&quot;
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-user=my_username@wfu.edu
+#SBATCH --output=&quot;single_proc_two_day-j%.o&quot;
+#SBATCH --error=&quot;single_proc_two_day-j%.e&quot;
+#SBATCH --mem=128MB
+
+umask 027
+cd /scratch/${SLURM_JOBID}
+###Now do your stuff
+
+###  Don&#39;t forget to copy results out of /scratch to a /deac directory!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="multiple-processor-jobs">
+<h1>Multiple Processor Jobs<a class="headerlink" href="#multiple-processor-jobs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="parallel-job-type-1">
+<h2>Parallel Job Type 1<a class="headerlink" href="#parallel-job-type-1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>N nodes using X processors per node, using ethernet enabled nodes</p></li>
+<li><p>A program needing 128MB of RAM per processor, totaling 1GB per node</p></li>
+<li><p>16 Hour Time Limit</p>
+<ul>
+<li><p>Even though the time limit is &lt;24hours, the node requirement
+requires the job to run on the medium partition</p></li>
+</ul>
+</li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#SBATCH --partition=medium
+#SBATCH --job-name=&quot;multinode_job&quot;
+#SBATCH --nodes=4
+#SBATCH --tasks-per-node=8
+#SBATCH --cpus-per-task=1
+#SBATCH --time=0-16:00:00
+#SBATCH --account=&quot;generalGrp&quot;
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-user=my_username@wfu.edu
+#SBATCH --output=&quot;multinode_job.o&quot;
+#SBATCH --error=&quot;multinode_job.e&quot;
+#SBATCH --mem=1gb
+#SBATCH --constraint=&quot;ucs3-2|ucs3-3|ucs3-4&quot;
+
+umask 027
+cd /scratch
+cd $SLURM_JOBID
+
+###Now do your stuff
+
+###  Don&#39;t forget to copy your data from /scratch to your /deac* directory
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Important items to note</p>
+<ul>
+<li><p>SLURM has no <strong>cput</strong> directive! Base your time value purely on
+the overall estimated runtime.</p></li>
+<li><p>The <strong>mem</strong> directive is the overall total (per CPU requirement
+* nodes * CPUs = mem).</p>
+<ul>
+<li><p>An available directive to use is <strong>–mem-per-cpu=memory</strong>,
+which allocates memory on a per-CPU basis.</p></li>
+</ul>
+</li>
+<li><p>The list of <em>ucs#-#</em> in the <strong>–constraint</strong> directive should
+be customized to the type of parallel job you wish to run. For
+more information on hardware features, see <a class="reference external" href="Cluster:Hardware_Configuration">Cluster:Hardware
+Configuration</a>.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="job-script-for-gpu">
+<h1>Job Script for GPU<a class="headerlink" href="#job-script-for-gpu" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=GPUJOB</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --time=0-12:00:00</span>
+<span class="c1">#SBATCH --output=&quot;1_HPL-CISCO-%j.o&quot;</span>
+<span class="c1">#SBATCH --error=&quot;1_HPL-CISCO-%j.e&quot;</span>
+<span class="c1">#SBATCH --mail-user=username@wfu.edu</span>
+<span class="c1">#SBATCH --mail-type=BEGIN,END,FAIL</span>
+<span class="c1">#SBATCH --account=&quot;researchGrp&quot;</span>
+<span class="c1">#SBATCH --partition=gpu</span>
+<span class="c1">#SBATCH --mem=120gb</span>
+<span class="c1">#SBATCH --workdir=&quot;/deac/researchGrp/user/CUDA&quot;</span>
+<span class="c1">#SBATCH --gres=gpu:P100:1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>IMPORTANT DIRECTIVES</p></li>
+</ul>
+<p>:*–gres=gpu[type:#]</p>
+<p>::* This directive specifies the type of GPU required and the number of
+cards</p>
+<p>::* By default, a singular GPU of anytype will be used.</p>
+<p>::* Optionally, users can specify the GPU type by name and number of
+cards required.</p>
+<p>::* Valid types are:
+<a class="reference external" href="Information:GPU_Computing#Tesla_M6_GPU_Nodes">m6</a> and
+<a class="reference external" href="Information:GPU_Computing#Tesla_S2050_GPU_Nodes">s2050</a></p>
+<p>:::* See
+<a class="reference external" href="Information:GPU_Computing">Information:GPU_Computing</a> for
+most up to date list of DEAC cluster GPU information</p>
+<p>:*–partition=gpu</p>
+<p>::* The GPU partition will assign higher priority to GPU type jobs for
+using the hardware for their designated purpose</p>
+</div>
+<div class="section" id="job-script-for-ucs-blades">
+<h1>Job Script for UCS Blades<a class="headerlink" href="#job-script-for-ucs-blades" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>The new blade specs:</p>
+<ul>
+<li><p>32/44 processing cores available per blade</p></li>
+<li><p>128GB/188GB/256GB of RAM</p></li>
+<li><p>10Gbps Bandwidth per ethernet channel (dual-channel)</p></li>
+<li><p>300G of storage, 50GB/220G/250G/425GB for scratch</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="recognized-constraints">
+<h2>Recognized Constraints<a class="headerlink" href="#recognized-constraints" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>In order for jobs to run on the newer CISCO UCS nodes, the job
+scripts have to be modified to the following features:</p></li>
+<li><p>These attributes have been placed to the blades:</p>
+<ul>
+<li><p>haswell – (The Haswell Intel Architecture)</p></li>
+<li><p>broadwell – (The Broadwell Intel Architecture)</p></li>
+<li><p>skylake – (The Skylake Intel Architecture)</p></li>
+<li><p>scr50gb – (50G of /scratch space available)</p></li>
+<li><p>scr220gb – (220G of /scratch space available)</p></li>
+<li><p>scr250gb – (250G of /scratch space available)</p></li>
+<li><p>scr425gb – (425G of /scratch space available)</p></li>
+<li><p>ucs#-## – (Specific Name of UCS Chassis in SLURM)</p></li>
+</ul>
+</li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Node details of a 32-Core UCS
+blade</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">NodeName=a1a-u3-c5-b1</span> <span class="pre">Arch=x86_64</span> <span class="pre">CoresPerSocket=16</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">CPUAlloc=0</span> <span class="pre">CPUTot=32</span> <span class="pre">CPULoad=32.15</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">AvailableFeatures=ucs3-5,scr50gb,haswell,rhel7</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">ActiveFeatures=ucs3-5,scr50gb,haswell,rhel7</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Gres=(null)</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">NodeAddr=10.1.52.129</span> <span class="pre">NodeHostName=a1a-u3-c5-b1</span> <span class="pre">Version=19.05.5</span></code>
+<code class="docutils literal notranslate"> <span class="pre">OS=Linux</span> <span class="pre">3.10.0-957.21.3.el7.x86_64</span> <span class="pre">#1</span> <span class="pre">SMP</span> <span class="pre">Fri</span> <span class="pre">Jun</span> <span class="pre">14</span> <span class="pre">02:54:29</span> <span class="pre">EDT</span> <span class="pre">2019</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">RealMemory=128000</span> <span class="pre">AllocMem=0</span> <span class="pre">FreeMem=2292</span> <span class="pre">Sockets=2</span> <span class="pre">Boards=1</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">State=IDLE</span> <span class="pre">ThreadsPerCore=1</span> <span class="pre">TmpDisk=50000</span> <span class="pre">Weight=1</span> <span class="pre">Owner=N/A</span> <span class="pre">MCS_label=N/A</span></code></p>
+<ul class="simple">
+<li><p>Node details of a 44-Core UCS
+blade</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">NodeName=a1a-u3-c6-b1</span> <span class="pre">Arch=x86_64</span> <span class="pre">CoresPerSocket=22</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">CPUAlloc=0</span> <span class="pre">CPUTot=44</span> <span class="pre">CPULoad=32.01</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">AvailableFeatures=ucs3-6,scr220gb,skylake,rhel7</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">ActiveFeatures=ucs3-6,scr220gb,skylake,rhel7</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">Gres=(null)</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">NodeAddr=10.1.52.137</span> <span class="pre">NodeHostName=a1a-u3-c6-b1</span> <span class="pre">Version=19.05.5</span></code>
+<code class="docutils literal notranslate"> <span class="pre">OS=Linux</span> <span class="pre">3.10.0-957.21.3.el7.x86_64</span> <span class="pre">#1</span> <span class="pre">SMP</span> <span class="pre">Fri</span> <span class="pre">Jun</span> <span class="pre">14</span> <span class="pre">02:54:29</span> <span class="pre">EDT</span> <span class="pre">2019</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">RealMemory=188000</span> <span class="pre">AllocMem=0</span> <span class="pre">FreeMem=2518</span> <span class="pre">Sockets=2</span> <span class="pre">Boards=1</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">State=IDLE</span> <span class="pre">ThreadsPerCore=1</span> <span class="pre">TmpDisk=220000</span> <span class="pre">Weight=1</span> <span class="pre">Owner=N/A</span> <span class="pre">MCS_label=N/A</span></code></p>
+</div>
+<div class="section" id="ucs-job-script-template">
+<h2>UCS Job Script Template<a class="headerlink" href="#ucs-job-script-template" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>A generic example of job script of UCS (tengig) nodes:</p>
+<ul>
+<li><p>The small partition has a 24 hour maximum run time</p></li>
+</ul>
+</li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --partition=small</span>
+<span class="c1">#SBATCH --job-name=&quot;generic_ucs&quot;</span>
+<span class="c1">#SBATCH --constraint=&quot;skylake&quot;</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=16</span>
+<span class="c1">#SBATCH --time=06:00:00</span>
+<span class="c1">#SBATCH --account=&quot;fairshareGrp&quot;</span>
+<span class="c1">#SBATCH --mail-type=BEGIN,END,FAIL</span>
+<span class="c1">#SBATCH --mail-user=username@wfu.edu</span>
+<span class="c1">#SBATCH --output=&quot;generic_ucs-%j.o&quot;</span>
+<span class="c1">#SBATCH --error=&quot;generic_ucs-%j.e&quot;</span>
+<span class="c1">#SBATCH --mem=127gb</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>All UCS (tengig) nodes have:</p>
+<ul>
+<li><p>32 or more cores, so the above generic example will run on any
+available ucs node</p></li>
+<li><p>128gb of memory. Using the previous recommendation, the max
+value you should request is 127gb</p></li>
+</ul>
+</li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>If you wish to be more specific on which type of need to be more
+specific on the resources needed for specific UCS blades:</p>
+<ul>
+<li><p>For a <strong>32-core</strong> single UCS blade only:</p></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=32</span>
+<span class="c1">#SBATCH --constraint=&quot;haswell&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>For a <strong>44-core</strong> single UCS blade only:</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=44</span>
+<span class="c1">#SBATCH --constraint=&quot;broadwell|skylake&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>This template was used during a testing period. If you encounter
+errors or incidents, please send them to <a class="reference external" href="mailto:deac-help&#37;&#52;&#48;wfu&#46;edu">deac-help<span>&#64;</span>wfu<span>&#46;</span>edu</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:SLURM">Category:SLURM</a></p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/slurm/Job_Script_Templates.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

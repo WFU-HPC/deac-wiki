@@ -1,0 +1,64 @@
+# Attendance
+
+# Agenda
+
+  - Staff introductions
+  - Overview of Service Issues
+  - New hardware testing
+  - September Shutdown
+  - Policy Matters
+
+# Notes
+
+## Staff Introductions
+
+  - Damian Valles
+  - Adam Carlson
+
+## Service Issues
+
+  - Large Queue Backlogs
+
+:\* Hardware issues in a couple chassis' in May and early June
+
+  - Maui
+
+:\* Becoming much less stable than in the past
+
+:\* Working on SLURM as replacement
+
+  - Large queue backlogs
+
+:\* Running at near 100% CPU capacity
+
+  - IBM DS3400 storage
+
+:\* /archive0 or retire?
+
+## New Hardware Coming Online
+
+  - FY13 hardware online (16-core SandyBridge processors, 128GB RAM,
+    10GE)
+
+:\* Some performance testing and benchmarking, as well as burn in
+
+  - FY14 hardware will be installed beginning with September shutdown
+
+## September Shutdown
+
+  - Cluster firewalls being replaced
+  - GPFS software and kernel upgrades
+  - BladeCenter Hardware Relocations
+  - (non-critical path) UCS Hardware Installations
+  - Potential change to scheduler
+
+## Policy Discussion
+
+  - Gentleman’s Agreement/Fair Share
+
+:\* Infiniband versus Ethernet versus TenGigabit
+
+:\* 2 days for tagging, 4 days for limit
+
+[Category:WFU DEAC Repcom
+Meetings](Category:WFU_DEAC_Repcom_Meetings "wikilink")

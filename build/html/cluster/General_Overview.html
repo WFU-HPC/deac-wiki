@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>There is a great deal of history that can be told about how Linux-based,
+Beowulf style clusters originated and evolved over the years (starting
+from 1994[1] until the present). For those interested in the history
+and a somewhat technical view, you can visit the historical “HOWTO”
+document at:
+<a class="reference external" href="http://ibiblio.org/pub/Linux/docs/HOWTO/archive/Beowulf-HOWTO.html">http://ibiblio.org/pub/Linux/docs/HOWTO/archive/Beowulf-HOWTO.html</a></p>
+<p>The goal of this article is simply to familiarize you with Beowulf
+clusters, the relevant terminology, and to help ease you into
+understanding how they work.</p>
+</div>
+<div class="section" id="the-basics">
+<h1>The Basics<a class="headerlink" href="#the-basics" title="Permalink to this headline">¶</a></h1>
+<p>In general, according to the opinion of this author, Linux-based,
+Beowulf style clusters generally have the following characteristics:</p>
+<p>:; Login Nodes (“<a class="reference external" href="Cluster:Headnodes">head nodes</a>”) :
+Server(s) that users interactively log into in order to use the system</p>
+<p>:; Computational Nodes : Any number of servers that will handle the
+majority of the computations</p>
+<p>:; Pervasive storage : Common set of home and research directories that
+are available on all login and computational nodes.</p>
+<p>:; Common system image : The Linux operating system installation on the
+login and computational nodes are nearly identical.</p>
+<p>:; Parallel Programming Middleware : OpenMP multi-threading capable
+compilers and Message Passing Interface (MPI) library support.</p>
+<p>:; Resource Manager and Job Scheduler : Software that tracks resources
+(processors, memory, node attributes), their availability, and schedules
+computational jobs on those resources based on pre-established policies
+and cluster usage.</p>
+</div>
+<div class="section" id="clusters-versus-workstations">
+<h1>Clusters versus Workstations<a class="headerlink" href="#clusters-versus-workstations" title="Permalink to this headline">¶</a></h1>
+<p>Generally, the login nodes of the cluster behave identically to any
+Linux workstation that you would log into remotely using an SSH client.</p>
+<ul class="simple">
+<li><p>Typical login shells, Linux commands, filesystem layout</p></li>
+<li><p>Standard Red Hat Enterprise Linux software available</p></li>
+<li><p>Additional software repositories available (EPEL from Fedora
+Project, for example)</p></li>
+</ul>
+<p>Some pretty significant differences do exist:</p>
+<ul class="simple">
+<li><p>Most, if not all, of your computational work is not done
+interactively on the login nodes</p></li>
+<li><p>You use the computational nodes by packaging your work into “jobs”.</p></li>
+<li><p>Jobs are submitted to the resource manager and job scheduler.</p></li>
+<li><p>The cluster runs those jobs on your behalf, as you, but you have no
+direct access to the job while it is running.</p></li>
+</ul>
+</div>
+<div class="section" id="graphical-interfaces">
+<h1>Graphical interfaces<a class="headerlink" href="#graphical-interfaces" title="Permalink to this headline">¶</a></h1>
+<p>Unfortunately, most Linux Beowulf clusters don’t have a graphical
+desktop front-end that you can navigate. Even when they do, those
+interfaces would only present you with a graphical view of the login
+nodes. This limitation does not typically pose significant issues as
+graphical software on clusters support the X Windowing protocol. For
+clients that supports it, you can open (most) graphical software from
+the login nodes on your local client. For example, you can open a
+Firefox web browser that is running on the login node but displayed on
+your laptop.</p>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Cluster">Category:Cluster</a> <a class="reference external" href="Category:New_User_Information">Category:New User
+Information</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://en.wikipedia.org/wiki/Beowulf_cluster">http://en.wikipedia.org/wiki/Beowulf_cluster</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/cluster/General_Overview.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

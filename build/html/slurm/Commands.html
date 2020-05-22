@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>SLURM commands &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>forcetoc</strong></p>
+<div class="section" id="slurm-commands">
+<h1>SLURM commands<a class="headerlink" href="#slurm-commands" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="user-commands">
+<h2>User Commands<a class="headerlink" href="#user-commands" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>SLURM commands have many different parameters and options.</p></li>
+<li><p>Any favorite custom options or detailed information should be added
+to this page down below.</p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th><p>Command</p></th>
+<th><p>Slurm</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Cluster Status</p></td>
+<td><p><a href="http://slurm.schedmd.com/sinfo.html#OPT_node">sinfo</a> [-Nel]</p></td>
+</tr>
+<tr class="even">
+<td><p>Queue List</p></td>
+<td><p><a href="http://slurm.schedmd.com/squeue.html">squeue</a> [-u <username>]</p></td>
+</tr>
+<tr class="odd">
+<td><p>Job Submission</p></td>
+<td><p><a href="http://slurm.schedmd.com/sbatch.html">sbatch</a></p></td>
+</tr>
+<tr class="even">
+<td><p>Job deletion</p></td>
+<td><p><a href="http://slurm.schedmd.com/scancel.html">scancel</a> <job_id></p></td>
+</tr>
+<tr class="odd">
+<td><p>Job status</p></td>
+<td><p><a href="http://slurm.schedmd.com/squeue.html">squeue</a> <job_id></p></td>
+</tr>
+<tr class="even">
+<td><p>Job information</p></td>
+<td><p><a href="http://slurm.schedmd.com/scontrol.html#OPT_show">scontrol</a> show job <job_id><br />
+</p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><p><a href="http://slurm.schedmd.com/sstat.html#OPT_jobs">sstat</a> -j <job_id>.batch</p></td>
+</tr>
+<tr class="even">
+<td><p>Job Completion Info</p></td>
+<td><p><a href="http://slurm.schedmd.com/sacct.html#OPT_jobs">sacct</a> -j <job_id> -l</p></td>
+</tr>
+<tr class="odd">
+<td><p>Node List</p></td>
+<td><p><a href="http://slurm.schedmd.com/sinfo.html#OPT_node">sinfo</a> -N</p></td>
+</tr>
+<tr class="even">
+<td><p>Show Reservation</p></td>
+<td><p><a href="http://slurm.schedmd.com/scontrol.html#OPT_show">scontrol</a> show reservation=<resname></p></td>
+</tr>
+<tr class="odd">
+<td><p>Fairshare Info</p></td>
+<td><p><a href="http://slurm.schedmd.com/sshare.html#OPT_accounts=">sshare</a> [-A <account>] [-u <user>]</p></td>
+</tr>
+<tr class="even">
+<td><p>Job Queue Priority</p></td>
+<td><p><a href="http://slurm.schedmd.com/sprio.html">sprio</a></p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Nearly every SLURM command has an option to set an output format
+<em>environment variable</em> to change it’s default output</p></li>
+<li><p>Output Formatting can be made temporary by setting the environment
+variable on command line.</p></li>
+<li><p>It can also be made permanent for your account by adding that
+command to your “~/.bashrc” file</p></li>
+</ul>
+<p>:*Before adding to your “~/.bashrc” file it is recommended that you
+test setting the environment variable on command line first</p>
+<p>:*If not tested first, you will need to log out and back in for the
+command to run from “~/.bashrc”</p>
+<ul class="simple">
+<li><p>If the environment variable is successfully set, the change in
+format to the command output will be immediate.</p></li>
+<li><p>Another way to confirm is to run <strong>echo $SQUEUE_FORMAT</strong> for
+example</p></li>
+</ul>
+<p>:*This will show the applied value to the variable if set.</p>
+<p>:*If the result returns blank, the variable was not set.</p>
+<ul class="simple">
+<li><p>To undo your test, run <strong>unset $SQUEUE_FORMAT</strong> to unassign the
+environment variable</p></li>
+<li><p>If successfully unassigned, the change in format will revert back to
+default immediately.</p></li>
+</ul>
+</div>
+<div class="section" id="squeue">
+<h2>squeue<a class="headerlink" href="#squeue" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Display list of all jobs in the queue</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[username@headnode ~]$ squeue -u username
+ JOBID PARTITION      NAME     USER ST       TIME  NODES NODELIST(REASON)
+ 10011     small   aweome1 username PD       0:00      1 (Resources)
+ 10012     small   a-groov username PD       0:00      1 (Priority)
+ 10013     small  a-awesom username PD       0:00      1 (Priority)
+ 10032     small   tubular username  R      12:43      1 a1a-u2-c2-b8
+ 10000    medium  cowabung username  R   23:29:13      1 a1a-u2-c11-b2
+ 10001    medium   radical username  R   23:29:47      1 a1a-u2-c11-b1
+ 10002    medium  most-exc username  R   23:30:16      1 a1a-u2-c10-b1
+</pre></div>
+</div>
+<div class="section" id="start-time">
+<h3>Start Time<a class="headerlink" href="#start-time" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Display estimated start times of next jobs in the queue, as well as
+expected host nodes</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[username@headnode ~]$ squeue --start
+ JOBID PARTITION      NAME     USER ST          START_TIME  NODES SCHEDNODES           NODELIST(REASON)
+
+ 11901    medium  funstuff username PD 2017-02-21T08:40:15      8 bc12bl[01,04,06-07,0 (Resources)
+ 12001    medium  superman username PD 2017-02-21T09:03:25      8 a1a-u2-c5-b7,a1a-u2- (Resources)
+ 12022     small   yellow1 username PD 2017-02-21T09:08:24      1 a1a-u2-c10-b3        (Resources)
+ 12023     small   yellow2 username PD 2017-02-21T09:09:56      1 a1a-u2-c10-b5        (Priority)
+ 12024     small   yellow3 username PD 2017-02-21T09:10:47      1 a1a-u2-c10-b6        (Priority)
+ 12025     small   yellow4 username PD 2017-02-21T09:11:28      1 a1a-u2-c11-b2        (Priority)
+ 12026     small   yellow5 username PD 2017-02-21T09:11:28      1 a1a-u2-c11-b8        (Priority)
+ 12034    medium   potatoe username PD 2017-02-21T09:12:42      2 bc01bl[10,13]        (Resources)
+ 12035     small    turtle username PD 2017-02-21T09:12:47      1 a1a-u2-c13-b3        (Priority)
+</pre></div>
+</div>
+</div>
+<div class="section" id="output-formatting">
+<h3>Output Formatting<a class="headerlink" href="#output-formatting" title="Permalink to this headline">¶</a></h3>
+<p>There are many output options available with squeue; to see them, run
+<strong>man squeue</strong> and scroll down to <em>output_format</em>. From there, custom
+outputs can be defined and viewed with the <em>-o &lt;output_format&gt;</em> option.
+If you wish to see certain fields all the time when you run squeue, you
+can follow the below instructions to set the SQUEUE_FORMAT environment
+variable within your profiles to change your default output format of
+the squeue command.</p>
+<ul class="simple">
+<li><p>Example: ensure the default output has longer job names</p></li>
+</ul>
+<p>:*NOTE - default output format retrieved from man page</p>
+<p>:*Add the following line to your ~/.bashrc file</p>
+<p>:: export SQUEUE_FORMAT=”%.18i %.9P %.16j %.8u %.2t %.10M %.6D %R”</p>
+<p>:* In tcsh, add the following line to your ~/.cshrc file</p>
+<ul class="simple">
+<li></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="o">-</span>
+    <span class="nb">set</span> <span class="n">SQUEUE_FORMAT</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%.18i</span><span class="s2"> %.9P %.16j </span><span class="si">%.8u</span><span class="s2"> %.2t %.10M %.6D %R&quot;</span>
+</pre></div>
+</div>
+<!-- end list --><ul class="simple">
+<li><p>When set, the SQUEUE_FORMAT environment variable will override the
+default format.</p></li>
+<li><p>For both examples, we are using short form notation.</p></li>
+<li><p>Format for each field is “%[[.]size]type”</p></li>
+</ul>
+<p>:* Adding a “.” before the number will print the characters right
+justified</p>
+<ul class="simple">
+<li><p>Before adding to your .bashrc file, setting the variable can be done
+on command line to test</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="sacct">
+<h2>sacct<a class="headerlink" href="#sacct" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="default-output">
+<h3>Default Output<a class="headerlink" href="#default-output" title="Permalink to this headline">¶</a></h3>
+<p>You can check the status of a job with sacct:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[username@headnode ~]$ sacct --jobs 1234
+JobID    JobName  Partition    Account  AllocCPUS      State ExitCode
+------------ ---------- ---------- ---------- ---------- ---------- --------
+1234         hello_wor_+      medium   researchgrp          1  COMPLETED      0:0
+1234.batch        batch                researchgrp          1  COMPLETED      0:0
+</pre></div>
+</div>
+<p>The sacct command has a vast amount of information that can be
+displayed. Adding the -l option gives more information, but adding the
+-e option shows all available fields:</p>
+</div>
+<div class="section" id="available-content">
+<h3>Available Content<a class="headerlink" href="#available-content" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[username@headnode slurm_examples]$ sacct -e
+AllocCPUS         AllocGRES         Account           AssocID
+AveCPU            AveCPUFreq        AveDiskRead       AveDiskWrite
+AvePages          AveRSS            AveVMSize         BlockID
+Cluster           Comment           ConsumedEnergy    ConsumedEnergyRaw
+CPUTime           CPUTimeRAW        DerivedExitCode   Elapsed
+Eligible          End               ExitCode          GID
+Group             JobID             JobIDRaw          JobName
+Layout            MaxDiskRead       MaxDiskReadNode   MaxDiskReadTask
+MaxDiskWrite      MaxDiskWriteNode  MaxDiskWriteTask  MaxPages
+MaxPagesNode      MaxPagesTask      MaxRSS            MaxRSSNode
+MaxRSSTask        MaxVMSize         MaxVMSizeNode     MaxVMSizeTask
+MinCPU            MinCPUNode        MinCPUTask        NCPUS
+NNodes            NodeList          NTasks            Priority
+Partition         QOS               QOSRAW            ReqCPUFreq
+ReqCPUS           ReqGRES           ReqMem            Reservation
+ReservationId     Reserved          ResvCPU           ResvCPURAW
+Start             State             Submit            Suspended
+SystemCPU         Timelimit         TotalCPU          UID
+User              UserCPU           WCKey             WCKeyID
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Output Formatting<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>To see any of the fields specified above in the command output, run
+‘’sacct –jobs=<JOBID> –format FIELD1[,FIELD2,etc]</p>
+<p>If you wish to see certain fields all the time when you run sacct, you
+can follow the below instructions to set the SACCT_FORMAT environment
+variable within your profile to change your output format of the sacct
+command</p>
+<ul class="simple">
+<li><p>In bash, add the following line to your ~/.bashrc file</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>export SACCT_FORMAT=”JobID,User,Account,Cluster,NodeList%-50”</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>In tcsh, add the following line to your ~/.cshrc file</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>set SACCT_FORMAT=”JobID,User,Account,Cluster,NodeList%-50”</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>When set, the SACCT_FORMAT environment variable will override the
+default format.</p></li>
+<li><p>For both examples, you can set spacing of each field by placing
+“%##” after the field name.</p></li>
+</ul>
+<p>:* Adding a “-“ before the number will print the characters left
+justified</p>
+</div>
+</div>
+<div class="section" id="sinfo">
+<h2>sinfo<a class="headerlink" href="#sinfo" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Default Output<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>You can check the status of nodes and partitions with sinfo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[username@headnode ~]$ sinfo
+PARTITION  AVAIL  TIMELIMIT  NODES  STATE NODELIST
+debug*        up    6:00:00      3    mix a1a-u2-c10-b[1-3]
+debug*        up    6:00:00      5  alloc a1a-u2-c10-b[4-7],a1a-u2-c11-b1
+debug*        up    6:00:00     24   idle a1a-u2-c10-b8,a1a-u2-c11-b[2-8],bc02bl[03,12],bc03bl[01-14]
+small         up 1-00:00:00      3    mix a1a-u2-c10-b[1-3]
+small         up 1-00:00:00      5  alloc a1a-u2-c10-b[4-7],a1a-u2-c11-b1
+small         up 1-00:00:00     24   idle a1a-u2-c10-b8,a1a-u2-c11-b[2-8],bc02bl[03,12],bc03bl[01-14]
+medium        up 7-00:00:00      3    mix a1a-u2-c10-b[1-3]
+medium        up 7-00:00:00      5  alloc a1a-u2-c10-b[4-7],a1a-u2-c11-b1
+medium        up 7-00:00:00     24   idle a1a-u2-c10-b8,a1a-u2-c11-b[2-8],bc02bl[03,12],bc03bl[01-14]
+large         up 365-00:00:      3    mix a1a-u2-c10-b[1-3]
+large         up 365-00:00:      5  alloc a1a-u2-c10-b[4-7],a1a-u2-c11-b1
+large         up 365-00:00:     22   idle a1a-u2-c10-b8,a1a-u2-c11-b[2-8],bc03bl[01-14]
+gpu           up 365-00:00:      1  down* gpu01
+gpu           up 365-00:00:      4   idle gpu[02-05]
+infiniband    up 365-00:00:      2   idle bc02bl[03,12]
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Available Content<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>The sinfo command has a vast amount of information that can be
+displayed. Adding the -l option gives more information, -N groups by
+node, and -p limits output to specific partitions. The commands manpage
+shows all possible fields available for output, listed below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>             <span class="n">The</span> <span class="n">field</span> <span class="n">specifications</span> <span class="n">available</span> <span class="n">include</span><span class="p">:</span>
+              <span class="o">%</span><span class="nb">all</span>  <span class="n">Print</span> <span class="nb">all</span> <span class="n">fields</span> <span class="n">available</span> <span class="k">for</span> <span class="n">this</span> <span class="n">data</span> <span class="nb">type</span> <span class="k">with</span> <span class="n">a</span> <span class="n">vertical</span> <span class="n">bar</span> <span class="n">separating</span> <span class="n">each</span> <span class="n">field</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">a</span>    <span class="n">State</span><span class="o">/</span><span class="n">availability</span> <span class="n">of</span> <span class="n">a</span> <span class="n">partition</span>
+              <span class="o">%</span><span class="n">A</span>    <span class="n">Number</span>  <span class="n">of</span>  <span class="n">nodes</span> <span class="n">by</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">format</span> <span class="s2">&quot;allocated/idle&quot;</span><span class="o">.</span>  <span class="n">Do</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">this</span> <span class="k">with</span> <span class="n">a</span> <span class="n">node</span> <span class="n">state</span> <span class="n">option</span> <span class="p">(</span><span class="s2">&quot;%t&quot;</span>
+                    <span class="ow">or</span> <span class="s2">&quot;%T&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">different</span> <span class="n">node</span> <span class="n">states</span> <span class="n">will</span> <span class="n">be</span> <span class="n">placed</span> <span class="n">on</span> <span class="n">separate</span> <span class="n">lines</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">B</span>    <span class="n">The</span> <span class="nb">max</span> <span class="n">number</span> <span class="n">of</span> <span class="n">CPUs</span> <span class="n">per</span> <span class="n">node</span> <span class="n">available</span> <span class="n">to</span> <span class="n">jobs</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">partition</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">c</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">CPUs</span> <span class="n">per</span> <span class="n">node</span>
+              <span class="o">%</span><span class="n">C</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">CPUs</span> <span class="n">by</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">format</span> <span class="s2">&quot;allocated/idle/other/total&quot;</span><span class="o">.</span> <span class="n">Do</span> <span class="ow">not</span> <span class="n">use</span>  <span class="n">this</span>  <span class="k">with</span>  <span class="n">a</span>  <span class="n">node</span>  <span class="n">state</span>
+                    <span class="n">option</span> <span class="p">(</span><span class="s2">&quot;%t&quot;</span> <span class="ow">or</span> <span class="s2">&quot;%T&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">different</span> <span class="n">node</span> <span class="n">states</span> <span class="n">will</span> <span class="n">be</span> <span class="n">placed</span> <span class="n">on</span> <span class="n">separate</span> <span class="n">lines</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">d</span>    <span class="n">Size</span> <span class="n">of</span> <span class="n">temporary</span> <span class="n">disk</span> <span class="n">space</span> <span class="n">per</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">megabytes</span>
+              <span class="o">%</span><span class="n">D</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">nodes</span>
+              <span class="o">%</span><span class="n">E</span>    <span class="n">The</span> <span class="n">reason</span> <span class="n">a</span> <span class="n">node</span> <span class="ow">is</span> <span class="n">unavailable</span> <span class="p">(</span><span class="n">down</span><span class="p">,</span> <span class="n">drained</span><span class="p">,</span> <span class="ow">or</span> <span class="n">draining</span> <span class="n">states</span><span class="p">)</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">f</span>    <span class="n">Features</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">the</span> <span class="n">nodes</span>
+              <span class="o">%</span><span class="n">F</span>    <span class="n">Number</span>  <span class="n">of</span>  <span class="n">nodes</span>  <span class="n">by</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">format</span> <span class="s2">&quot;allocated/idle/other/total&quot;</span><span class="o">.</span>  <span class="n">Do</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">this</span> <span class="k">with</span> <span class="n">a</span> <span class="n">node</span> <span class="n">state</span>
+                    <span class="n">option</span> <span class="p">(</span><span class="s2">&quot;%t&quot;</span> <span class="ow">or</span> <span class="s2">&quot;%T&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">different</span> <span class="n">node</span> <span class="n">states</span> <span class="n">will</span> <span class="n">be</span> <span class="n">placed</span> <span class="n">on</span> <span class="n">separate</span> <span class="n">lines</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">g</span>    <span class="n">Groups</span> <span class="n">which</span> <span class="n">may</span> <span class="n">use</span> <span class="n">the</span> <span class="n">nodes</span>
+              <span class="o">%</span><span class="n">G</span>    <span class="n">Generic</span> <span class="n">resources</span> <span class="p">(</span><span class="n">gres</span><span class="p">)</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">the</span> <span class="n">nodes</span>
+              <span class="o">%</span><span class="n">h</span>    <span class="n">Jobs</span> <span class="n">may</span> <span class="n">share</span> <span class="n">nodes</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="ow">or</span> <span class="s2">&quot;force&quot;</span>
+              <span class="o">%</span><span class="n">H</span>    <span class="n">Print</span> <span class="n">the</span> <span class="n">timestamp</span> <span class="n">of</span> <span class="n">the</span> <span class="n">reason</span> <span class="n">a</span> <span class="n">node</span> <span class="ow">is</span> <span class="n">unavailable</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">l</span>    <span class="n">Maximum</span> <span class="n">time</span> <span class="k">for</span> <span class="nb">any</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">format</span> <span class="s2">&quot;days-hours:minutes:seconds&quot;</span>
+              <span class="o">%</span><span class="n">L</span>    <span class="n">Default</span> <span class="n">time</span> <span class="k">for</span> <span class="nb">any</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">format</span> <span class="s2">&quot;days-hours:minutes:seconds&quot;</span>
+              <span class="o">%</span><span class="n">m</span>    <span class="n">Size</span> <span class="n">of</span> <span class="n">memory</span> <span class="n">per</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">megabytes</span>
+              <span class="o">%</span><span class="n">M</span>    <span class="n">PreemptionMode</span>
+              <span class="o">%</span><span class="n">n</span>    <span class="n">List</span> <span class="n">of</span> <span class="n">node</span> <span class="n">hostnames</span>
+              <span class="o">%</span><span class="n">N</span>    <span class="n">List</span> <span class="n">of</span> <span class="n">node</span> <span class="n">names</span>
+              <span class="o">%</span><span class="n">o</span>    <span class="n">List</span> <span class="n">of</span> <span class="n">node</span> <span class="n">communication</span> <span class="n">addresses</span>
+              <span class="o">%</span><span class="n">O</span>    <span class="n">CPU</span> <span class="n">load</span> <span class="n">of</span> <span class="n">a</span> <span class="n">node</span>
+              <span class="o">%</span><span class="n">p</span>    <span class="n">Partition</span> <span class="n">scheduling</span> <span class="n">priority</span>
+              <span class="o">%</span><span class="n">P</span>    <span class="n">Partition</span> <span class="n">name</span> <span class="n">followed</span> <span class="n">by</span> <span class="s2">&quot;*&quot;</span> <span class="k">for</span> <span class="n">the</span> <span class="n">default</span> <span class="n">partition</span><span class="p">,</span> <span class="n">also</span> <span class="n">see</span> <span class="o">%</span><span class="n">R</span>
+              <span class="o">%</span><span class="n">r</span>    <span class="n">Only</span> <span class="n">user</span> <span class="n">root</span> <span class="n">may</span> <span class="n">initiate</span> <span class="n">jobs</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span> <span class="ow">or</span> <span class="s2">&quot;no&quot;</span>
+              <span class="o">%</span><span class="n">R</span>    <span class="n">Partition</span> <span class="n">name</span><span class="p">,</span> <span class="n">also</span> <span class="n">see</span> <span class="o">%</span><span class="n">P</span>
+              <span class="o">%</span><span class="n">s</span>    <span class="n">Maximum</span> <span class="n">job</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">nodes</span>
+              <span class="o">%</span><span class="n">S</span>    <span class="n">Allowed</span> <span class="n">allocating</span> <span class="n">nodes</span>
+              <span class="o">%</span><span class="n">t</span>    <span class="n">State</span> <span class="n">of</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">compact</span> <span class="n">form</span>
+              <span class="o">%</span><span class="n">T</span>    <span class="n">State</span> <span class="n">of</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">extended</span> <span class="n">form</span>
+              <span class="o">%</span><span class="n">u</span>    <span class="n">Print</span> <span class="n">the</span> <span class="n">user</span> <span class="n">name</span> <span class="n">of</span> <span class="n">who</span> <span class="nb">set</span> <span class="n">the</span> <span class="n">reason</span> <span class="n">a</span> <span class="n">node</span> <span class="ow">is</span> <span class="n">unavailable</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">U</span>    <span class="n">Print</span> <span class="n">the</span> <span class="n">user</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">uid</span> <span class="n">of</span> <span class="n">who</span> <span class="nb">set</span> <span class="n">the</span> <span class="n">reason</span> <span class="n">a</span> <span class="n">node</span> <span class="ow">is</span> <span class="n">unavailable</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">v</span>    <span class="n">Print</span> <span class="n">the</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="n">running</span> <span class="n">slurmd</span> <span class="n">daemon</span><span class="o">.</span>
+              <span class="o">%</span><span class="n">w</span>    <span class="n">Scheduling</span> <span class="n">weight</span> <span class="n">of</span> <span class="n">the</span> <span class="n">nodes</span>
+              <span class="o">%</span><span class="n">X</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">sockets</span> <span class="n">per</span> <span class="n">node</span>
+              <span class="o">%</span><span class="n">Y</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">cores</span> <span class="n">per</span> <span class="n">socket</span>
+              <span class="o">%</span><span class="n">Z</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">per</span> <span class="n">core</span>
+              <span class="o">%</span><span class="n">z</span>    <span class="n">Extended</span> <span class="n">processor</span> <span class="n">information</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">sockets</span><span class="p">,</span> <span class="n">cores</span><span class="p">,</span> <span class="n">threads</span> <span class="p">(</span><span class="n">S</span><span class="p">:</span><span class="n">C</span><span class="p">:</span><span class="n">T</span><span class="p">)</span> <span class="n">per</span> <span class="n">node</span>
+              <span class="o">%.&lt;*&gt;</span> <span class="n">right</span> <span class="n">justification</span> <span class="n">of</span> <span class="n">the</span> <span class="n">field</span>
+              <span class="o">%&lt;</span><span class="n">Number</span><span class="o">&gt;&lt;*&gt;</span>
+                    <span class="n">size</span> <span class="n">of</span> <span class="n">field</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Output Formatting<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>The output of sinfo can be customized based on user preference using two
+different methods. One can be done on the command line using “-o
+&lt;output_format&gt;” or “–format=&lt;output_format&gt;”, where the desired fields
+are specified at the users discretion.</p>
+<p>If you wish for the custom sinfo output to be default for your login
+session, follow the below instructions to set the SINFO_FORMAT
+environment variable within your profile to change the output format:</p>
+<ul class="simple">
+<li><p>In bash, add the following line to your ~/.bashrc file</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>export SINFO_FORMAT=’%N %.11T %.4c %.8z %.6m %.8d %.6w %.8f %20E’</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>In tcsh, add the following line to your ~/.cshrc file</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>set SINFO_FORMAT=’%N %.11T %.4c %.8z %.6m %.8d %.6w %.8f %20E’</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>When set, the SINFO_FORMAT environment variable will override the
+default format.</p></li>
+<li><p>For both examples, you can set spacing of each field by placing
+“%##” after the field name.</p></li>
+</ul>
+<p>:* Adding a “-“ before the number will print the characters left
+justified</p>
+<p><a class="reference external" href="Category:SLURM">Category:SLURM</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/slurm/Commands.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

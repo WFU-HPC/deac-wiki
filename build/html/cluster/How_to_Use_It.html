@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Typically, when it comes to using a cluster, there are generally only a
+few things that introductory users must learn about working in the
+environment:</p>
+<ol class="simple">
+<li><p>Clusters are hard. You are dealing with the most powerful forms of
+computing on the planet. It takes between 15-20 years to make a
+supercomputer easy[1]</p></li>
+<li><p>It is not “point-and-click”, review the [[Quick Start
+Guide:Linux] to learn about how to use the following required
+things:</p>
+<ol class="simple">
+<li><p>Command line</p></li>
+<li><p>Text editors</p></li>
+<li><p>Custom programming and scripting. Many of these issues are
+addressed in the</p></li>
+</ol>
+</li>
+<li><p>Users have to know where <a class="reference external" href="#Where_To_Put_Data">#Where To Put
+Data</a> on the cluster.</p></li>
+<li><p>Users have to understand <a class="reference external" href="#Leverage_the_Software_Environment">#Leverage the Software
+Environment</a> and use
+it in their jobs</p></li>
+</ol>
+</div>
+<div class="section" id="assumptions">
+<h1>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h1>
+<ol class="simple">
+<li><p>You’ve never used the cluster before and have an empty home
+directory.</p></li>
+<li><p>Your username is <strong>myacct</strong> (the same as your WFU account).</p></li>
+<li><p>You are assigned to a research group, called <strong>advisorGrp</strong>.</p></li>
+<li><p>You are assigned a <em>fairshare</em> group, called <strong>fairshareGrp</strong> (often
+the same name as <strong>advisorGrp</strong>).</p></li>
+<li><p>You have a research directory for your data, called
+<strong>/deac/advisorGrp</strong>.</p></li>
+<li><p>You have logged into a cluster head node by following the
+instructions in <a class="reference external" href="Cluster:Access_and_Layout">Cluster:Access and
+Layout</a></p></li>
+</ol>
+</div>
+<div class="section" id="where-to-put-data">
+<h1>Where To Put Data<a class="headerlink" href="#where-to-put-data" title="Permalink to this headline">¶</a></h1>
+<p>First and foremost, you have to know where to put your files on the
+cluster.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>/home/myacct
+This is your <em>home directory</em>. When your account is created, it
+will only have some default environment configuration files that
+are hidden.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>Your home directory is configured to store only a limited amount
+of data crucial to your <em><strong>interactive</strong></em> use of the cluster,
+primarily through the head nodes. For general uses, your research
+software (source codes, binaries) can be stored there.</p>
+<ul>
+<li><p>Users should NOT store files that define jobs, or are created
+by your jobs in their <em>home directory</em>.</p></li>
+<li><p>Users should NOT use their <em>home directory</em> as a job’s WORKDIR
+or OUTPUT path when submitting jobs to the cluster</p>
+<ul>
+<li><p>Doing so can cause sluggish behavior for users and jobs
+running on the cluster</p></li>
+<li><p>Every single login session and job running need basic
+access to this path, adding additional load degrades the
+aforementioned <em><strong>interactive</strong></em> use of the cluster by
+delaying system response.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>/deac/advisorGrp
+This is the <em>research directory</em> for research groups, and is owned
+by faculty advisors. Advisors are the ultimate owner of research
+data after users leave the group (by graduation, transfer to
+another group, or leaving the University for another position).</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>These research directories are set up to handle the load of
+multiple jobs from multiple compute nodes writing multiple files.
+Any files referenced or created by your computational jobs should
+go here.</p></li>
+<li><p>Depending on the research group, this directory will host shared
+research software, common libraries, and research results.</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li><p>/deac/advisorGrp/username
+Depending on the research group, individual user research
+directories may exist to store individual user results that may or
+not be shared among the group.</p></li>
+</ul>
+</div></blockquote>
+<p>Second, within either directory, sub-directories need to be structured
+in a logical way so that research data and conducted results are easy to
+navigate. For example, break things down by project, job type, or even
+individual jobs. Much of the guidance for this structure will come from
+your research group colleagues and advisor; however, if you are breaking
+new ground for the group, feel free to contact the HPC Team for
+guidance.</p>
+</div>
+<div class="section" id="leverage-the-software-environment">
+<h1>Leverage the Software Environment<a class="headerlink" href="#leverage-the-software-environment" title="Permalink to this headline">¶</a></h1>
+<p>The WFU DEAC Cluster has software provided by Red Hat (through the base
+OS distribution), the Fedora Project (through the EPEL project), and by
+WFU (through licensing or user request of generally available software).
+To successfully use the cluster, users must:</p>
+<ol class="simple">
+<li><p>Know what software is available</p></li>
+<li><p>Know how to use it</p></li>
+</ol>
+<p>Use the wiki to search for specific names of desired software, or read
+general software articles such as
+<a class="reference external" href="Software:Overview">Software:Overview</a>. The HPC Team relies
+upon users taking the initiative to read generally available software
+documentation online to conduct basic troubleshooting and learn how to
+use programs specific to their research.</p>
+<p>To help configure user environments for the different compilers we
+support, <a class="reference external" href="http://modules.sourceforge.net/">environment-modules</a> are
+used. Be sure to read <a class="reference external" href="Quick_Start_Guide:Environment_Modules">Quick Start Guide:Environment
+Modules</a> in order to
+understand the tool and how to use it.</p>
+<p>To see how to utilize software for submitted jobs, next see the
+<a class="reference external" href="SLURM:Quick_Start_Guide">SLURM:Quick Start Guide</a>.</p>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Cluster">Category:Cluster</a> <a class="reference external" href="Category:New_User_Information">Category:New User
+Information</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://www.tgdaily.com/mobility-brief/55861-apples-ipad-2-is-as-fast-as-a-supercomputer-from-1985">http://www.tgdaily.com/mobility-brief/55861-apples-ipad-2-is-as-fast-as-a-supercomputer-from-1985</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/cluster/How_to_Use_It.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

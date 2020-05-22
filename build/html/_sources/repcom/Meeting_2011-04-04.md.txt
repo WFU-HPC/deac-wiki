@@ -1,0 +1,108 @@
+# Attendance
+
+  - Tim Miller (chair)
+  - Greg Cook
+  - Bill Kerr
+  - Natalie Holzwarth
+  - Sam Cho
+  - Stacy Howerton
+
+# Agenda
+
+  - CY2011 Shutdown
+  - 10Gbps Network Upgrade
+  - RHEL 6 Upgrade
+  - New HPC Team Management
+
+# Discussion
+
+> ## CY2011 Shutdown
+>
+>   - Definitely need one
+>
+> :\* 10Gbps Network Changes (required downtime)
+>
+> :\* Storage Device Code Upgrades (required downtime)
+>
+> :\* Network Switch Code Upgrades (required downtime for one switch,
+> optional for two others)
+>
+> :\* GPFS Filesystem Software Upgrades (downtime makes it convenient)
+>
+>   - Proposed date : Aug 29 - Sep 2
+>
+> ## 10 Gbps Network Upgrade
+>
+>   - Reviewed what we are planning on doing.
+>   - Awaiting NC-REN detailed quote.
+>   - Required WFU hardware purchased and received.
+>   - 95% chance this will happen.
+>   - There are connectivity and service availability implications.
+>
+> ## RHEL 6 Upgrade
+>
+>   - We are starting the infrastructure work to support RHEL6 cluster
+>     node imaging.
+>   - Goal is to have a development environment by June 1 (very
+>     optimistic)
+>   - RHEL4 Support Ends January 2012\!
+>   - Core WFU DEAC Software for RHEL6
+>
+> :\* GNU Compilers
+>
+> :\* Portland Compilers
+>
+> :\* Intel Compilers
+>
+> :\* Absoft Compilers
+>
+> :\* GPFS Filesystem
+>
+> :\* OpenMPI/MPICH/MVAPICH (builds, variants, etc. to be determined at
+> project time)
+>
+> :\* Matlab, Maple, Mathematica, ITT IDL
+>
+> :\* BLAS, LAPACK, ATLAS,
+>
+> :\* FFTW 2.x, 3.x
+>
+> :\* (wish list) PETSC
+>
+>   - Software for RHEL6:
+>
+> :\* What software should be centrally supported?
+>
+> :\* What should not?
+>
+> :\* What does "supported" mean?
+>
+> :\* Do we want "SLAs" (or something written somewhere) about the
+> answers to these questions?
+>
+>   - Software licensing, support, and costs we need to be worried about
+>     (question for users)?
+>
+> :\* Gaussian?
+>
+> :\* CHARMM
+>
+> :\* LS-DYNA (costs covered by WFUBMC)
+>
+>   - TTD for Tim
+>
+> >   - email users regarding the difficult software licenses/costs
+> >   - Proposal from Greg
+> >
+> > :\* First group does compilation with single compiler
+> >
+> > :\* Provide explicit instructions on how to build it, how to
+> > validate the results
+> >
+> > :\* We provide secondary compiler support
+> >
+> > :\* Could send out an email requesting whether someone has started
+> > using it
+
+[Category:WFU DEAC Repcom
+Meetings](Category:WFU_DEAC_Repcom_Meetings "wikilink")

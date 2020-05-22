@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Installed Version &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><strong>Quantum Espresso</strong> is a suite of codes for electronic structure
+calculation and materials modeling.[1]</p>
+<div class="section" id="installed-version">
+<h1>Installed Version<a class="headerlink" href="#installed-version" title="Permalink to this headline">¶</a></h1>
+<p>Version installed on the cluster:</p>
+<p>:* <strong>5.0.3</strong></p>
+<p>It is a basic installation consisting of the <em>espresso</em> and <em>PHonon</em>
+modules.</p>
+</div>
+<div class="section" id="running-quantum-espresso">
+<h1>Running Quantum Espresso<a class="headerlink" href="#running-quantum-espresso" title="Permalink to this headline">¶</a></h1>
+<p>To run QE, load the module to set up the environment:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">module</span> <span class="pre">load</span> <span class="pre">espresso/5.0.3-intel-2012</span></code></p>
+<p>The entire set of pseudopotential UPF files are also installed. They are
+in the directory given by the environment variable <code class="docutils literal notranslate"><span class="pre">UPF_FILES</span></code>.</p>
+<p>PWgui is also available in a separate module:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160;&#160; <span class="pre">module</span> <span class="pre">load</span> <span class="pre">espresso/pwgui-5.0.2</span></code></p>
+</div>
+<div class="section" id="compiling">
+<h1>Compiling<a class="headerlink" href="#compiling" title="Permalink to this headline">¶</a></h1>
+<p><strong>Quantum Espresso</strong> is from <a class="reference external" href="http://www.quantum-espresso.org/">http://www.quantum-espresso.org/</a></p>
+<ul class="simple">
+<li><p>Installation documentation:
+<a class="reference external" href="http://www.quantum-espresso.org/wp-content/uploads/Doc/user_guide/node7.html">http://www.quantum-espresso.org/wp-content/uploads/Doc/user_guide/node7.html</a></p></li>
+<li><p>Download: <a class="reference external" href="http://qe-forge.org/frs/?group_id=10">http://qe-forge.org/frs/?group_id=10</a></p></li>
+<li><p>Make sure to read the article on the <a class="reference external" href="Compiler:Intel_Cluster_Studio">Compiler:Intel Cluster
+Studio</a></p></li>
+</ul>
+<div class="section" id="download-and-patch-to-latest-version">
+<h2>Download and Patch to Latest Version<a class="headerlink" href="#download-and-patch-to-latest-version" title="Permalink to this headline">¶</a></h2>
+<p>As of 2013-06-10, the latest source code bundle version is 5.0.2 with a
+patch file distributed to bring it up to 5.0.3.[2]</p>
+<ul class="simple">
+<li><p>Go to the <a class="reference external" href="http://www.qe-forge.org/gf/project/q-e/frs/?action=FrsReleaseBrowse&amp;frs_package_id=18">download
+page</a>
+and download appropriate packages. A minimal set is</p>
+<ul>
+<li><p>espresso-5.0.2.tar.gz</p></li>
+<li><p>PHonon-5.0.2.tar.gz</p></li>
+</ul>
+</li>
+<li><p>Download the patch for 5.0.2 -&gt; 5.0.3:</p>
+<ul>
+<li><p>espresso-5.0.2-5.0.3.diff</p></li>
+</ul>
+</li>
+<li><p>Expand the archives for
+5.0.2:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode</span> <span class="pre">~/src]$</span> <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">espresso-5.0.2.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode</span> <span class="pre">~/src]$</span> <span class="pre">cd</span> <span class="pre">espresso-5.0.2</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode</span> <span class="pre">~/src/espresso-5.0.2]$</span> <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">../PHonon-5.0.2.tar.gz</span></code></p>
+<ul class="simple">
+<li><p>Patch the
+distribution:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode</span> <span class="pre">~/src/espresso-5.0.2]$</span> <span class="pre">patch</span> <span class="pre">-p1</span> <span class="pre">&lt;</span> <span class="pre">../espresso-5.0.2-5.0.3.diff</span></code></p>
+<ul class="simple">
+<li><p>For consistency, you may want to rename the directory:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode</span> <span class="pre">~/src/espresso-5.0.2]$</span> <span class="pre">cd</span> <span class="pre">..</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode</span> <span class="pre">~/src]$</span> <span class="pre">mv</span> <span class="pre">espresso-5.0.2</span> <span class="pre">espresso-5.0.3</span></code></p>
+</div>
+<div class="section" id="compiling-espresso">
+<h2>Compiling Espresso<a class="headerlink" href="#compiling-espresso" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="espresso-5-1">
+<h3>Espresso 5.1<a class="headerlink" href="#espresso-5-1" title="Permalink to this headline">¶</a></h3>
+<p><strong>N.B.</strong> Shell commands are for bash. Translate accordingly for
+csh/tcsh.</p>
+<ul class="simple">
+<li><p>Summary:</p>
+<ul>
+<li><p>Intel compiler</p></li>
+<li><p>OpenMPI</p></li>
+<li><p><em>NO</em> OpenMP</p></li>
+<li><p>Static link to MKL</p></li>
+<li><p>No external or bundled FFTW - use MKL</p></li>
+</ul>
+</li>
+<li><p>Download Packages:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">atomic-5.1.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">GWW-5.1.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">pwcond-5.1.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">neb-5.1.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">PWgui-5.1.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">tddfpt-5.1.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">espresso-5.1.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">PHonon-5.1.tar.gz</span></code></p>
+<ul class="simple">
+<li><p>Compiler setup:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">openmpi/1.6-intel</span></code></p>
+<ul class="simple">
+<li><p>Environment variables - from the Intel Link Line Advisor - NO
+OpenMP, static explicit linking (“\” indicates line
+continues):</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">export</span> <span class="pre">CPPFLAGS=&quot;-I${MKLROOT}/include/intel64/lp64</span> <span class="pre">-I${MKLROOT}/include&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">export</span> <span class="pre">CFLAGS=&quot;-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">-ipo&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">export</span> <span class="pre">LDFLAGS=&quot;$MKLROOT/lib/intel64/libmkl_blas95_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_lapack95_lp64.a</span> <span class="pre">$MKLROOT/lib/intel64/libmkl_scalapack_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-Wl,--start-group</span>&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_intel_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_sequential.a</span> <span class="pre">$MKLROOT/lib/intel64/libmkl_core.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_blacs_openmpi_lp64.a</span> <span class="pre">-Wl,--end-group</span> <span class="pre">-lpthread</span> <span class="pre">-lm&quot;</span></code></p>
+<ul class="simple">
+<li><p>Configure:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">./configure</span> <span class="pre">--prefix=$HOME/espresso-5.1</span> <span class="pre">--enable-parallel</span> <span class="pre">--enable-shared=no</span></code></p>
+<ul class="simple">
+<li><p>Edit make.sys to set FFLAGS:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``82:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O2</span> <span class="pre">-ipo</span> <span class="pre">-xSSE4.1</span> <span class="pre">-assume</span> <span class="pre">byterecl</span> <span class="pre">-traceback</span> <span class="pre">-par-report0</span> <span class="pre">-vec-report0</span></code></p>
+<ul class="simple">
+<li><p>Edit make.sys to not use bundled FFTW (use MKL’s, instead):</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``42:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">DFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span>&#160; <span class="pre">-D__INTEL</span> <span class="pre">-D__FFTW3</span> <span class="pre">-D__MPI</span> <span class="pre">-D__PARA</span> <span class="pre">-D__SCALAPACK</span> <span class="pre">$(MANUAL_DFLAGS)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``125:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FFT_LIBS</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span></code></p>
+<ul class="simple">
+<li><p>Compile:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">make</span> <span class="pre">pwall</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.pwall.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.pwall.out</span></code></p>
+<ul class="simple">
+<li><p>Go to lunch. This will take over an hour.</p></li>
+</ul>
+</div>
+<div class="section" id="espresso-5-0-3">
+<h3>Espresso 5.0.3<a class="headerlink" href="#espresso-5-0-3" title="Permalink to this headline">¶</a></h3>
+<p><strong>N.B.</strong> Shell commands are for bash. Translate accordingly for
+csh/tcsh.</p>
+<ul class="simple">
+<li><p>Summary:</p>
+<ul>
+<li><p>Intel compiler</p></li>
+<li><p>OpenMPI</p></li>
+<li><p><em>NO</em> OpenMP</p></li>
+<li><p>Static link to MKL</p></li>
+<li><p>No external or bundled FFTW - use MKL</p></li>
+</ul>
+</li>
+<li><p>Compiler setup:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">openmpi/1.6-intel</span></code></p>
+<ul class="simple">
+<li><p>Environment variables - from the Intel Link Line Advisor - NO
+OpenMP, static explicit linking (“\” indicates line
+continues):</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">export</span> <span class="pre">CPPFLAGS=&quot;-I${MKLROOT}/include/intel64/lp64</span> <span class="pre">-I${MKLROOT}/include&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">export</span> <span class="pre">CFLAGS=&quot;-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">-ipo&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">export</span> <span class="pre">LDFLAGS=&quot;$MKLROOT/lib/intel64/libmkl_blas95_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_lapack95_lp64.a</span> <span class="pre">$MKLROOT/lib/intel64/libmkl_scalapack_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-Wl,--start-group</span>&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_intel_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_sequential.a</span> <span class="pre">$MKLROOT/lib/intel64/libmkl_core.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$MKLROOT/lib/intel64/libmkl_blacs_openmpi_lp64.a</span> <span class="pre">-Wl,--end-group</span> <span class="pre">-lpthread</span> <span class="pre">-lm&quot;</span></code></p>
+<ul class="simple">
+<li><p>Configure:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">./configure</span> <span class="pre">--prefix=$HOME/espresso-5.0.3</span> <span class="pre">--enable-parallel</span> <span class="pre">--disable-shared</span></code></p>
+<ul class="simple">
+<li><p>Edit make.sys to set FFLAGS:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``75:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-ipo</span> <span class="pre">-xSSE4.1</span> <span class="pre">-assume</span> <span class="pre">byterecl</span> <span class="pre">-traceback</span> <span class="pre">-par-report0</span> <span class="pre">-vec-report0</span></code></p>
+<ul class="simple">
+<li><p>Edit make.sys to not use bundled FFTW (use MKL’s, instead):</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``35:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">DFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span>&#160; <span class="pre">-D__INTEL</span> <span class="pre">-D__FFTW3</span> <span class="pre">-D__MPI</span> <span class="pre">-D__PARA</span> <span class="pre">-D__SCALAPACK</span> <span class="pre">$(MANUAL_DFLAGS)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``118:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FFT_LIBS</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span></code></p>
+<ul class="simple">
+<li><p>Compile:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">make</span> <span class="pre">pwall</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.pwall.out</span> <span class="pre">&amp;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;rhel6head3]$</span> <span class="pre">tail</span> <span class="pre">-f</span> <span class="pre">Make.pwall.out</span></code></p>
+<ul class="simple">
+<li><p>Go to lunch. This will take over an hour.</p></li>
+</ul>
+</div>
+<div class="section" id="espresso-4-x">
+<h3>Espresso 4.x<a class="headerlink" href="#espresso-4-x" title="Permalink to this headline">¶</a></h3>
+<p>NOTES:</p>
+<ul class="simple">
+<li><p>only need to load openmpi/1.6-intel – this automatically loads the
+matching Intel compiler module</p></li>
+<li><p>no need to load an FFTW library module – Intel’s Math Kernel
+Library (MKL) contains an FFTW3-compatible interface (see also QE
+documentation to this effect)</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">export</span> <span class="pre">APPDIR=$HOME/applications</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">module</span> <span class="pre">load</span> <span class="pre">openmpi/1.6-intel</span></code>
+<code class="docutils literal notranslate">&#160; <span class="pre">./configure</span> <span class="pre">--prefix=$APPDIR</span></code></p>
+<p>Edit make.sys according to
+<a class="reference external" href="http://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/">http://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/</a>
+– select multithreaded, static linking, Open MPI (only available under
+static linking). See article on the <a class="reference external" href="Intel_Compiler_Suite">Intel Compiler
+Suite</a>.:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">IFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-I../include</span> <span class="pre">-I$(MKLROOT)/include/intel64/lp64</span>&#160; <span class="pre">-I$(MKLROOT)/include</span></code></p>
+<p><code class="docutils literal notranslate">&#160; <span class="pre">BLAS_LIBS</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span>&#160; </code></p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">SCALAPACK_LIBS</span> <span class="pre">=</span>&#160; <span class="pre">$(MKLROOT)/lib/intel64/libmkl_blas95_lp64.a</span>&#160; <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(MKLROOT)/lib/intel64/libmkl_lapack95_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(MKLROOT)/lib/intel64/libmkl_scalapack_lp64.a</span>&#160; <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-Wl,--start-group</span>&#160; <span class="pre">$(MKLROOT)/lib/intel64/libmkl_intel_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(MKLROOT)/lib/intel64/libmkl_intel_thread.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(MKLROOT)/lib/intel64/libmkl_core.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">$(MKLROOT)/lib/intel64/libmkl_blacs_openmpi_lp64.a</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-Wl,--end-group</span> <span class="pre">-openmp</span> <span class="pre">-lpthread</span> <span class="pre">-lm</span></code></p>
+</div>
+</div>
+<div class="section" id="qe-gpu">
+<h2>QE-GPU<a class="headerlink" href="#qe-gpu" title="Permalink to this headline">¶</a></h2>
+<p>First, see <a class="reference external" href="Information:GPU_Computing">Information:GPU
+Computing</a>.</p>
+<p>This seems to be the only version that reliably works:</p>
+<ul class="simple">
+<li><p>Download the source package:
+<a class="reference external" href="http://www.qe-forge.org/gf/download/frsrelease/119/397/espresso-5.0.1-GPU-build2.tar.gz">http://www.qe-forge.org/gf/download/frsrelease/119/397/espresso-5.0.1-GPU-build2.tar.gz</a></p></li>
+<li><p>Then, on one of the GPU nodes:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">module</span> <span class="pre">purge</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel-2012-lp64</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">cuda-5.0</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">tar</span> <span class="pre">zxf</span> <span class="pre">espresso-5.0.1-GPU-build2.tar.gz</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">cd</span> <span class="pre">espresso-5.0.1-GPU</span></code></p>
+<ul class="simple">
+<li><p>Read the file
+<code class="docutils literal notranslate"><span class="pre">README.GPU</span></code></p></li>
+<li><p>Configure:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">./configure</span> <span class="pre">--disable-parallel</span> <span class="pre">--enable-openmp</span> <span class="pre">--enable-cuda</span> <span class="pre">--with-cuda-dir=$CUDADIR</span> <span class="pre">\</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">--with-gpu-arch=20</span> <span class="pre">--enable-magma</span> <span class="pre">--enable-phigemm</span> <span class="pre">--without-scalapack</span></code></p>
+<ul class="simple">
+<li><p>Edit resulting <code class="docutils literal notranslate"><span class="pre">make.sys</span></code> file:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``39:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">DFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span>&#160; <span class="pre">-D__INTEL</span> <span class="pre">-D__FFTW3</span> <span class="pre">-D__CUDA</span> <span class="pre">-D__GPU_NVIDIA_20</span> <span class="pre">-D__PHIGEMM</span> <span class="pre">-D__MAGMA</span> <span class="pre">-D__CUDA_QE_TIMING</span> <span class="pre">-D__OPENMP</span> <span class="pre">$(MANUAL_DFLAGS)</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``77:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">CFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">$(DFLAGS)</span> <span class="pre">$(IFLAGS)</span> <span class="pre">-openmp</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``79:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FFLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">-assume</span> <span class="pre">byterecl</span> <span class="pre">-g</span> <span class="pre">-traceback</span> <span class="pre">-par-report0</span> <span class="pre">-vec-report0</span> <span class="pre">-openmp</span></code></p>
+<ul class="simple">
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">install/make_mag.inc</span></code>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``17:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">CC</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">icc</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``19:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FORT</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">ifort</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``25:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">OPTS</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">-openmp</span> <span class="pre">-static</span> <span class="pre">-DADD_</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``26:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FOPTS</span>&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">-openmp</span> <span class="pre">-static</span> <span class="pre">-DADD_</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``28:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">LDOPTS</span>&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-fPIC</span> <span class="pre">-Xlinker</span> <span class="pre">-zmuldefs</span> <span class="pre">-openmp</span></code></p>
+<ul class="simple">
+<li><p>Edit <code class="docutils literal notranslate"><span class="pre">install/make_phiGEMM.inc</span></code>:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``25:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">CFLAGS</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">-openmp</span> <span class="pre">-fPIC</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``28:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">FFLAGS</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-xSSE4.1</span> <span class="pre">-openmp</span> <span class="pre">-module</span> <span class="pre">../include/</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``31:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">LD_FLAGS</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">=</span> <span class="pre">-O3</span> <span class="pre">-openmp</span> <span class="pre">-fPIC</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``38:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">NVCC_FLAGS</span>&#160; <span class="pre">=</span> <span class="pre">-ccbin</span> <span class="pre">icc</span> <span class="pre">-O3</span> <span class="pre">--compiler-options</span> <span class="pre">'-fPIC</span> <span class="pre">-openmp'</span></code></p>
+<ul class="simple">
+<li><p>Build:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">make</span> <span class="pre">pwall</span> <span class="pre">&gt;&amp;</span> <span class="pre">Make.pwall.out</span> <span class="pre">&amp;</span></code></p>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>See
+<a class="reference external" href="http://www.quantum-espresso.org/wp-content/uploads/Doc/user_guide/node13.html">http://www.quantum-espresso.org/wp-content/uploads/Doc/user_guide/node13.html</a></p></li>
+<li><p>Modify the <strong>environment_variables</strong> file at the top of the
+distribution, i.e. espresso-X.Y.Z/environment_variables:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``58:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">PARA_PREFIX=&quot;mpirun</span> <span class="pre">-np</span> <span class="pre">4&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``72:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">PARA_POSTFIX=&quot;</span> <span class="pre">&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``80:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">PARA_IMAGE_PREFIX=&quot;mpirun</span> <span class="pre">-np</span> <span class="pre">8&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code><strong><code class="docutils literal notranslate"><span class="pre">line``</span> <span class="pre">``81:</span></code></strong><code class="docutils literal notranslate"> <span class="pre">PARA_IMAGE_POSTFIX=&quot;-nimage</span> <span class="pre">2</span> <span class="pre">$PARA_POSTFIX&quot;</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; </code></p>
+<ul class="simple">
+<li><p>Some of the tests require old pseudopotential files which are no
+longer distributed by the Quantum Espresso project: O_US.van,
+H_US.van. You may find them at this repository forked some years
+ago: <a class="reference external" href="https://github.com/NNemec/quantum-espresso/tree/master/pseudo">https://github.com/NNemec/quantum-espresso/tree/master/pseudo</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="installing">
+<h1>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h1>
+<p>There is no “install” target.</p>
+<div class="section" id="id1">
+<h2>Espresso 5.0.3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Say the source directory is ${HOME}/src/espresso-5.0.3</p></li>
+<li><p>Copy the executables to the final destination bin directory – say
+it’s
+${HOME}/espresso-5.0.3/bin</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode]$</span> <span class="pre">mkdir</span> <span class="pre">-p</span> <span class="pre">${HOME}/espresso-5.0.3/bin</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnoe]$</span> <span class="pre">cd</span> <span class="pre">${HOME}/src/espresso-5.0.3/bin</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode]$</span> <span class="pre">/bin/cp</span> <span class="pre">-f</span> <span class="pre">`/bin/ls</span> <span class="pre">-l</span>&#160; <span class="pre">|</span> <span class="pre">awk</span> <span class="pre">'{print</span> <span class="pre">$11}'</span> <span class="pre">|</span> <span class="pre">xargs</span> <span class="pre">`</span> <span class="pre">${HOME}/espresso-5.0.3/bin</span></code></p>
+<ul class="simple">
+<li><p>Strip executables:</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">[myname&#64;headnode]$</span> <span class="pre">cd</span> <span class="pre">${HOME}/espresso-5.0.3/bin</span></code>
+<code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">[myname&#64;headnode]$</span> <span class="pre">strip</span> <span class="pre">*.x</span></code></p>
+</div>
+</div>
+<div class="section" id="pseudopotentials">
+<h1>Pseudopotentials<a class="headerlink" href="#pseudopotentials" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Available from <a class="reference external" href="http://www.quantum-espresso.org/pseudopotentials">http://www.quantum-espresso.org/pseudopotentials</a></p></li>
+<li><p>Currently installed on cluster in:
+<code class="docutils literal notranslate"><span class="pre">/deac/opt/espresso-5.0.3/pseudopotentials/</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Software">Category:Software</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="http://www.quantum-espresso.org/">Quantum Espresso Project website</a></p></li>
+<li><p><a class="reference external" href="http://www.quantum-espresso.org/blog/patches-for-quantum-espresso-v-5-0-2">Patches for Quantum Espresso
+v.5.0.2</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/Quantum_Espresso.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

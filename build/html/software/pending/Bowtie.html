@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Version &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>Bowtie<ref name="bowtie_download">[<a class="reference external" href="http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.4/">http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.4/</a></p>
+<p><code class="docutils literal notranslate"><span class="pre">Bowtie</span> <span class="pre">source</span> <span class="pre">download]</span></code></ref><code class="docutils literal notranslate"> <span class="pre">is</span> <span class="pre">an</span> <span class="pre">ultrafast,</span> <span class="pre">memory-efficient</span> <span class="pre">short</span> <span class="pre">read</span> <span class="pre">aligner.</span> <span class="pre">It</span> <span class="pre">aligns</span> <span class="pre">short</span> <span class="pre">DNA</span> <span class="pre">sequences</span> <span class="pre">(reads)</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">human</span> <span class="pre">genome</span> <span class="pre">at</span> <span class="pre">a</span> <span class="pre">rate</span> <span class="pre">of</span> <span class="pre">over</span> <span class="pre">25</span> <span class="pre">million</span> <span class="pre">35-bp</span> <span class="pre">reads</span> <span class="pre">per</span> <span class="pre">hour.</span> <span class="pre">Bowtie</span> <span class="pre">indexes</span> <span class="pre">the</span> <span class="pre">genome</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">Burrows-Wheeler</span> <span class="pre">index</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">its</span> <span class="pre">memory</span> <span class="pre">footprint</span> <span class="pre">small:</span> <span class="pre">typically</span> <span class="pre">about</span> <span class="pre">2.2</span> <span class="pre">GB</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">human</span> <span class="pre">genome</span> <span class="pre">(2.9</span> <span class="pre">GB</span> <span class="pre">for</span> <span class="pre">paired-end)</span></code>[1]<code class="docutils literal notranslate"><span class="pre">.</span></code></p>
+<div class="section" id="version">
+<h1>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<p>Current version installed on the cluster is</p>
+<p>:* <strong>2.2.4</strong></p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Bowtie is installed as a part of the trinity package to:</p>
+<p>:* /deac/opt/trinity/bowtie2-2.2.4</p>
+<p>It comes with it’s own built-in binaries.</p>
+</div>
+<div class="section" id="using-bowtie">
+<h1>Using Bowtie<a class="headerlink" href="#using-bowtie" title="Permalink to this headline">¶</a></h1>
+<p>Load the module:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">module</span> <span class="pre">load</span> <span class="pre">trinity/2.0.3-icc</span></code></p>
+<p>The executables are:</p>
+<ul class="simple">
+<li><p>bowtie2</p></li>
+<li><p>bowtie2-align</p></li>
+<li><p>bowtie2-build</p></li>
+<li><p>bowtie2-inspect</p></li>
+</ul>
+<p>-s, -l, and -debug variants exist for all executables, ie
+bowtie2-align-l-debug or bowtie2-inspect-s</p>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Software">Category:Software</a></p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[</span></code><a class="reference external" href="http://bowtie-bio.sourceforge.net/index.shtml">http://bowtie-bio.sourceforge.net/index.shtml</a> <code class="docutils literal notranslate"><span class="pre">]</span></code></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/Bowtie.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

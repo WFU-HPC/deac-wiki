@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>CP2K on the DEAC Cluster &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="cp2k-on-the-deac-cluster">
+<h1>CP2K on the DEAC Cluster<a class="headerlink" href="#cp2k-on-the-deac-cluster" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="to-do">
+<h2>To-Do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Look into
+<a class="reference external" href="https://github.com/cp2k/cp2k/tree/master/tools/toolchain">toolchain</a> for
+insight on how to compile</p></li>
+<li><p>Potential libraries:
+x libxc</p>
+<ul>
+<li><p>elpa (WORK IN PROGRESS)</p></li>
+<li><p>libxsmm</p></li>
+<li><p>libint</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>CP2K is a quantum chemistry and solid state physics software package that can
+perform atomistic simulations of solid state, liquid, molecular, periodic,
+material, crystal, and biological systems. CP2K provides a general framework
+for different modeling methods such as DFT using the mixed Gaussian and plane
+waves approaches GPW and GAPW. Supported theory levels include DFTB, LDA, GGA,
+MP2, RPA, semi-empirical methods (AM1, PM3, PM6, RM1, MNDO, …), and classical
+force fields (AMBER, CHARMM, …). CP2K can do simulations of molecular
+dynamics, metadynamics, Monte Carlo, Ehrenfest dynamics, vibrational analysis,
+core level spectroscopy, energy minimization, and transition state optimization
+using NEB or dimer method.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>CP2K comes packaged with a “toolchain” script that builds all required
+dependencies from scratch. Using this script is very time consuming, and
+entirely unnecessary in a well-configured HPC environment.</p>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Intel compilers (<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel/2020</span></code>)</p></li>
+<li><p>Open MPI  (<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">mpi/openmpi/4.0.3-intel</span></code>)</p></li>
+<li><p>Libxc (<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">libs/libxc/4.3.4</span></code>)</p></li>
+<li><p>ELPA (WORK IN PROGRESS)</p></li>
+</ul>
+</div>
+<div class="section" id="compiling">
+<h3>Compiling<a class="headerlink" href="#compiling" title="Permalink to this headline">¶</a></h3>
+<p>The correct way to compile the software is by creating or modifying a ‘arch’
+file with the appropriate paths and executables. We have included a few
+examples of these that are optimized for compiling on the DEAC cluster. The
+‘arch’ file needs to be placed in <code class="docutils literal notranslate"><span class="pre">$CP2k/arch</span></code> directory. The naming scheme for
+these files is <code class="docutils literal notranslate"><span class="pre">ARCH.VERSION</span></code>, which are then referenced when invoking the
+<code class="docutils literal notranslate"><span class="pre">make</span></code> command. For instance,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make -j <span class="m">8</span> <span class="nv">ARCH</span><span class="o">=</span>Linux-x86-64-intel-dynamic+libxc <span class="nv">VERSION</span><span class="o">=</span>popt
+</pre></div>
+</div>
+<p>uses the Linux-x86-64-intel-dynamic+libxc.popt file located in the <code class="docutils literal notranslate"><span class="pre">arch</span></code>
+directory. Making and running the built-in regression tests can be done in a
+very similar manner,</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make -j <span class="m">8</span> <span class="nv">ARCH</span><span class="o">=</span>Linux-x86-64-intel-dynamic+libxc <span class="nv">VERSION</span><span class="o">=</span>popt <span class="nb">test</span>
+</pre></div>
+</div>
+<p>These tests can be be very time consuming (30+ minutes). Clean your build:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>make <span class="nv">ARCH</span><span class="o">=</span>Linux-x86-64-intel-dynamic+libxc <span class="nv">VERSION</span><span class="o">=</span>popt clean <span class="c1"># regular clean</span>
+make <span class="nv">ARCH</span><span class="o">=</span>Linux-x86-64-intel-dynamic+libxc <span class="nv">VERSION</span><span class="o">=</span>popt realclean <span class="c1"># complete restart</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memory-testing">
+<h3>Memory testing<a class="headerlink" href="#memory-testing" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">psrecord</span></code> Python utility comes in handy for monitoring overall memory
+usage,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">psrecord</span> <span class="s2">&quot;mpirun -np 8 cp2k.popt input.inp&quot;</span> <span class="o">--</span><span class="n">include</span><span class="o">-</span><span class="n">children</span> <span class="o">--</span><span class="n">log</span> <span class="n">log</span><span class="o">.</span><span class="n">dat</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="useful-guides">
+<h2>Useful guides<a class="headerlink" href="#useful-guides" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>https://github.com/cp2k/cp2k/blob/master/INSTALL.md</p></li>
+<li><p>https://www.youtube.com/watch?v=TP7DRwtTuQE</p></li>
+<li><p>https://groups.google.com/forum/#!topic/cp2k/AZU1IoLvRd4</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/software/CP2K.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

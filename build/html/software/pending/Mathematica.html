@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Installed Versions &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="installed-versions">
+<h1>Installed Versions<a class="headerlink" href="#installed-versions" title="Permalink to this headline">¶</a></h1>
+<p>As of April 2019, rhel7 installed versions of Mathematica include:</p>
+<ul class="simple">
+<li><p>‘’’Mathematica 12.0.0’</p></li>
+<li><p>‘’’Mathematica 11.3.0’</p></li>
+</ul>
+<p>To use Mathematica, load the appropriate
+<a class="reference external" href="Quick_Start_Guide:Environment_Modules">module</a>:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">rhel7/mathematica/12.4.1</span></code></p>
+<p>Then, to run the command line version:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">math</span></code></p>
+<p>To run the GUI version:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; <span class="pre">$</span> <span class="pre">mathematica</span></code></p>
+</div>
+<div class="section" id="fonts">
+<h1>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h1>
+<p>To run the GUI version of Mathematica on the cluster, but displaying to
+your own Linux computer, you must have Mathematica fonts installed on
+your own computer. (Your computer is providing the display, and needs to
+use the local font files.) Please download the fonts from Wolfram:</p>
+<p><code class="docutils literal notranslate">&#160;&#160;&#160; </code><a class="reference external" href="http://support.wolfram.com/technotes/fonts/unix/latestfonts.html">http://support.wolfram.com/technotes/fonts/unix/latestfonts.html</a></p>
+<div class="section" id="font-path-error">
+<h2>Font Path Error<a class="headerlink" href="#font-path-error" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>If an error about font paths occurs, the most likely issue is that
+the Mathematica fonts are not installed or were not installed
+correctly:</p></li>
+</ul>
+<!-- end list --><ul class="simple">
+<li></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">xset</span><span class="p">:</span>  <span class="n">bad</span> <span class="n">font</span> <span class="n">path</span> <span class="n">element</span> <span class="p">(</span><span class="c1">#90)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="user-environment-setup-for-graphical-mathematica">
+<h1>User Environment Setup for Graphical Mathematica<a class="headerlink" href="#user-environment-setup-for-graphical-mathematica" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>When running the graphical instance of Mathematica on the cluster
+head nodes, the X11 protocol is used to display your window on your
+“local system”.[1]</p></li>
+<li><p>Because Mathematica uses non-standard, customized fonts, you must
+install these fonts manually on your local system.</p>
+<ul>
+<li><p>To use them on Linux, follow these instructions (based on
+Wolfram’s site[2]). <strong>IMPORTANT</strong> These steps <em><strong>MUST</strong></em> be
+done on your local system and <strong>NOT</strong> on the cluster. This won’t
+work if you are following these steps on the cluster head nodes.</p></li>
+</ul>
+</li>
+<li><p>Font installation instructions:</p>
+<ul>
+<li><p>Download the desired fonts</p></li>
+<li><p>Extract them in your home directory
+tar -xzf MathematicaV10FontsLinux.tar.gz -C $HOME</p></li>
+<li><p>On your local machine, add the font path
+xset fp+ $HOME/Fonts/Type1</p></li>
+<li><p>“Rehash” your font path
+xset fp rehash</p></li>
+<li><p>This font path must be established each time you boot your
+system and before you start Mathematica. Users are encouraged to
+set up their desktop environment or personal accounts to add
+these font path steps automatically on system boot or first
+login.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="external-links">
+<h1>External Links<a class="headerlink" href="#external-links" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.wolfram.com/mathematica/">Wolfram - Mathematica product
+page</a></p></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<references/><p><a class="reference external" href="Category:Software">Category:Software</a></p>
+<ol class="simple">
+<li><p>A “local system” is the laptop or workstation that is actually
+displaying the X11 window to you. This local device <strong>must</strong> support
+X11 rendering via an X11 server process. Linux/UNIX graphical
+desktops support this by design. Windows-based local devices require
+supplemental software to support X11. See <a class="reference external" href="Cluster:Using_from_Windows">Cluster:Using from
+Windows</a></p></li>
+<li><p><a class="reference external" href="http://reference.wolfram.com/mathematica/tutorial/FontsOnLinux.html">Mathematica Tutorial: Fonts on
+Linux</a></p></li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/Mathematica.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

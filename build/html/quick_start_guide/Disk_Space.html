@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Home Directory &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>There are a few locations where you can store your files (data and
+programs). The choice of which one to use depends on what you will be
+using those files for.</p>
+<div class="section" id="home-directory">
+<h1>Home Directory<a class="headerlink" href="#home-directory" title="Permalink to this headline">¶</a></h1>
+<p>Your <strong>home directory</strong>, <code class="docutils literal notranslate"><span class="pre">/home/</span></code><i><code class="docutils literal notranslate"><span class="pre">username</span></code></i>, is a general purpose
+space. Typically, your source code and compiled programs will be kept
+here. If you have very large data files (multiple gigabytes, say), they
+should be stored elsewhere as described below. Submitted jobs are not to
+be executed, nor data written to/read from, this path.</p>
+<p>If you install your programs in <code class="docutils literal notranslate"><span class="pre">~/bin</span></code>, just add <code class="docutils literal notranslate"><span class="pre">~/bin</span></code> to your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>
+environment variable. Set it in .bashrc or .cshrc/.tcshrc depending on
+your shell.</p>
+</div>
+<div class="section" id="research-group-directory">
+<h1>Research Group Directory<a class="headerlink" href="#research-group-directory" title="Permalink to this headline">¶</a></h1>
+<p>Each research group has a path created to store that group’s shared
+research data. These paths are designed to be used as your primary
+working directory for job output and file creation. They should also be
+used for long-term storage of data that the entire group can use.</p>
+<p>Wake Forest University research groups have their paths created on the
+cluster’s <a class="reference external" href="Cluster:Hardware_Configuration#Storage">primary storage
+array</a>. They are
+shared via NFS to all cluster nodes, and fall under the following
+categories based on group type:</p>
+<ol class="simple">
+<li><p><em>‘/deac/</em><researchGrp>’’ ‘’’- These paths are created for
+contributing research groups only. These groups can be identified by
+those who submit to their own fairshare account in SLURM. Each
+group’s path lies on it’s own standalone filesystem with dedicated
+storage. Access to research data is limited only to those who belong
+to the overarching research group.</p></li>
+<li><p><em>‘/deac/generalGrp/</em><researchGrp>’’ ‘’’- These paths are created for
+non-contributing research groups. These groups can be identified by
+those who submit to the generalGrp fairshare account in SLURM. Each
+group’s path lies on the same filesystem, sharing the same dedicated
+storage. Access to research data is not shared between
+non-contributing research groups; it is limited at non-contributing
+research group level (unless otherwise specified).</p></li>
+<li><p><em>‘/deac/generalGrp/usershare/</em><username>’’ ‘’’- These paths are
+created for individual users that do not belong to an overarching
+research group. They can also be identified by submitting to the
+generalGrp fairshare account in SLURM. These individual users share
+the dedicated 10TB of storage with other generalGrp users, but do
+not share access to their research data with other users.</p></li>
+</ol>
+<p>WF Baptist Hospital groups have dedicated storage primarily found at
+<em>‘/isilon/wfuhpc/</em><researchGrp>’’ ‘’’, as well as other dedicated paths.
+These paths are shared via NFS from WFBH storage that is maintained by
+WFBH admins, not the HPC Team. Collaboration with the hospital does
+ensure these paths are shared to all cluster nodes and available for use
+on the DEAC cluster.</p>
+<p>See how to report <a class="reference external" href="Quick_Start_Guide:Error_Reporting#Disk_Space_Issues">Disk Space
+Issues</a>
+if your filesystem runs out of space.</p>
+</div>
+<div class="section" id="scratch-directories-per-node">
+<h1><code class="docutils literal notranslate"><span class="pre">/scratch</span></code> Directories (Per Node)<a class="headerlink" href="#scratch-directories-per-node" title="Permalink to this headline">¶</a></h1>
+<p>Each compute node has a <strong><code class="docutils literal notranslate"><span class="pre">/scratch</span></code> directory</strong>, which is a local
+SCSI-attached disk. Since it is a device local to the compute node, disk
+operations to that device will tend to be much faster than to user home
+or research group directories, both of which are accessed over the
+network.</p>
+<p>/scratch is meant purely for transient data to be used during the
+lifetime of a job. The amount of space is not guaranteed because other
+jobs may use /scratch, too. Scratch data is automatically removed when
+your job completes; you do not need to clean up this data, but it is
+appreciated.</p>
+<p>If your job performs a lot of disk I/O, it will likely be better for you
+to run your job using files stored in /scratch. In your
+<a class="reference internal" href="SLURM.html"><span class="doc">SLURM</span></a> job script, you will have to write commands to
+copy the files over to the appropriate directory. A useful
+[<a class="reference external" href="https://slurm.schedmd.com/sbatch.html#lbAH">https://slurm.schedmd.com/sbatch.html#lbAH</a>| SLURM Environment
+Variable] is <code class="docutils literal notranslate"><span class="pre">SLURM_JOBID</span></code> – the i.d. of the job that is executing.
+Use this variable to write to and read from the scratch directory:</p>
+<ul class="simple">
+<li><p>csh/tcsh
+version</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">setenv</span> <span class="pre">SCRATCHDIR</span> <span class="pre">/scratch/$SLURM_JOBID</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">setenv</span> <span class="pre">DATAFILE</span> <span class="pre">myNiceInput.dat</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Copy</span> <span class="pre">program</span> <span class="pre">and</span> <span class="pre">inputs</span> <span class="pre">to</span> <span class="pre">scratchdir</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cp</span> <span class="pre">~/bin/giantProgram</span> <span class="pre">$SCRATCHDIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cp</span> <span class="pre">/deac/researchGrp/${DATAFILE}</span> <span class="pre">$SCRATCHDIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">go</span> <span class="pre">into</span> <span class="pre">scratchdir</span> <span class="pre">and</span> <span class="pre">run</span> <span class="pre">program</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cd</span> <span class="pre">$SCRATCHDIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">${SCRATCHDIR}/giantProgram</span> <span class="pre">${DATAFILE}</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Clean</span> <span class="pre">up</span> <span class="pre">after</span> <span class="pre">we're</span> <span class="pre">done</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span>&#160;&#160;&#160; <span class="pre">copy</span> <span class="pre">outputs</span> <span class="pre">back</span> <span class="pre">to</span> <span class="pre">home</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cp</span> <span class="pre">${SCRATCHDIR}/giantOutputs_${SLURM_JOBID}.dat</span> <span class="pre">/deac/researchGrp/</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span>&#160;&#160;&#160; <span class="pre">delete</span> <span class="pre">scratchdir</span> <span class="pre">and</span> <span class="pre">its</span> <span class="pre">contents</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">/bin/rm</span> <span class="pre">-rf</span> <span class="pre">${SCRATCHDIR}</span></code></p>
+<ul class="simple">
+<li><p>bash
+version</p></li>
+</ul>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">export</span> <span class="pre">SCRATCHDIR=/scratch/$SLURM_JOBID</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">export</span> <span class="pre">DATAFILE=myNiceInput.dat</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Copy</span> <span class="pre">program</span> <span class="pre">and</span> <span class="pre">inputs</span> <span class="pre">to</span> <span class="pre">scratchdir</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cp</span> <span class="pre">~/bin/giantProgram</span> <span class="pre">$SCRATCHDIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cp</span> <span class="pre">/deac/researchGrp/${DATAFILE}</span> <span class="pre">$SCRATCHDIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">go</span> <span class="pre">into</span> <span class="pre">scratchdir</span> <span class="pre">and</span> <span class="pre">run</span> <span class="pre">program</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cd</span> <span class="pre">$SCRATCHDIR</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">${SCRATCHDIR}/giantProgram</span> <span class="pre">${DATAFILE}</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span> <span class="pre">Clean</span> <span class="pre">up</span> <span class="pre">after</span> <span class="pre">we're</span> <span class="pre">done</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span>&#160;&#160;&#160; <span class="pre">copy</span> <span class="pre">outputs</span> <span class="pre">back</span> <span class="pre">to</span> <span class="pre">home</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">cp</span> <span class="pre">${SCRATCHDIR}/giantOutputs_${SLURM_JOBID}.dat</span> <span class="pre">/deac/researchGrp/</span></code>
+<code class="docutils literal notranslate">&#160;&#160; </code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">#</span>&#160;&#160;&#160; <span class="pre">delete</span> <span class="pre">scratchdir</span> <span class="pre">and</span> <span class="pre">its</span> <span class="pre">contents</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">/bin/rm</span> <span class="pre">-rf</span> <span class="pre">${SCRATCHDIR}</span></code></p>
+<p>To request nodes with at least a certain size of scratch disk space, use
+the “constraint” request:</p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--constraint=scr40gb</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">###40GB</span> <span class="pre">scratch</span></code></p>
+<p><code class="docutils literal notranslate">&#160;&#160; <span class="pre">#SBATCH</span> <span class="pre">--constraint=scr250gb</span></code>
+<code class="docutils literal notranslate">&#160;&#160; <span class="pre">###250GB</span> <span class="pre">scratch</span></code></p>
+</div>
+<div class="section" id="see-also">
+<h1>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://slurm.schedmd.com/sbatch.html#lbAH">https://slurm.schedmd.com/sbatch.html#lbAH</a> – SLURM Environment
+Variables</p></li>
+<li><p><a class="reference external" href="Information:Moving_Files_Efficiently">Information:Moving Files
+Efficiently</a> –
+Guide on moving data efficiently</p></li>
+</ul>
+<p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/Disk_Space.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

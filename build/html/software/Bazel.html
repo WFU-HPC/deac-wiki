@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bazel &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="bazel">
+<h1>Bazel<a class="headerlink" href="#bazel" title="Permalink to this headline">¶</a></h1>
+<p>https://docs.bazel.build/versions/master/install-compile-source.html</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Bazel is an open-source build and test tool similar to Make, Maven, and Gradle.
+It uses a human-readable, high-level build language. Bazel supports projects in
+multiple languages and builds outputs for multiple platforms. Bazel supports
+large codebases across multiple repositories, and large numbers of users.</p>
+</div>
+<div class="section" id="installed-versions">
+<h2>Installed Versions<a class="headerlink" href="#installed-versions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>0.24.1</p></li>
+<li><p>0.27.1</p></li>
+</ul>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>bash, zip, unzip, gcc, gcc-c++, java-1.8.0-openjdk, python 3.7.0</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">rhel7</span><span class="o">/</span><span class="n">gpu</span><span class="o">/</span><span class="n">python</span><span class="o">/</span><span class="mf">3.7</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>Bazel needs to be bootstraped using the built in compile.sh command. The
+compiled output is placed into output/bazel. This is a self-contained Bazel
+binary, without an embedded JDK. You can copy it anywhere or use it in-place.</p>
+<p>Download src zip file to <code class="docutils literal notranslate"><span class="pre">/deac/opt/src/rhel7</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">deac</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">rhel7</span><span class="o">/</span><span class="n">bazel</span><span class="o">-</span><span class="mf">0.27</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">cd</span> <span class="o">/</span><span class="n">deac</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">rhel7</span><span class="o">/</span><span class="n">bazel</span><span class="o">-</span><span class="mf">0.27</span><span class="o">.</span><span class="mi">1</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">bazelbuild</span><span class="o">/</span><span class="n">bazel</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="mf">0.27</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">bazel</span><span class="o">-</span><span class="mf">0.27</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">dist</span><span class="o">.</span><span class="n">zip</span>
+
+<span class="n">unzip</span> <span class="n">bazel</span><span class="o">-</span><span class="mf">0.27</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">dist</span><span class="o">.</span><span class="n">zip</span>
+</pre></div>
+</div>
+<p>Run <code class="docutils literal notranslate"><span class="pre">./compile.sh</span></code> to build bazel binary file</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="n">EXTRA_BAZEL_ARGS</span><span class="o">=</span><span class="s2">&quot;--host_javabase=@local_jdk//:jdk&quot;</span> <span class="n">bash</span> <span class="o">./</span><span class="nb">compile</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Copy bazel binary output to <code class="docutils literal notranslate"><span class="pre">/deac/opt/rhel7/gpu</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">deac</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">rhel7</span><span class="o">/</span><span class="n">gpu</span><span class="o">/</span><span class="n">bazel</span><span class="o">/</span><span class="mf">0.27</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="nb">bin</span>
+<span class="n">cp</span> <span class="n">output</span><span class="o">/</span><span class="n">bazel</span> <span class="o">/</span><span class="n">deac</span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">rhel7</span><span class="o">/</span><span class="n">gpu</span><span class="o">/</span><span class="n">bazel</span><span class="o">/</span><span class="mf">0.27</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="nb">bin</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/software/Bazel.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

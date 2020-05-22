@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>About &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p><a class="reference external" href="category:Compiling">category:Compiling</a>
+<a class="reference external" href="category:Software">category:Software</a></p>
+<div class="section" id="about">
+<h1>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h1>
+<p>SOAPdenovo is a novel short-read assembly method that can build a de
+novo draft assembly for the human-sized genomes. The program is
+specially designed to assemble Illumina GA short reads. It creates new
+opportunities for building reference sequences and carrying out accurate
+analyses of unexplored genomes in a cost effective way. Now the new
+version is available. SOAPdenovo2, which has the advantage of a new
+algorithm design that reduces memory consumption in graph construction,
+resolves more repeat regions in contig assembly, increases coverage and
+length in scaffold construction, improves gap closing, and optimizes for
+large genome.</p>
+</div>
+<div class="section" id="version">
+<h1>Version<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<p>R240 with Intel-2017 compiler</p>
+</div>
+<div class="section" id="compiling">
+<h1>Compiling<a class="headerlink" href="#compiling" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Configuration</p></li>
+</ul>
+<p>In the SOAPdenovo home dir:</p>
+<p><code class="docutils literal notranslate"> <span class="pre">module</span> <span class="pre">load</span> <span class="pre">compilers/intel-2017-lp64</span></code>
+<code class="docutils literal notranslate"> <span class="pre">vim</span> <span class="pre">Makefile</span>&#160;&#160;&#160;&#160; <span class="pre">//edit</span> <span class="pre">the</span> <span class="pre">Makefile</span> <span class="pre">to</span> <span class="pre">set</span> <span class="pre">compiler</span></code></p>
+<p>Edit the Makefile, change CC to icpc</p>
+<p><code class="docutils literal notranslate"> <span class="pre">CC</span> <span class="pre">=</span> <span class="pre">icpc</span></code></p>
+<p>Now, compile:</p>
+<p><code class="docutils literal notranslate"> <span class="pre">make</span></code></p>
+<p>Two executables named SOAPdenovo-127mer and SOAPdenovo-63mer now are
+generated in the SOAPdenovo home dir.</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/software/pending/SOAPdenovo.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Converting SVN repo to GIT &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="converting-svn-repo-to-git">
+<h1>Converting SVN repo to GIT<a class="headerlink" href="#converting-svn-repo-to-git" title="Permalink to this headline">¶</a></h1>
+<p>The following is based upon an <a class="reference external" href="https://www.atlassian.com/git/tutorials/svn-to-git-prepping-your-team-migration">online
+tutorial</a>.</p>
+<div class="section" id="preparation">
+<h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>You will need to use the pre-downloaded svn-migration-scripts.jar
+file on the headnodes</p></li>
+</ul>
+<p>:* You can also download
+<a class="reference external" href="https://bitbucket.org/atlassian/svn-migration-scripts/downloads/svn-migration-scripts.jar">svn-migration-scripts.jar</a>
+locally, but additional steps will need to be covered OYO via the
+referenced tutorial.</p>
+<p>:* Verify the downloaded file if using locally: <em>java -jar
+~/svn-migration-scripts.jar verify</em></p>
+<ul class="simple">
+<li><p>Generate an “Authors” file to convert SVN commit info to Git format</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">svn</span><span class="o">-</span><span class="n">migration</span><span class="o">-</span><span class="n">scripts</span><span class="o">.</span><span class="n">jar</span> <span class="n">authors</span> <span class="o">&lt;</span><span class="n">svn</span><span class="o">-</span><span class="n">repo</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">authors</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">j</span><span class="o">.</span><span class="n">doe</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">doe</span> <span class="o">&lt;</span><span class="n">j</span><span class="o">.</span><span class="n">doe</span><span class="nd">@mycompany</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+<span class="n">m</span><span class="o">.</span><span class="n">smith</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">smith</span> <span class="o">&lt;</span><span class="n">m</span><span class="o">.</span><span class="n">smith</span><span class="nd">@mycompany</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;&lt;</span>\<span class="n">pre</span><span class="o">&gt;</span>
+<span class="p">:</span><span class="o">*</span> <span class="n">This</span> <span class="n">will</span> <span class="n">save</span> <span class="nb">all</span> <span class="n">users</span> <span class="n">who</span> <span class="n">have</span> <span class="n">committed</span> <span class="n">to</span> <span class="n">the</span> <span class="n">SVN</span> <span class="n">repo</span><span class="p">,</span> <span class="n">which</span> <span class="n">you</span> <span class="n">will</span> <span class="n">then</span> <span class="n">need</span> <span class="n">to</span> <span class="n">update</span> <span class="k">with</span> <span class="n">full</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">email</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Edit</span> <span class="n">the</span> <span class="n">authors</span><span class="o">.</span><span class="n">txt</span> <span class="n">file</span> <span class="ow">and</span> <span class="n">change</span> <span class="n">the</span> <span class="n">portion</span> <span class="n">to</span> <span class="n">the</span> <span class="n">right</span> <span class="n">of</span> <span class="n">the</span> <span class="s2">&quot;=&quot;</span> <span class="n">to</span> <span class="n">the</span> <span class="n">example</span> <span class="n">below</span>
+<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="n">j</span><span class="o">.</span><span class="n">doe</span> <span class="o">=</span> <span class="n">John</span> <span class="n">Doe</span> <span class="o">&lt;</span><span class="n">john</span><span class="o">.</span><span class="n">doe</span><span class="nd">@atlassian</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+<span class="n">m</span><span class="o">.</span><span class="n">smith</span> <span class="o">=</span> <span class="n">Mary</span> <span class="n">Smith</span> <span class="o">&lt;</span><span class="n">mary</span><span class="o">.</span><span class="n">smith</span><span class="nd">@atlassian</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="converting">
+<h2>Converting<a class="headerlink" href="#converting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Beware this process can take a significant amount of time for large
+repos.</p></li>
+</ul>
+<p>:* For example, a 400MB repository with 33K commits can take around 12
+hours.</p>
+<ul class="simple">
+<li><p>The command to convert a SVN repo with a standard layout
+is:</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="o">--</span><span class="n">stdlayout</span> <span class="o">--</span><span class="n">authors</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="n">authors</span><span class="o">.</span><span class="n">txt</span> <span class="o">&lt;</span><span class="n">svn</span><span class="o">-</span><span class="n">repo</span><span class="o">&gt;/&lt;</span><span class="n">project</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">git</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Where svn-repo is the URI of the SVN repository you are migrating,
+project is the name to be imported, and git-repo-name is the new Git
+repository</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">git</span> <span class="n">svn</span> <span class="n">clone</span> <span class="o">--</span><span class="n">stdlayout</span> <span class="o">--</span><span class="n">authors</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="n">authors</span><span class="o">.</span><span class="n">txt</span> <span class="o">&lt;</span><span class="n">SVN_URL</span><span class="o">&gt;/</span><span class="n">NiceCode</span> <span class="n">NiceCodeAsGit</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Inspect what was migrated</p></li>
+</ul>
+<p>:* Run <em>git branch -r</em> to examine branches moved</p>
+<p>:* Run <em>git tag</em> to inspect tags with commits</p>
+<p>:* It’s okay if things seem out of order, as long as the content is
+there.</p>
+<ul class="simple">
+<li><p>Next, all tags and branches must be cleaned with the following
+command:</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">Dfile</span><span class="o">.</span><span class="n">encoding</span><span class="o">=</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span> <span class="o">-</span><span class="n">jar</span> <span class="n">svn</span><span class="o">-</span><span class="n">migration</span><span class="o">-</span><span class="n">scripts</span><span class="o">.</span><span class="n">jar</span> <span class="n">clean</span><span class="o">-</span><span class="n">git</span> <span class="o">--</span><span class="n">force</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Once fully converted to Git locally, the repository can be imported
+to Bit Bucket via the “I have an existing project” commands given
+after creating a repo.</p></li>
+</ul>
+</div>
+<div class="section" id="importing">
+<h2>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Switch to your repository’s directory</p></li>
+<li><p>Connect your existing repository to Git</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>git remote add origin https://login@&lt;GIT-URL&gt;/repositoryName.git
+git push -u origin master
+&lt;pre&gt;
+* You can now checkout this git repo from Bit Bucket remotely!
+* To test, cd to a different path and clone
+&lt;pre&gt;git clone https://login@&lt;GIT-URL&gt;/repositoryName.git
+</pre></div>
+</div>
+</div>
+<div class="section" id="svn-to-github-real-world-example">
+<h2>SVN to GitHub real world example<a class="headerlink" href="#svn-to-github-real-world-example" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Create directory for git clone</p>
+<ul>
+<li><p>mkdir gitbranch</p></li>
+</ul>
+</li>
+<li><p>Using a browser, login to www.github.com with login name and
+password</p></li>
+<li><p>Click on “New repository” box</p></li>
+<li><p>Click on “Create repository”</p></li>
+<li><p>On cluster headnode, within git clone directory, run the following
+command:</p>
+<ul>
+<li><p>git clone
+<a class="reference external" href="https://">https://</a>[<username>&#64;]github.com/<GIT-REPO>/<REPO>.git</p></li>
+<li><p>Enter password if requested - Note, username only needed for
+PRIVATE repo</p></li>
+</ul>
+</li>
+<li><p>Enter git branch</p>
+<ul>
+<li><p>cd <REPO></p></li>
+</ul>
+</li>
+<li><p>Initialize as a git svn repo</p>
+<ul>
+<li><p>git svn init –stdlayout –no-metadata <SVN-URL></p></li>
+</ul>
+</li>
+<li><p>Modify git config for SVN repo settings</p>
+<ul>
+<li><p>git config –edit</p></li>
+</ul>
+</li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>      <span class="mi">1</span> <span class="p">[</span><span class="n">core</span><span class="p">]</span>
+      <span class="mi">2</span>         <span class="n">repositoryformatversion</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="mi">3</span>         <span class="n">filemode</span> <span class="o">=</span> <span class="n">true</span>
+      <span class="mi">4</span>         <span class="n">bare</span> <span class="o">=</span> <span class="n">false</span>
+      <span class="mi">5</span>         <span class="n">logallrefupdates</span> <span class="o">=</span> <span class="n">true</span>
+      <span class="mi">6</span> <span class="p">[</span><span class="n">remote</span> <span class="s2">&quot;origin&quot;</span><span class="p">]</span>
+      <span class="mi">7</span>         <span class="n">fetch</span> <span class="o">=</span> <span class="o">+</span><span class="n">refs</span><span class="o">/</span><span class="n">heads</span><span class="o">/*</span><span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">remotes</span><span class="o">/</span><span class="n">origin</span><span class="o">/*</span>
+      <span class="mi">8</span>         <span class="n">url</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">natalieawh</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">natalieawh</span><span class="o">/</span><span class="n">AtompawProject</span><span class="o">.</span><span class="n">g</span>        <span class="n">it</span>
+      <span class="mi">9</span> <span class="p">[</span><span class="n">branch</span> <span class="s2">&quot;master&quot;</span><span class="p">]</span>
+     <span class="mi">10</span>         <span class="n">remote</span> <span class="o">=</span> <span class="n">origin</span>
+     <span class="mi">11</span>         <span class="n">merge</span> <span class="o">=</span> <span class="n">refs</span><span class="o">/</span><span class="n">heads</span><span class="o">/</span><span class="n">master</span>
+     <span class="mi">12</span> <span class="p">[</span><span class="n">svn</span><span class="o">-</span><span class="n">remote</span> <span class="s2">&quot;svn&quot;</span><span class="p">]</span>
+     <span class="mi">13</span>         <span class="n">noMetadata</span> <span class="o">=</span> <span class="mi">1</span>
+     <span class="mi">14</span>         <span class="n">url</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">SVN</span><span class="o">-</span><span class="n">URL</span><span class="o">&gt;</span>
+     <span class="mi">15</span>         <span class="n">fetch</span> <span class="o">=</span> <span class="n">trunk</span><span class="o">/&lt;</span><span class="n">branch</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span><span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">remotes</span><span class="o">/</span><span class="n">trunk</span><span class="o">/</span><span class="n">origin</span>
+     <span class="mi">16</span>         <span class="n">branches</span> <span class="o">=</span> <span class="n">branches</span><span class="o">/*/&lt;</span><span class="n">branch</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span><span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">remotes</span><span class="o">/</span><span class="n">origin</span><span class="o">/*</span>
+     <span class="mi">17</span>         <span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span><span class="o">/*/&lt;</span><span class="n">branch</span> <span class="n">to</span> <span class="n">convert</span><span class="o">&gt;</span><span class="p">:</span><span class="n">refs</span><span class="o">/</span><span class="n">remotes</span><span class="o">/</span><span class="n">tags</span><span class="o">/</span><span class="n">origin</span><span class="o">/*</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><ul>
+<li><p>NOTE - Git 1.7 does not properly initial svn repo, “origin” must
+be added to “fetch,” “branches” and “tags”</p></li>
+</ul>
+</li>
+</ul>
+<p>Note that the “origin” is critical.</p>
+<ul class="simple">
+<li><p>After saving this file, then retrieve SVN data</p>
+<ul>
+<li><p>git svn fetch</p></li>
+</ul>
+</li>
+<li><p>After several minutes, there is a stream of file names and the files
+appear in the repository.</p></li>
+<li><p>If multiple branches were retrieved, run bash command:</p></li>
+</ul>
+<!-- end list --><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/bin/bash
+for branch in `git branch -r |grep &quot;branches/&quot; |sed &#39;s/ branches\///&#39;` ; do
+git branch $branch refs/remotes/branches/$branch
+done
+for tag in `git branch -r |grep &quot;tags/&quot; |sed &#39;s/ tags\///&#39;` ; do
+git tag -a -m&quot;Converting SVN tags&quot; $tag refs/remotes/tags/$tag
+done
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Push data to git</p>
+<ul>
+<li><p>git push –all origin</p></li>
+<li><p>get push –tags origin</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.atlassian.com/git/tutorials/migrating-overview">https://www.atlassian.com/git/tutorials/migrating-overview</a></p></li>
+</ul>
+<p><a class="reference external" href="Category:Quick_Start">Category:Quick Start</a>
+<a class="reference external" href="Category:Revision_Control">Category:Revision Control</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/quick_start_guide/Git_Migration.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

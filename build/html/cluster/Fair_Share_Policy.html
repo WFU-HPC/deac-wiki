@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Basic Principles &#8212; DEAC Cluster Wiki  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="basic-principles">
+<h1>Basic Principles<a class="headerlink" href="#basic-principles" title="Permalink to this headline">¶</a></h1>
+<p>The general goals of this fair share policy are:</p>
+<ol class="simple">
+<li><p>Courses or other educational uses of the cluster will always have
+the highest priority. Course instructors may even request exclusive,
+dedicated use of a limited portion of the cluster for student use in
+class or laboratory sections.</p></li>
+<li><p>Fair share calculations for a particular research group will be
+derived from monetary funds from grants or internal sources that are
+then provided to a particular individual and contributed to the WFU
+DEAC Facility.</p></li>
+<li><p>Research groups or individual users, who have received an account in
+accordance to the <a class="reference external" href="Cluster:Account_Management_Policy">Account Management
+Policy</a> but have not
+yet contributed to the cluster, will gain low priority access at a
+level defined by the <strong>General Group Fair Share Target</strong>.</p></li>
+<li><p>Contributions to the cluster will directly affect a research group’s
+fair share calculation during the grace period.</p></li>
+<li><p>Contributions to the cluster will have reduced affect on a research
+group’s fair share calculation after the grace period.</p></li>
+<li><p>The grace period and decay rate for a given contribution in a given
+year are fixed for those contributions and will not change during
+the life of that contribution. Retroactive changes to those values
+will not be allowed.</p></li>
+</ol>
+</div>
+<div class="section" id="brief-summary-of-fair-share-calculation-and-usage">
+<h1>Brief Summary of Fair Share Calculation and Usage<a class="headerlink" href="#brief-summary-of-fair-share-calculation-and-usage" title="Permalink to this headline">¶</a></h1>
+<p>All <strong>contributed funds</strong> have an <strong>apparent value</strong>.</p>
+<ul class="simple">
+<li><p>This apparent value will be 100% of the funds for the duration of
+the <strong>Fund Grace Period</strong>.</p></li>
+<li><p>After the <strong>Fund Grace Period</strong>, the apparent value will be reduced
+each year by the <strong>Fund Decay Rate</strong>.</p></li>
+</ul>
+<p>The <strong>Individual Fair Share Target</strong> for a principal investigator (or
+group of PIs) is the percentage of the <strong>Total Cluster Contributions</strong>
+that the PI’s (or group of PIs) <strong>Individual Contribution</strong> occupies. A
+portion of the <strong>Individual Fair Share Target</strong> of the default
+(non-contributor) user group (also referred to as the <strong>General Group
+Fair Share Target</strong>) is then added to each PI/co-PI <strong>Individual Fair
+Share Target</strong>.</p>
+<ul class="simple">
+<li><p><strong>Individual Contribution</strong> is the sum of the <strong>apparent value</strong>s
+for all contributions made by the PI (or group of PIs).</p></li>
+<li><p><strong>Individual Contribution</strong> for the default (non-contributor) user
+group is the sum of the <strong>apparent value</strong>s for all contributions
+made to the cluster as a whole (i.e. University administration
+funding, grants for the cluster as a whole, etc.)</p></li>
+<li><p><strong>Total Cluster Contributions</strong> is the sum of all <strong>Individual
+Contribution</strong>s by both PI/co-PI and to the default user group.</p></li>
+</ul>
+<p>When there are insufficient resources to begin job execution, enqueued
+jobs will be prioritized based on a PI/co-PIs cluster usage history and
+their <strong>Individual Fair Share Target</strong>. The priority scheme will work
+toward ensuring that, under insufficient computational resource
+conditions, PI/co-PIs will receive a percentage of cluster resources
+specified by their <strong>Individual Fair Share Target</strong>. When jobs are
+enqueued, prioritization for execution will be determined by the
+scheduler, using <strong>Individual Fair Share Target</strong> and job resource
+requirements to determine running order as computational resources
+become available.</p>
+<p>Detailed formulas for the behavior defined in this section can be found
+below in <a class="reference external" href="Cluster:Fair_Share_Policy#Apparent_Value_Calculation">Apparent Value
+Calculation</a>
+and <a class="reference external" href="Cluster:Fair_Share_Policy#Fair_Share_Calculation">Fair Share
+Calculation</a>.</p>
+<p><strong>Note:</strong> All bold face terms in this section are defined below in the
+<a class="reference external" href="Cluster:Fair_Share_Policy#Common_Terms">Common Terms</a>
+section.</p>
+</div>
+<div class="section" id="rates-and-constants">
+<h1>Rates and Constants<a class="headerlink" href="#rates-and-constants" title="Permalink to this headline">¶</a></h1>
+<table style="width:95%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><p>Rate/Constant</p></th>
+<th style="text-align: left;"><p>Value for FY</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><p>Fund Grace Period</p></td>
+<td style="text-align: left;"><p>4 years</p></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p>Fund Decay Rate</p></td>
+<td style="text-align: left;"><p>40% of original amount each year outside of grace period</p></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p>Educational/Courses Using the Cluster [1]</p></td>
+<td style="text-align: left;"><p>100% of Actual Cluster Usage by Course, up to a maximum of 4 node-months per student</p></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>Funded</strong> Grant Proposals<br />
+Research Group Specific [2]</p></td>
+<td style="text-align: left;"><p>100% of awarded cluster funding</p></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><p>Facilities Funding Coordinator(s) [2],[3]</p></td>
+<td style="text-align: left;"><p>50% of funding secured for the Cluster Facility, split between participating coordinators</p></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><p><strong>Funded</strong> Grant Proposals<br />
+Cluster Facility [2]</p></td>
+<td style="text-align: left;"><p>50% of awarded cluster facility funding is applied to the general user category</p></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table><ul class="simple">
+<li><p>Footnotes :
+[1] Credit toward fair share will be applied at the end of the
+semester during which the course was held.
+[2] Credit toward fair share will be applied no sooner than the
+transfer of funds to the WFU DEAC cluster facility and no later than
+the end of the same semester. The exact date of credit within that
+window is at the discretion of the principal investigator(s).
+[3] Facilities Funding Coordinators refers to researchers who
+coordinate facility level grant funding with external funding
+agencies or secure institutional funding through efforts on behalf
+of the cluster facility.</p></li>
+</ul>
+</div>
+<div class="section" id="sharing-of-fair-share-credits">
+<h1>Sharing of Fair Share Credits<a class="headerlink" href="#sharing-of-fair-share-credits" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Fair share credits shall be split among the participating principal
+investigators (PPIs) as specified by unanimous consent of those
+PPIs. By default, unless instructed otherwise by those PPIs, the
+fair share credits shall be split equally among all PPIs. If there
+is a desire for non-default sharing but unanimous consent is not
+possible, the fair share allocation will be subject to the <a class="reference external" href="Cluster:Fair_Share_Policy#Arbitration_Responsibility">terms of
+arbitration</a>
+of this policy.</p></li>
+</ul>
+</div>
+<div class="section" id="general-group-fair-share-contributions">
+<h1>General Group Fair Share Contributions<a class="headerlink" href="#general-group-fair-share-contributions" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Wake Forest University institutional funds from any non-Sponsored
+Program source provided for the cluster facility as a whole shall be
+attributed to the <strong>General Group Fair Share Target</strong> provided they
+fund the following expense categories:
+:# Software Licensing Fees for General Use software (compiler
+licenses, for example)
+:# Infrastructure Hardware Expenses (network switches, for example)
+:# Hardware Site Operational Expenses (co-location costs, for
+example)</p></li>
+</ul>
+</div>
+<div class="section" id="arbitration-responsibility">
+<h1>Arbitration Responsibility<a class="headerlink" href="#arbitration-responsibility" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>The WFU DEAC Facility Representative Committee shall be the sole
+arbitrator for disputes in the apportionment of shared fair share
+allocations outlined in this policy.</p></li>
+</ul>
+</div>
+<div class="section" id="explicit-intent-of-policy">
+<h1>Explicit Intent of Policy<a class="headerlink" href="#explicit-intent-of-policy" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Under no circumstances shall the edits or rough drafts or history of
+this policy that results from the technology used to create and
+display this policy be used to imply any meaning other than that
+clearly stated in the written words of the latest version of the
+policy and approved by the WFU DEAC facility Representative
+Committee and
+management.</p></li>
+</ul>
+</div>
+<div class="section" id="common-terms">
+<h1>Common Terms<a class="headerlink" href="#common-terms" title="Permalink to this headline">¶</a></h1>
+<p>| Term                            | Definition                                                                                                                                                                                                                                                                                   |
+| :—————————— | :——————————————————————————————————————————————————————————————————————————————————————————————- |
+| Contributed Funds               | Actual, absolute monetary amounts paid or transferred into the WFU DEAC facility by Reynolda campus faculty or their collaborators. Also, time committments and other efforts expended on behalf of the cluster (as defined and calculated in this policy) are considered contributed funds. |
+| Apparent Value                  | Value of a contribution after the initial normalizations and annual time-based devaluations have been applied.                                                                                                                                                                               |
+| Individual Contribution         | Sum of all apparent value contributions in a given year.                                                                                                                                                                                                                                     |
+| Total Cluster Contributions     | Sum of all <strong>Individual Contributions</strong> from all cluster sources in a given year.                                                                                                                                                                                                            |
+| Fair Share Group                | A research group (single PI or group of PIs) contributing apparent value to the cluster in a given year.                                                                                                                                                                                     |
+| Individual Fair Share Target    | Percentage of the <strong>Total Cluster Contributions</strong> that an research group contributes through <strong>Individual Contributions</strong> (approximately <strong>Individual Contribution</strong>/<strong>Total Cluster Contributions</strong>).                                                                                       |
+| General Group Fair Share Target | Percentage of the <strong>Total Cluster Contributions</strong> that University or Cluster Facility external funding contributes toward the <strong>Total Cluster Contributions</strong>.                                                                                                                               |
+| Fund Grace Period               | Period of time after a contribution during which no time-based devaluation occurs to affect the <strong>Apparent Value</strong>.                                                                                                                                                                          |
+| Fund Decay Rate                 | Annual rate at which a contribution is devalued after the <strong>Fund Grace Period</strong> expires.                                                                                                                                                                                                     |
+|                                 |                                                                                                                                                                                                                                                                                              |</p>
+<p><a class="reference external" href="Category:Cluster">Category:Cluster</a> <a class="reference external" href="Category:_Policy">Category:
+Policy</a></p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DEAC Cluster Wiki</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Carlson, Cody Stevens, Sean Anderson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/cluster/Fair_Share_Policy.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
