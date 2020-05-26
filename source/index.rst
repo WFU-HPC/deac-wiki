@@ -63,15 +63,13 @@ Where to begin?
 * 16 Jan 2018 - SVN is no longer officially supported by the HPC team. We highly recommend GitHub or BitBucket!
 
 ```
-    Apr 01: The cluster is supporting COVID-19 research through Folding@home!
-    Feb 05: R 3.6.2 is now available!
-    Aug 30: New semester is underway! Welcome new researchers!
-    Jul 31: Mathematica 12 is now available!
-    Jun 30: Python 3.7 is now available!
-    Note: Users must be on a Wake Forest network or connected via VPN to login
-          to the new head nodes!!
-    Note: Job submission changes: no more 'tengig', 'sandy' or 'ivy' constraint!
-          The 'rhel7test' partition is now gone!
+Apr 01: The cluster is supporting COVID-19 research through Folding@home!
+Feb 05: R 3.6.2 is now available!
+Aug 30: New semester is underway! Welcome new researchers!
+Jul 31: Mathematica 12 is now available!
+Jun 30: Python 3.7 is now available!
+Note: Users must be on a Wake Forest network or connected via VPN to login to the new head nodes!!
+Note: Job submission changes: no more 'tengig', 'sandy' or 'ivy' constraint! The 'rhel7test' partition is now gone!
 ```
 
 To-Do
