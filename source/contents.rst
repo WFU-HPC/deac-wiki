@@ -70,8 +70,7 @@ Compiler Info
 
 -  `Intel Cluster Studio <compilers/Intel_Cluster_Studio.md>`__
 -  `Intel Parallel Studio XE <compilers/Intel_Parallel_Studio_XE.md>`__
--  `PGI Cluster Development
-   Kit <compilers/PGI_Cluster_Development_Kit.md>`__
+-  `PGI Cluster Development Kit <compilers/PGI_Cluster_Development_Kit.md>`__
 
 Software Licenses
 ~~~~~~~~~~~~~~~~~

@@ -1,7 +1,9 @@
-# Frequently Asked Questions
+Frequently Asked Questions
+==========================
 
 
-## General Questions
+General Questions
+-----------------
 
 - What is a High Performance Computing Cluster?
     - General cluster information can be found [HERE](Cluster:General_Overview "wikilink").
@@ -12,7 +14,8 @@
     - Follow the account creation process at: <http://www.deac.wfu.edu/accounts.html>
 
 
-## New User Questions
+New User Questions
+------------------
 
 - How do I change my password?
   - Follow the guidelines provided: [Information:Passwords](Information:Passwords "wikilink")
@@ -28,7 +31,8 @@
   - The resource manager scheduler we use is [SLURM](:Category:SLURM "wikilink").
 
 
-# User Questions
+User Questions
+--------------
 
 - How do I submit jobs to the cluster?
   - Use **sbatch** to submit to the job queue. See the [SLURM:Quick Start Guide](SLURM:Quick_Start_Guide "wikilink").
@@ -42,7 +46,8 @@
   - This wiki is intended to be updated with information from users... send us an email with info to **<deac-help@wfu.edu>**
 
 
-# Grants and Publications
+Grants and Publications
+-----------------------
 
 - I'm writing a grant. Do you have a facility description?
     [Information:Grant Writing](Information:Grant_Writing "wikilink")
