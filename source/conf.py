@@ -39,8 +39,9 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-# Root document file
+# Specific options
 master_doc = 'index'
+# exclude_patterns=['contents.rst', 'faq.rst', 'beginners_guide.rst']
 
 # -- Options for HTML output -------------------------------------------------
 

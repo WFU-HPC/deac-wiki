@@ -17,7 +17,6 @@ Quick-Start Guides
 -  `Matlab <quick_start_guide/Matlab.md>`__
 -  `Profiling <quick_start_guide/Profiling.md>`__
 -  `SLURM <quick_start_guide/SLURM.md>`__
--  `SSH <quick_start_guide/SSH.md>`__
 -  `Tcsh <quick_start_guide/Tcsh.md>`__
 
 General Info
@@ -27,10 +26,8 @@ General Info
 -  `Grant Writing <information/Grant_Writing.md>`__
 -  `Intel chip architecture <information/Intel_chip_architecture.md>`__
 -  `Linux <information/Linux.md>`__
--  `Managing Research Group
-   Data <information/Managing_Research_Group_Data.md>`__
--  `Moving Files
-   Efficiently <information/Moving_Files_Efficiently.md>`__
+-  `Managing Research Group Data <information/Managing_Research_Group_Data.md>`__
+-  `Moving Files Efficiently <information/Moving_Files_Efficiently.md>`__
 -  `Passwords <information/Passwords.md>`__
 -  `Regarding Publications <information/Regarding_Publications.md>`__
 
@@ -46,8 +43,7 @@ Cluster Specific Info
 -  `Headnodes <cluster/Headnodes.md>`__
 -  `How to Use It <cluster/How_to_Use_It.md>`__
 -  `Infiniband <cluster/Infiniband.md>`__
--  `Performance Testing HPL
-   2014 <cluster/Performance_Testing_HPL_2014.md>`__
+-  `Performance Testing HPL 2014 <cluster/Performance_Testing_HPL_2014.md>`__
 -  `Performance Testing <cluster/Performance_Testing.md>`__
 -  `User Agreement <cluster/User_Agreement.md>`__
 -  `Using from Windows <cluster/Using_from_Windows.md>`__
@@ -81,11 +77,9 @@ Software Licenses
 Featured Research
 ~~~~~~~~~~~~~~~~~
 
--  `Computer Modeling of Crystalline
-   Electrolytes <research/Computer_Modeling_of_Crystalline_Electrolytes.md>`__
+-  `Computer Modeling of Crystalline Electrolytes <research/Computer_Modeling_of_Crystalline_Electrolytes.md>`__
 -  `Fibonacci and Phi <research/Fibonacci_and_Phi.md>`__
--  `Structural Comparison of ATP-binding
-   Effects <research/Structural_Comparison_of_ATP-binding_Effects.md>`__
+-  `Structural Comparison of ATP-binding Effects <research/Structural_Comparison_of_ATP-binding_Effects.md>`__
 
 Software
 ~~~~~~~~
@@ -108,8 +102,7 @@ Software
 
 -  Pending
 
-   -  `Affymetrix Power
-      Tools <software/pending/Affymetrix_Power_Tools.md>`__
+   -  `Affymetrix Power Tools <software/pending/Affymetrix_Power_Tools.md>`__
    -  `Autodock <software/pending/Autodock.md>`__
    -  `Autodock Vina <software/pending/Autodock_Vina.md>`__
    -  `Birdsuite <software/pending/Birdsuite.md>`__
@@ -128,8 +121,7 @@ Software
    -  `HDF5 <software/pending/HDF5.md>`__
    -  `IDE <software/pending/IDE.md>`__
    -  `IDL <software/pending/IDL.md>`__
-   -  `Integrated Development
-      Environments <software/pending/Integrated_Development_Environments.md>`__
+   -  `Integrated Development Environments <software/pending/Integrated_Development_Environments.md>`__
    -  `Java <software/pending/Java.md>`__
    -  `LAMMPS <software/pending/LAMMPS.md>`__
    -  `LS-Dyna <software/pending/LS-Dyna.md>`__
