@@ -36,14 +36,19 @@ For help, send email to `deac-help@wfu.edu <mailto:deac-help@wfu.edu>`_
    guide-advanced
 
 
-:doc:`Frequently Asked Questions <faq>`
----------------------------------------
+Quick start video
+-----------------
+
+This screencast will help you get started!
 
 .. raw:: html
 
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe src="https://www.youtube.com/watch?v=vnkmdQqXeFg" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+    <div style="text-align: center; margin-bottom: 2em;">
+    <iframe width="100%" height="480" src="https://www.youtube.com/embed/vnkmdQqXeFg?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
+
+
+:doc:`Frequently Asked Questions <faq>`
 
 
 Where to begin?
