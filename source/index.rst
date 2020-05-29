@@ -26,16 +26,6 @@ and support user needs.
 
 For help, send email to `deac-help@wfu.edu <mailto:deac-help@wfu.edu>`_
 
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   faq
-   guide-beginner
-   guide-advanced
-
-
 Quick start video
 -----------------
 
@@ -72,7 +62,9 @@ What's New
 * 25 May 2018: **R 3.5** for statistical and data analysis (module load R/3.5)
 * 14 May 2018: **OpenMPI 3.1.0** for multinode job parellization is available!
 * 07 Mar 2018: **IDL 8.7** for plot generation
-* 20 Feb 2018: **2018 Intel Compiler and MKL Library Files - Cluster Edition** are now available in the cluster! Learn about its new features `here <https://software.intel.com/en-us/intel-parallel-studio-xe>`__
+* 20 Feb 2018: **2018 Intel Compiler and MKL Library Files - Cluster Edition**
+  are now available in the cluster! Learn about its new features `here
+  <https://software.intel.com/en-us/intel-parallel-studio-xe>`__
 * 09 Feb 2018: All legacy hardware has been removed from the cluster! Reduced physical footprint saves us \$\$\$!
 * 31 Jan 2018: **RAxML 8.2.10** for Maximum-likelihood based phylogenetic inference.
 * 16 Jan 2018: SVN is no longer officially supported by the HPC team. We highly recommend GitHub or BitBucket!
@@ -90,3 +82,13 @@ To-Do
     * https://ulhpc-tutorials.readthedocs.io/en/latest/
 
 * Create a template for the software pages, i.e. website, versions, tested, etc.
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Contents:
+
+   faq
+   guide-beginner
+   guide-advanced
+   repcom
