@@ -63,7 +63,8 @@ Agenda
 * Storage Remediation Efforts
 * Annual Purchase Status
 
-    * Ready to install the hardware after several physical location restrictions have been listed.
+    * Ready to install the hardware after several physical location restrictions
+      have been listed.
 
 * Grant Funding Agency Requirements
 
@@ -137,7 +138,7 @@ Old Business
     * Still storage left to allocate from Spring purchase
     * 15TB of storage is coming from WFUHS
 
-- Review 32-bit Node Status
+* Review 32-bit Node Status
 
     * Are these still in use?
     * Can we finish the decommissioning?
@@ -251,19 +252,18 @@ Refresh Storage Server Blades
     Replace 8 aging storage blades with 10 new, smaller form factor storage blades
 
 Summary
+```````
+
     * As we discussed at previous Rep Comm meetings, we need to increase the
       "per processor" memory on each blade and the most cost effective means of
       doing that is replacing the older "dual core" technology blades with the
       latest "quad core" based blades.
-
     * We also have some hardware devices that are approaching the point where
       they need replacement (such as the storage blades and one storage device).
       We will leverage some of the free storage from the hospital to assist in
       this replacement effort.
-
     * However, we'll still need some additional storage for projected increases
       in usage.
-
     * We've also encountered support issues with two of our newer storage
       devices. There are in essence very few controls or commands that can be
       used to resolve any performance or control issues the devices may be
@@ -276,18 +276,19 @@ Current Cluster State
 `````````````````````
 See `Cluster:Hardware Configuration`_ for specifics...
 
-Compute Nodes
-    We currently have 39 blades with 4 total processing cores (i.e. dual core,
-    dual processor/socket blades)
+* Compute Nodes
+
+    * We currently have 39 blades with 4 total processing cores (i.e. dual core,
+      dual processor/socket blades)
     
-    * Each of these blades has 8GB of physical RAM
+        * Each of these blades has 8GB of physical RAM
     
-    We currently have 103 blades with 8 total processing cores (i.e. quad core,
-    dual processor/socket blades)
+    * We currently have 103 blades with 8 total processing cores (i.e. quad
+      core, dual processor/socket blades)
     
-    * 66 of these blades have 16GB of physical RAM
-    * 7 of these blades have 32GB of physical RAM
-    * 30 of these blades have 48GB of physical RAM
+        * 66 of these blades have 16GB of physical RAM
+        * 7 of these blades have 32GB of physical RAM
+        * 30 of these blades have 48GB of physical RAM
 
 * Storage
 
@@ -299,34 +300,221 @@ Compute Nodes
 * Storage Nodes
     
     * 16 Storage Nodes
+        
         * Two of these nodes are WFUHS purchased nodes for their storage.
 
 Final Cluster State
 ```````````````````
 
-Compute Nodes
-    We currently have 11 blades with 4 total processing cores (i.e. dual core, dual processor/socket blades)
+* Compute Nodes
+
+    * We currently have 11 blades with 4 total processing cores (i.e. dual core,
+      dual processor/socket blades)
+    
         * Each of these blades has 8GB of physical RAM
     
-    We currently have 131 blades with 8 total processing cores (i.e. quad core, dual processor/socket blades)
+    * We currently have 131 blades with 8 total processing cores (i.e. quad
+      core, dual processor/socket blades)
+    
         * 66 of these blades have 16GB of physical RAM
         * 7 of these blades have 32GB of physical RAM
         * 58 of these blades have 48GB of physical RAM
   
-Storage
+* Storage
+  
     * 41.9TB of storage online as a GPFS filesystems
     * 675GB of storage held in reserve for ``/home``
     * 5.4TB of storage not in use from Spr 2010 purchase.
     * 15TB "in transit" from the WFUHS Enterprise Storage service.
     * 18TB (usuable) new storage from Winter 2010 purchase.
 
-Storage Nodes
-    18 Storage Nodes
+* Storage Nodes
+
+    * 18 Storage Nodes
+
         * 2 nodes dedicated for WFUHS research groups
         * 2 nodes dedicated to WFURC for WFUHS storage
 
 Minutes
 =======
+
+
+----------
+2011/04/04
+----------
+
+Attendance
+==========
+
+* Tim Miller (chair)
+* Greg Cook
+* Bill Kerr
+* Natalie Holzwarth
+* Sam Cho
+* Stacy Howerton
+
+Agenda
+======
+
+* CY2011 Shutdown
+* 10Gbps Network Upgrade
+* RHEL 6 Upgrade
+* New HPC Team Management
+
+Discussion
+==========
+
+CY2011 Shutdown
+---------------
+
+* Definitely need one
+
+    * 10Gbps Network Changes (required downtime)
+    * Storage Device Code Upgrades (required downtime)
+    * Network Switch Code Upgrades (required downtime for one switch, optional for two others)
+    * GPFS Filesystem Software Upgrades (downtime makes it convenient)
+
+* Proposed date: Aug 29 - Sep 2
+
+10 Gbps Network Upgrade
+-----------------------
+
+    * Reviewed what we are planning on doing.
+    * Awaiting NC-REN detailed quote.
+    * Required WFU hardware purchased and received.
+    * 95% chance this will happen.
+    * There are connectivity and service availability implications.
+
+RHEL 6 Upgrade
+--------------
+
+* We are starting the infrastructure work to support RHEL6 cluster node imaging.
+* Goal is to have a development environment by June 1 (very optimistic)
+* RHEL4 Support Ends January 2012\!
+* Core WFU DEAC Software for RHEL6
+
+    * GNU Compilers
+    * Portland Compilers
+    * Intel Compilers
+    * Absoft Compilers
+    * GPFS Filesystem
+    * OpenMPI/MPICH/MVAPICH (builds, variants, etc. to be determined at project time)
+    * Matlab, Maple, Mathematica, ITT IDL
+    * BLAS, LAPACK, ATLAS,
+    * FFTW 2.x, 3.x
+    * (wish list) PETSC
+
+* Software for RHEL6:
+
+    * What software should be centrally supported?
+    * What should not?
+    * What does "supported" mean?
+    * Do we want "SLAs" (or something written somewhere) about the answers to these questions?
+
+* Software licensing, support, and costs we need to be worried about (question for users)?
+
+    * Gaussian?
+    * CHARMM
+    * LS-DYNA (costs covered by WFUBMC)
+
+* TTD for Tim
+
+    * email users regarding the difficult software licenses/costs
+    * Proposal from Greg
+ 
+        * First group does compilation with single compiler
+        * Provide explicit instructions on how to build it, how to validate the results
+        * We provide secondary compiler support
+        * Could send out an email requesting whether someone has started using it
+
+
+----------
+2011/08/08
+----------
+
+Attendance
+==========
+
+* Tim Miller (chair)
+
+Agenda
+======
+
+* Introductions
+* Annual Cluster Purchase
+* Updates from the Summer
+
+    * CY2011 Shutdown
+    * 10Gbps Network Upgrade
+    * RHEL 6 Upgrade
+
+Discussion
+==========
+
+Annual Cluster Purchase
+-----------------------
+
+* Given projected work for fall, deferring annual purchase to the spring.
+* Some grant money needs to be spent now (in next couple weeks).
+
+    * Natalie Holzwarth
+    * Jacque Fetrow
+    * Joel Stitzel (WFU BME)
+    * Others?
+
+* What to purchase?
+
+    * Stitzel group will be looking for more Infiniband resources
+    * Do we need 96GB nodes?
+    * If no specialized needs, will continue hardware refresh plan (replace
+      another 14 nodes of 16GB nodes with 48GB nodes)
+
+CY2011 Shutdown
+---------------
+
+* Change from April meeting: Date changed to Sep 6-9 (from 8/29-9/2)
+
+    * Lots of hardware firmware updates
+
+        * Storage Device Code Upgrades
+        * Network Switch Code Upgrades
+        * GPFS Filesystem Software Upgrades (at risk, due to compressed
+          timeline)
+
+10 Gbps Network Upgrade
+-----------------------
+
+* 100% chance it will happen
+* Timeline contingent:
+
+    * University's 10Gbps Internet link upgrades
+    * Fiber optic cable route validation
+
+* Ideal to happen during downtime. This is still the goal.
+* It is possible to handle the upgrade "live" but connectivity from the cluster
+  to campus/internet will have some minor interruptions.
+
+RHEL 6 Upgrade
+--------------
+
+* We have made almost zero progress toward a RHEL6 development environment.
+* RHEL4 Support Ends January 2012!
+* User community will have very limited testing time on RHEL6 environment before
+  having to make cutover.
+* Software licensing, support, and costs we need to be worried about (question
+  for users)?
+
+    * Gaussian - desired version?
+    * CHARMM - update from Fred: licensed to a particular research group, not by
+      site. Probably not a good candidate for central funding.
+    * LS-DYNA (costs covered by WFUBMC)
+    * Matlab - Any expected growth in cluster usage? We have licensed DCS now.
+      Need to install.
+    
+        * Tim might submit a capital request for this.
+
+    * Mathematica - now at 30 licenses (still need to load license)
+
 
 
 
