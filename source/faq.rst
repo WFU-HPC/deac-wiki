@@ -18,7 +18,7 @@ General Questions
 
 * How do I get a DEAC Cluster account?
     
-    * Follow the account creation process at: <http://www.deac.wfu.edu/accounts.html>
+    * Follow the `account creation process`_.
 
 
 New User Questions
@@ -73,3 +73,5 @@ I'm writing a paper using data from the cluster. Are there any special acknowled
 
 My paper has been accepted for publication. Is there anything else I need to do?
     [Information:Regarding Publications](Information:Regarding_Publications "wikilink")
+
+.. _`account creation process`: http://www.deac.wfu.edu/accounts.html

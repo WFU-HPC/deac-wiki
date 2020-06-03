@@ -37,16 +37,6 @@ This screencast will help you get started!
     <iframe width="100%" height="480" src="https://www.youtube.com/embed/vnkmdQqXeFg?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
-
-:doc:`Frequently Asked Questions <faq>`
-
-
-Where to begin?
----------------
-
-1. :doc:`New to HPC? Start here! <guide-beginner>`
-
-
 What's New
 ----------
 
@@ -71,7 +61,6 @@ What's New
 
 Note: Users must be on a WFU network or connected via VPN to login to the head nodes!
 
-
 To-Do
 -----
 
@@ -85,10 +74,23 @@ To-Do
 
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
+   :maxdepth: 2
+   :caption: Level 1 - Beginner Resources
 
    faq
+   guide-quick
    guide-beginner
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Level 2 - Advanced Topics
+   
    guide-advanced
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
+
    repcom
