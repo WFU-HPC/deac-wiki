@@ -106,9 +106,9 @@ spack install py-pybind11
 
 ```sh
 spack install gcc@9.3.0 target=x86_64
-spack install openmpi@4.0.3 %gcc
+spack install openmpi@4.0.3 %gcc +cxx fabrics=auto schedulers=auto
 
-spack install openmpi@4.0.3
+spack install openmpi@4.0.3 %intel +cxx fabrics=auto schedulers=auto
 spack install libxc
 spack install fftw
 spack install fftw -mpi

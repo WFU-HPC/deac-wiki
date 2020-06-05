@@ -87,10 +87,12 @@ To-Do
    :caption: Level 2 - Advanced Topics
    
    guide-advanced
-
+   software-primer
+   software-spack
 
 .. toctree::
    :maxdepth: 2
    :caption: Reference
 
+   scc
    repcom
