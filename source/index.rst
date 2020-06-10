@@ -75,7 +75,7 @@ To-Do
 
 .. toctree::
    :maxdepth: 2
-   :caption: Level 1 - Beginner Resources
+   :caption: Level 0 - Beginner Resources
 
    faq
    guide-quick
@@ -84,15 +84,28 @@ To-Do
 
 .. toctree::
    :maxdepth: 2
-   :caption: Level 2 - Advanced Topics
+   :caption: Level 1 - Advanced Topics
    
-   guide-advanced
+   cluster
+   software-slurm
    software-primer
-   software-spack
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Reference
+   :caption: Reference Documentation
 
+   software-packages
+   software-compilers
+   software-licenses
    scc
+   research
    repcom
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Admin Documentation
+
+   admin-intel
+   admin-spack

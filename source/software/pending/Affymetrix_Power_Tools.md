@@ -2,12 +2,7 @@
 
 **Affymetrix Power Tools** (APT)<ref name="apt_webpage">
 
-[Affymetrix Power Tools web
-page](http://www.affymetrix.com/partners_programs/programs/developer/tools/powertools.affx)</ref>
-are a set of cross-platform command line programs that implement
-algorithms for analyzing and working with Affymetrix GeneChip® arrays.
-APT is an open-source project licensed under the GNU General Public
-License (GPL).
+[Affymetrix Power Tools web page](http://www.affymetrix.com/partners_programs/programs/developer/tools/powertools.affx)</ref> are a set of cross-platform command line programs that implement algorithms for analyzing and working with Affymetrix GeneChip® arrays. APT is an open-source project licensed under the GNU General Public License (GPL).
 
 ## Versions
 
