@@ -86,6 +86,7 @@ To-Do
    :maxdepth: 2
    :caption: Level 1 - Advanced Topics
    
+   guide-advanced
    cluster
    software-slurm
    software-primer
