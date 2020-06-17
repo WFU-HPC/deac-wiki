@@ -97,6 +97,7 @@ To-Do
    :caption: Reference Documentation
 
    software-packages
+   software-python
    software-compilers
    software-licenses
    scc

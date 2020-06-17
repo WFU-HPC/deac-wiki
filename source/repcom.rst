@@ -1243,7 +1243,7 @@ Proposed Configuration
 SLURM
 =====
 
-:download:`Final paper <pdfs/SLURM_repcom_final.pdf>`
+:download:`Final paper <files/SLURM_repcom_final.pdf>`
 
 State of the Cluster
 ====================

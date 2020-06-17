@@ -90,7 +90,7 @@ International Conference on Parallel and Distributed Computing Systems
 Computer Modeling of Crystalline Electrolytes
 ---------------------------------------------
 
-:download:`Final paper <pdfs/JES00A538.pdf>`
+:download:`Final paper <files/JES00A538.pdf>`
 
 Department: Physics Author(s): N.D. Lepley, N. A. W. Holzwarth
 
