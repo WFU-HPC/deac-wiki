@@ -76,7 +76,7 @@ package withing your environment and Python scripts,
 .. code-block:: none
 
     export PATH="$HOME/.local/bin:$PATH"
-    export PYTHONPATH="$HOME/.local/lib:$PYTHONPATH"
+    export PYTHONPATH="$HOME/.local/lib"
 
 or add them to your ``.bashrc`` to make these changes persistent.
 

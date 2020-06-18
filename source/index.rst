@@ -80,6 +80,7 @@ To-Do
    faq
    guide-quick
    guide-beginner
+   guide-linux
 
 
 .. toctree::

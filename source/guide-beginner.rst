@@ -12,9 +12,11 @@ Common Linux Commands
 ---------------------
 
 This is a summary of many commonly used Linux commands. We also recommend the
-`FOSSwire Unix/Linux Command Reference`_ and the `Stanford University
-OpenClassroom's "Practical Unix" class`_. We also have a more in-depth Linux
-guide at :doc:`information_linux`.
+:download:`FOSSwire Unix/Linux Command Reference
+<https://files.fosswire.com/2007/08/fwunixref.pdf>` and the `Stanford
+University OpenClassroom's "Practical Unix" class
+<http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=PracticalUnix>`_.
+We also have a more in-depth :doc:`Linux Guide <guide-linux>`.
 
 File Commands
 =============
@@ -128,7 +130,7 @@ Typical GNU-style source packages for software follow this recipe for building:
    $ make
    $ make install
 
-You can also :doc:`read our in-depth guide to compiling software <compiling>` on
+You can also :doc:`read our in-depth guide to compiling software <software-primer>` on
 DEAC, for software packages that require considerably more work than this.
 
 Other Useful Commands
@@ -182,12 +184,14 @@ Linux/Unix/Mac OS X
 Windows
 -------------------
 
-You will need the `PuTTY`_ program. Using PuTTY is more complicated than using
-ssh in Linux. You will need to set up "profiles" for each host you wish to
-connect to.
+You will need the `PuTTY <https://www.chiark.greenend.org.uk/~sgtatham/putty/>`_
+program. Using PuTTY is more complicated than using ssh in Linux. You will need
+to set up "profiles" for each host you wish to connect to.
 
 * PuTTY is installed on your WFU laptop as part of the standard load.
-* Otherwise, you may `download it`_ (Choose putty.exe).
+* Otherwise, you may `download it
+  <https://www.chiark.greenend.org.uk/~sgtatham/putty/download.html>`_ (Choose
+  putty.exe).
 * The first time you run PuTTY, you will see:
 
 .. image:: images/Putty_01.png
@@ -236,14 +240,5 @@ Training Video
 Helpful Links
 `````````````
 
-* `SSH Tutorial for Linux`_
-* `Public key-based authentication for passwordless login`_
-
-
-
-.. _`PuTTY`: https://www.chiark.greenend.org.uk/~sgtatham/putty/
-.. _`download it`: https://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
-.. _`SSH Tutorial for Linux`: https://support.suso.com/supki/SSH_Tutorial_for_Linux
-.. _`Public key-based authentication for passwordless login`: https://sial.org/howto/openssh/publickey-auth
-.. _`FOSSwire Unix/Linux Command Reference`: https://files.fosswire.com/2007/08/fwunixref.pdf
-.. _`Stanford University OpenClassroom's "Practical Unix" class`: http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=PracticalUnix
+* `SSH Tutorial for Linux <https://support.suso.com/supki/SSH_Tutorial_for_Linux>`_
+* `Public key-based authentication for passwordless login <https://sial.org/howto/openssh/publickey-auth>`_
