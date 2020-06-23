@@ -31,6 +31,7 @@ usNIC connectivity, and the FORTRAN and CXX interfaces.
 
 ```
 ./configure --prefix=/deac/opt/rhel7/openmpi/4.0.3-intel-2020 --with-usnic --with-slurm --enable-mpi-fortran --enable-mpi-cxx --enable-mpi-cxx-seek CC=icc CXX=icpc FC=ifort
+./configure --prefix=/deac/opt/rhel7/openmpi/4.0.3-intel-2018 --with-usnic --with-slurm --enable-mpi-fortran --enable-mpi-cxx --enable-mpi-cxx-seek --enable-wrapper-rpath --enable-wrapper-runpath --enable-shared --enable-static --with-hwloc=/deac/opt/rhel7/hwloc/2.2.0
 ```
 
 Start the make process using 4 processors,
