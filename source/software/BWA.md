@@ -51,6 +51,3 @@ In the PBWAROOTDIR
 ` module load openmpi/4.0.2-gcc-4.8`
 
 ` make       //Executable file ‘pBWA’’ is created in current directory`
-
-[Category:Software](Category:Software "wikilink")
-[Category:Compiling](Category:Compiling "wikilink")
