@@ -13,8 +13,8 @@ an parallel version called pBWA
 
 ## Version
 
-  - BWA Version = 0.7.15 with Intel-2017-lp64 compiler
-  - pBWA version = 0.5.9-1.21009 with openmpi/2.1.0-intel-2017
+  - BWA Version = 0.7.1 with gcc 4.8.5
+  - pBWA version = 0.5.9-1.21009 with openmpi/4.0.2-gcc-4.8
 
 ## Compiling
 
@@ -22,10 +22,13 @@ an parallel version called pBWA
 
 Find the source file at
 <https://sourceforge.net/projects/bio-bwa/files/>
-In the home dir of bwa
 
-` module load module load compilers/intel-2017-lp64`
-` vim Makefile     //edit the makefile, change compiler to icc`
+In the BWAROOTDIR
+
+To compile with Intel:
+
+` module load module load compilers/intel-$version`
+` vim Makefile     //Edit the Makefile, change compiler to icc`
 
 In Makefile:
 
@@ -33,16 +36,18 @@ In Makefile:
 
 Now, compile:
 
-` make  //now a executable file ‘bwa’ is created in current directory`
+` make  //Executable file ‘bwa’ is created in current directory`
+
+Otherwise to compile with gcc:
+
+` make  //Executable file ‘bwa’ is created in current directory`
 
 ### pBWA
 
 Find the source file at <https://sourceforge.net/projects/pbwa/files/>
-In the home dir of
-pBWA
 
-` module load openmpi/2.1.0-intel-2017`
-` make       //now a executable file ‘pBWA’’ is created in current directory`
+In the PBWAROOTDIR
 
-[Category:Software](Category:Software "wikilink")
-[Category:Compiling](Category:Compiling "wikilink")
+` module load openmpi/4.0.2-gcc-4.8`
+
+` make       //Executable file ‘pBWA’’ is created in current directory`
