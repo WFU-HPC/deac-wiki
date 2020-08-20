@@ -41,7 +41,7 @@ Load the module for the aforementioned Python distribution
 and verify that the correct Python binary being used with ``which python``
 
 Download the `latest release from GitHub
-<https://github.com/phonopy/phonopy/archive/>`_, or clone `the repository
+<https://github.com/phonopy/phonopy/releases>`_, or clone `the repository
 <https://github.com/phonopy/phonopy.git>`_ if you want to stay current with the
 development releases. Either way, go into the directory and modify the
 installation script; change the line

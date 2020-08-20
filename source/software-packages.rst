@@ -29,12 +29,12 @@ Compiling completely from scratch using Intel tools:
 
 .. code-block:: none
 
-    $ sed -i -e 's/vec-report0/qopt-report=0/g' configure
+    sed -i -e 's/vec-report0/qopt-report=0/g' configure
 
-    $ ./configure --enable-mpi --with-mpi-prefix=$I_MPI_ROOT \
-                  --with-linalg-flavor=mkl+scalapack \
-                  --with-linalg-incs=-I${MKLROOT}/include \
-                  --with-linalg-libs="$MKL_SCALAPACK_SEQUENTIAL"
+    ./configure --enable-mpi --with-mpi-prefix=$I_MPI_ROOT \
+                --with-linalg-flavor=mkl+scalapack \
+                --with-linalg-incs=-I${MKLROOT}/include \
+                --with-linalg-libs="$MKL_SCALAPACK_SEQUENTIAL"
 
 To-Do
 -----
@@ -106,19 +106,19 @@ Download the source from the website, and execute the following:
 
 .. code-block:: none
 
-    $ module purge
-    $ module load compilers/intel-2012-lp64
-    $ cd ~/src
-    $ mv ../autodocksuite-x.y.z.a-src.tar.gz .
-    $ tar zxf autodocksuite-x.y.z.a-src.tar.gz
-    $ cd src/autodock
-    $ mkdir x86_64Linux2
-    $ cd x86_64Linux2
-    $ export CXXFLAGS="-O3 -xSSE4.1 -ipo"
-    $ ../configure --prefix=$HOME
-    $ make >& Make.out
-    $ make check >& Make.check.out
-    $ make install
+    module purge
+    module load compilers/intel-2012-lp64
+    cd ~/src
+    mv ../autodocksuite-x.y.z.a-src.tar.gz .
+    tar zxf autodocksuite-x.y.z.a-src.tar.gz
+    cd src/autodock
+    mkdir x86_64Linux2
+    cd x86_64Linux2
+    export CXXFLAGS="-O3 -xSSE4.1 -ipo"
+    ../configure --prefix=$HOME
+    make >& Make.out
+    make check >& Make.check.out
+    make install
 
 Usage
 =====
@@ -133,3 +133,50 @@ The executable is ``autodock4``.
 .. #############################################################################
 .. #############################################################################
 .. #############################################################################
+
+--------
+RAXML-NG
+--------
+
+From the GitHub repo:
+
+.. code-block:: none
+
+    module load rhel7/gcc/10.1.0 rhel7/openmpi/4.0.2-gcc-4.8 rhel7/cmake/3.14
+    git clone --recursive https://github.com/amkozlov/raxml-ng
+    cd raxml-ng && mkdir -p build-mpi && mkdir -p build-pthreads
+    cd build-mpi
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/deac/opt/rhel7/raxml-ng/0.9.0 -DUSE_MPI=ON .. && make && make install
+    cd ../build-pthreads
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/deac/opt/rhel7/raxml-ng/0.9.0 .. && make && make install
+
+For specific GitHub releases:
+
+.. code-block:: none
+
+    module load rhel7/gcc/10.1.0 rhel7/openmpi/4.0.2-gcc-4.8 rhel7/cmake/3.14
+    wget https://github.com/amkozlov/raxml-ng/releases/download/1.0.0/raxml-ng_v1.0.0_source.zip
+    mkdir -p raxml-ng && cd raxml-ng && unzip ../raxml-ng_v1.0.0_source.zip
+    mkdir -p build-mpi && mkdir -p build-pthreads
+    cd build-mpi
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/deac/opt/rhel7/raxml-ng/1.0.0 -DUSE_MPI=ON .. && make && make install
+    cd ../build-pthreads
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/deac/opt/rhel7/raxml-ng/1.0.0 .. && make && make install
+
+.. #############################################################################
+.. #############################################################################
+.. #############################################################################
+.. #############################################################################
+
+-------
+IQ-TREE
+-------
+
+.. code-block:: none
+
+    module load rhel7/cmake/3.14 rhel7/gcc/10.1.0 rhel7/openmpi/4.0.2-gcc-4.8 rhel7/eigen/3.3.7
+
+    git clone https://github.com/Cibiv/IQ-TREE.git # or specific release 
+    cd IQ-TREE
+    mkdir -p build && cd build
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/deac/opt/rhel7/iq-tree/2.0.7 -DIQTREE_FLAGS=omp-mpi ..
