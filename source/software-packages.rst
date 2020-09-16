@@ -180,3 +180,58 @@ IQ-TREE
     cd IQ-TREE
     mkdir -p build && cd build
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/deac/opt/rhel7/iq-tree/2.0.7 -DIQTREE_FLAGS=omp-mpi ..
+
+.. #############################################################################
+.. #############################################################################
+.. #############################################################################
+.. #############################################################################
+
+------
+Siesta
+------
+
+.. code-block:: console
+
+    module load rhel7/gcc/6.2.0 \
+                rhel7/gcc/6.2.0-libs \
+                rhel7/compilers/intel-2018-lp64 \
+                rhel7/openmpi/4.0.2-intel-2018
+    
+    PREFIX="/target/siesta/dir"
+    SIESTA_ROOT="/siesta/source/dir"
+    MKLLIBS=""${MKLROOT}/lib/intel64""
+    
+    mkdir -p ${SIESTA_ROOT}/Obj ${SIESTA_ROOT}/Obj_trans
+    
+    ## Siesta
+    cd ${SIESTA_ROOT}/Obj
+    ../Src/obj_setup.sh
+    ../Src/configure --enable-mpi \
+                     --with-blas="${MKLLIBS}/libmkl_intel_lp64.so ${MKLLIBS}/libmkl_sequential.so ${MKLLIBS}/libmkl_core.so /lib64/libpthread.so /lib64/libm.so /lib64/libdl.so" \
+                     --with-lapack="${MKLLIBS}/libmkl_intel_lp64.so ${MKLLIBS}/libmkl_sequential.so ${MKLLIBS}/libmkl_core.so /lib64/libpthread.so /lib64/libm.so /lib64/libdl.so" \
+                     --with-blacs="${MKLLIBS}/libmkl_scalapack_lp64.so ${MKLLIBS}/libmkl_blacs_openmpi_lp64.so ${MKLLIBS}/libmkl_intel_lp64.so ${MKLLIBS}/libmkl_sequential.so ${MKLLIBS}/libmkl_core.so /lib64/libpthread.so /lib64/libm.so /lib64/libdl.so" \
+                     --with-scalapack="${MKLLIBS}/libmkl_scalapack_lp64.so ${MKLLIBS}/libmkl_blacs_openmpi_lp64.so" \
+                     MPIFC="/deac/opt/rhel7/openmpi/4.0.2-intel-2018/bin/mpif90"
+    make
+    install siesta $PREFIX
+    
+    ## Transiesta
+    cd ${SIESTA_ROOT}/Obj_trans
+    ../Src/obj_setup.sh
+    ../Src/configure --enable-mpi \
+                     --with-blas="${MKLLIBS}/libmkl_intel_lp64.so ${MKLLIBS}/libmkl_sequential.so ${MKLLIBS}/libmkl_core.so /lib64/libpthread.so /lib64/libm.so /lib64/libdl.so" \
+                     --with-lapack="${MKLLIBS}/libmkl_intel_lp64.so ${MKLLIBS}/libmkl_sequential.so ${MKLLIBS}/libmkl_core.so /lib64/libpthread.so /lib64/libm.so /lib64/libdl.so" \
+                     --with-blacs="${MKLLIBS}/libmkl_scalapack_lp64.so ${MKLLIBS}/libmkl_blacs_openmpi_lp64.so ${MKLLIBS}/libmkl_intel_lp64.so ${MKLLIBS}/libmkl_sequential.so ${MKLLIBS}/libmkl_core.so /lib64/libpthread.so /lib64/libm.so /lib64/libdl.so" \
+                     --with-scalapack="${MKLLIBS}/libmkl_scalapack_lp64.so ${MKLLIBS}/libmkl_blacs_openmpi_lp64.so" \
+                     MPIFC="/deac/opt/rhel7/openmpi/4.0.2-intel-2018/bin/mpif90"
+    make transiesta
+    install transiesta $PREFIX
+    
+    ## Utils (Optional)
+    cd ${SIESTA_ROOT}/Util
+    ./build_all.sh
+    for FILE in $(find . -type f -perm /u=x,g=x,o=x -exec ls {} \;); do cp $FILE $PREFIX; done
+    cp TBTrans/MPI/int_explorer     $PREFIX
+    cp TBTrans/tbtrans              $PREFIX
+    cp TBTrans_rep/MPI/int_explorer ${PREFIX}/int_explorer_rep
+    cp TBTrans_rep/tbtrans          ${PREFIX}/tbtrans_rep

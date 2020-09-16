@@ -35,7 +35,7 @@ Export the necessary Intel license environment variable in order to build the
 intel toolchains,
 
 ```
-export INTEL_LICENSE_FILE=/opt/intel/licenses
+export INTEL_LICENSE_FILE=/deac/opt/intel/licenses
 export SBATCH_PARTITION=small
 export SBATCH_RESERVATION=easybuild
 ```
