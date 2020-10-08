@@ -267,6 +267,8 @@ NWChem
     export SCALAPACK="-L$MKLROOT/lib/intel64 -lmkl_scalapack_ilp64 -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lmkl_blacs_openmpi_ilp64 -lpthread -lm -ldl"
     export ELPAROOT="/deac/opt/rhel7/spack-temp/intel-18.0.1/elpa/2020.05.001-rknichg"
     export ELPA="-I$ELPAROOT/include -L$ELPAROOT/lib -lelpa"
+    export USE_OPENMP=1
+    export CCSDTQ=TRUE
 
     ## The following two options help if only shared storage is available. Since
     ## our users can run on the local /scratch directory of each node, these are
@@ -274,7 +276,8 @@ NWChem
     # export USE_NOFSCHECK=TRUE
     # export USE_NOIO=TRUE
 
-    ## Build, takes a very long time (several hours)
+    ## Build, takes a VERY long time (almost 10 hours!!)
+    sed -i 's/CPP=fpp -P//g' $NWCHEM_TOP/src/config/makefile.h
     cd $NWCHEM_TOP/src && make nwchem_config && make
     
     ## Site installation, just copying several things
@@ -286,4 +289,5 @@ NWChem
     cp -r $NWCHEM_TOP/src/basis/libraries           $INSTALL_DIR/data
     cp -r $NWCHEM_TOP/src/data                      $INSTALL_DIR
     cp -r $NWCHEM_TOP/src/nwpw/libraryps            $INSTALL_DIR/data
+    cp -r $NWCHEM_TOP/examples                      $INSTALL_DIR
     chmod 755 $INSTALL_DIR/bin/nwchem
