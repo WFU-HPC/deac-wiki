@@ -39,8 +39,6 @@ Compiling completely from scratch using Intel tools:
 To-Do
 -----
 
-* Prepare for ABINIT 9
-* Hybrid parallelism (probably not needed)
 * https://forum.abinit.org/viewtopic.php?f=3&t=3823
 
 .. #############################################################################
@@ -291,3 +289,20 @@ NWChem
     cp -r $NWCHEM_TOP/src/nwpw/libraryps            $INSTALL_DIR/data
     cp -r $NWCHEM_TOP/examples                      $INSTALL_DIR
     chmod 755 $INSTALL_DIR/bin/nwchem
+
+.. #############################################################################
+.. #############################################################################
+.. #############################################################################
+.. #############################################################################
+
+------
+OpenDX
+------
+
+Need to add how to set up the ``examples``, found in that same repo.
+
+.. code-block:: console
+
+    git clone git@github.com:grifsf/opendx.git && cd opendx/dx-4.4.4
+    ./configure --prefix=/deac/opt/rhel7/opendx --enable-smp-linux
+    make -j4 && make check && make install
