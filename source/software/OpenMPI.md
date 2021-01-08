@@ -27,14 +27,19 @@ for using the Intel 2020 compilers.
 ### Compilation
 
 Configure the software to automatically link with SLURM, enable the low-latency
-usNIC connectivity, and the FORTRAN and CXX interfaces.
+usNIC connectivity, and the FORTRAN and CXX interfaces,
 
 ```
 ./configure --prefix=/deac/opt/rhel7/openmpi/4.0.3-intel-2020 --with-usnic --with-slurm --enable-mpi-fortran --enable-mpi-cxx --enable-mpi-cxx-seek CC=icc CXX=icpc FC=ifort
-./configure --prefix=/deac/opt/rhel7/openmpi/4.0.3-intel-2018 --with-usnic --with-slurm --enable-mpi-fortran --enable-mpi-cxx --enable-mpi-cxx-seek --enable-wrapper-rpath --enable-wrapper-runpath --enable-shared --enable-static --with-hwloc=/deac/opt/rhel7/hwloc/2.2.0
 ```
 
-Start the make process using 4 processors,
+If you wish to provide the best compatability with Spack, you can configure as follows,
+
+```sh
+./configure --with-usnic --with-slurm --enable-mpi-fortran --disable-silent-rules --enable-shared --disable-builtin-atomics --enable-static --enable-mpi1-compatibility --disable-memchecker --with-hwloc=/deac/opt/rhel7/hwloc/2.2.0 --disable-mpi-java --without-cuda --enable-wrapper-rpath --disable-wrapper-runpath --enable-mpi-cxx --enable-mpi-cxx-seek --disable-cxx-exceptions --with-wrapper-ldflags="-Wl,-rpath,/deac/opt/rhel7/gcc/10.1.0/lib64 -Wl,-rpath,/deac/opt/rhel7/gcc/10.1.0/lib -Wl,-rpath,/deac/opt/rhel7/intel/oneapi/compiler/2021.1.1/linux/compiler/lib/intel64_lin" --prefix=/deac/opt/rhel7/openmpi/4.1.0-intel-2021 CC=icc CXX=icpc FC=ifort
+```
+
+while being mindful of the correct compiler paths. Start the make process using 4 processors,
 
 ```
 make -j 4 all
